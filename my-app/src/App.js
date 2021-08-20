@@ -51,7 +51,7 @@ const adminTheme = createTheme({
 });
 
 function App() {
-  const isLoggedIn = false;
+  const isLoggedIn = true;
   return (
     <ThemeProvider theme={patienTheme}>
       {/* check if user has login */}
