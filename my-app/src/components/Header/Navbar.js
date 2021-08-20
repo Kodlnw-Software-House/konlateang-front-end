@@ -36,6 +36,7 @@ const Navbar = () => {
             onClose={handleClose}
             color="primary"
             TransitionComponent={Fade}
+            MenuListProps={{ disablePadding: true }}
           >
             <StyledMenuItem onClick={handleClose}>หน้าแรก</StyledMenuItem>
             <StyledMenuItem onClick={handleClose}>ข้อมูลส่วนตัว</StyledMenuItem>
