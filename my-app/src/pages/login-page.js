@@ -1,10 +1,9 @@
-import { Fragment } from "react";
 
 const Login = () => {
   return (
-    <Fragment>
+    <div>
       <h1>This is login page</h1>
-    </Fragment>
+    </div>
   );
 };
 

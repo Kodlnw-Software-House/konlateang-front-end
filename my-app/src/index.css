@@ -1,3 +1,12 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+body,
+html {
+    font-family: 'Kanit', sans-serif;
+}
+
+.btn-icon {
+    @apply inline-block w-6 h-6 mr-2 stroke-current;
+}
