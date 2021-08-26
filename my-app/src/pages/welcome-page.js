@@ -2,7 +2,7 @@ import Card from "../components/ui/Card";
 import bed from "../assets/bed.png";
 import Modal from "../components/ui/Modal";
 import { useState } from "react";
-import WelcomePagePopup from "./welcome-page-popup";
+import WelcomePagePopup from "../components/login/welcome-page-popup";
 const WelcomePage = (props) => {
   const [isModal, toggleModal] = useState(false);
 

@@ -4,6 +4,7 @@ const initialInputState = {
   value: "",
   isTouch: false,
 };
+
 const inputStateReducer = (prevState, action) => {
   if (action.type === "INPUT") {
     const newInput = { value: action.value, isTouch: prevState.isTouch };

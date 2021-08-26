@@ -1,9 +1,10 @@
 import React from "react";
 import Navbar from "./components/Header/Navbar";
 import WelcomePage from "./pages/welcome-page";
-import Login from "./pages/login-page";
-import { Switch, Route } from "react-router-dom";
-import './index.css'
+import PatientLogin from "./pages/patient-login-page";
+import HospitalLogin from "./pages/hospital-login-page";
+import { Switch, Route, Redirect } from "react-router-dom";
+import "./index.css";
 
 function App() {
   const isLoggedIn = false;
@@ -16,13 +17,16 @@ function App() {
       ) : (
         <Switch>
           <Route path="/" exact>
-            <WelcomePage theme={theme}/>
+            <WelcomePage theme={theme} />
           </Route>
-          <Route path="/login">
-            <Login />
+          <Route path="/patient-login">
+            <PatientLogin />
+          </Route>
+          <Route path="/hospital-login">
+            <HospitalLogin />
           </Route>
           <Route path="*">
-            <WelcomePage />
+            <Redirect to="/" />
           </Route>
         </Switch>
       )}
