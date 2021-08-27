@@ -1,27 +1,33 @@
 import React, { Fragment } from "react";
 import ReactDOM from "react-dom";
-import classes from './Modal.module.css'
+import classes from "./Modal.module.css";
+
 const Backdrop = (props) => {
-  return <div className={classes.backdrop} onClick={props.closeModal}></div>;
+  const BackdropClasses = props.type ? classes.backdrop : "";
+  return <div className={BackdropClasses} onClick={props.closeModal}></div>;
 };
 
 const ModalOverlay = (props) => {
+  const ModalClasses = props.type ? classes.modal : classes.noti_modal;
   return (
-    <div className={classes.modal}>
+    <div className={ModalClasses}>
       <div className={classes.content}>{props.children}</div>
     </div>
   );
 };
 
 const Modal = (props) => {
+  let backdrop;
+  props.type === "DECISION" ? (backdrop = true) : (backdrop = false);
+
   return (
     <Fragment>
       {ReactDOM.createPortal(
-        <Backdrop closeModal={props.closeModal} />,
+        <Backdrop type={backdrop} closeModal={props.closeModal} />,
         document.getElementById("backdrop")
       )}
       {ReactDOM.createPortal(
-        <ModalOverlay>{props.children}</ModalOverlay>,
+        <ModalOverlay type={backdrop}>{props.children}</ModalOverlay>,
         document.getElementById("modal_overlay")
       )}
     </Fragment>

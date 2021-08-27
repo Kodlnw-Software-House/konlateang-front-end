@@ -3,7 +3,9 @@ import bed from "../assets/bed.png";
 import Modal from "../components/ui/Modal";
 import { useState } from "react";
 import WelcomePagePopup from "../components/login/welcome-page-popup";
-const WelcomePage = (props) => {
+import { Link } from "react-router-dom";
+
+const WelcomePage = () => {
   const [isModal, toggleModal] = useState(false);
 
   const openModal = () => {
@@ -16,8 +18,8 @@ const WelcomePage = (props) => {
   return (
     <div className="bg-gradient-to-b from-blue-400 via-blue-200 to-blue-100 flex flex-col justify-around items-center min-h-screen">
       {isModal && (
-        <Modal closeModal={modalHandler}>
-          <WelcomePagePopup theme={props.theme} />
+        <Modal type="DECISION" closeModal={modalHandler}>
+          <WelcomePagePopup />
         </Modal>
       )}
       <Card>
@@ -32,9 +34,12 @@ const WelcomePage = (props) => {
         </div>
       </Card>
       <div className="space-x-8">
-        <button className="btn btn-outline btn-primary w-32 text-xl md:btn-lg">
+        <Link
+          to="/registration"
+          className="btn btn-outline btn-primary w-32 text-xl md:btn-lg"
+        >
           ลงทะเบียน
-        </button>
+        </Link>
         <button
           className="btn btn-primary w-32 text-xl md:btn-lg"
           onClick={openModal}

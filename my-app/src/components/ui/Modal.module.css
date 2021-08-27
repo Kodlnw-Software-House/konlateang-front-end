@@ -20,9 +20,24 @@
   z-index: 30;
   animation: slide-down 100ms ease-out forwards;
 }
+.noti_modal {
+  position: fixed;
+  top: 70%;
+  left: 5%;
+  width: 90%;
+  padding: 1.5rem;
+  border-radius: 14px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.25);
+  z-index: 30;
+  animation: slide-up 100ms ease-out forwards;
+}
 
 @media (min-width: 768px) {
   .modal {
+    width: 40rem;
+    left: calc(50% - 20rem);
+  }
+  .noti_modal {
     width: 40rem;
     left: calc(50% - 20rem);
   }
@@ -32,6 +47,17 @@
   from {
     opacity: 0;
     transform: translateY(-3rem);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slide-up {
+  from {
+    opacity: 0;
+    transform: translateY(3rem);
   }
   to {
     opacity: 1;

@@ -6,7 +6,7 @@ import {
 import Card from "../components/ui/Card";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-
+import { Link } from "react-router-dom";
 const PatientLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
 
@@ -51,10 +51,10 @@ const PatientLogin = () => {
     resetPass();
   };
   const emailInputClass = emailHasError
-    ? "input input-sm input-info input-error"
+    ? "input input-sm input-error"
     : "input input-sm input-info";
   const passInputClass = passHasError
-    ? "w-full input input-sm input-info input-error"
+    ? "w-full input input-sm input-error"
     : "w-full input input-sm input-info";
   const passwordVisible = isVisible ? "text" : "password";
   return (
@@ -131,13 +131,20 @@ const PatientLogin = () => {
             {/* submit button */}
             <div className="pt-3">
               <button
+                disabled={!formIsValid}
                 type="submit"
                 className="btn btn-primary btn-sm btn-block text-lg"
               >
                 เข้าสู่ระบบ
               </button>
               <p className="text-right pt-2">
-                ยังไม่มีบัญชี? <span>ลงทะเบียนที่นี่</span>
+                ยังไม่มีบัญชี?{" "}
+                <Link
+                  className="text-accent font-semibold hover:text-accent-focus hover:underline"
+                  to="/registration"
+                >
+                  ลงทะเบียน
+                </Link>
               </p>
             </div>
           </form>
