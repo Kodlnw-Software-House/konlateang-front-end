@@ -7,7 +7,11 @@ import Card from "../components/ui/Card";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../redux/ui-slice.js";
+
 const PatientLogin = () => {
+  const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
 
   const {
@@ -46,7 +50,13 @@ const PatientLogin = () => {
       console.log("This is Invalid Form");
       return;
     }
-
+    dispatch(
+      uiActions.setNoti({
+        status: "error",
+        title: "Login Failed",
+        message: "ตรวจสอบอีเมล/รหัสผ่านอีกครั้ง",
+      })
+    );
     resetEmail();
     resetPass();
   };

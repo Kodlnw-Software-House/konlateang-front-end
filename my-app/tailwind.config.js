@@ -52,7 +52,7 @@ module.exports = {
         /* Foreground content color to use on base color */
         'info': '#2094f3',
         /* Info */
-        'success': '#1af929',
+        'success': '#009485',
         /* Success */
         'warning': '#ff9900',
         /* Warning */
@@ -89,7 +89,7 @@ module.exports = {
         /* Foreground content color to use on base color */
         'info': '#2094f3',
         /* Info */
-        'success': '#1af929',
+        'success': '#009485',
         /* Success */
         'warning': '#ff9900',
         /* Warning */
@@ -126,7 +126,7 @@ module.exports = {
         /* Foreground content color to use on base color */
         'info': '#2094f3',
         /* Info */
-        'success': '#1af929',
+        'success': '#009485',
         /* Success */
         'warning': '#ff9900',
         /* Warning */
