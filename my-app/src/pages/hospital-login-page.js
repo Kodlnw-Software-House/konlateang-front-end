@@ -6,9 +6,11 @@ import {
 import Card from "../components/ui/Card";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-
+import { useDispatch } from "react-redux";
+import { uiActions } from "../redux/ui-slice";
 const HospitalLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
+  const dispatch = useDispatch();
 
   const {
     value: enteredEmail,
@@ -46,7 +48,12 @@ const HospitalLogin = () => {
       console.log("This is Invalid Form");
       return;
     }
-
+    dispatch(
+      uiActions.setNoti({
+        status: "success",
+        title: "Login Successful",
+      })
+    );
     resetEmail();
     resetPass();
   };

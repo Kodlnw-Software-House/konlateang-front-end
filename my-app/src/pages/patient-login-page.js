@@ -52,9 +52,8 @@ const PatientLogin = () => {
     }
     dispatch(
       uiActions.setNoti({
-        status: "error",
-        title: "Login Failed",
-        message: "ตรวจสอบอีเมล/รหัสผ่านอีกครั้ง",
+        status: "success",
+        title: "Login Successful",
       })
     );
     resetEmail();
@@ -77,88 +76,86 @@ const PatientLogin = () => {
           </span>
         </div>
         {/* Form */}
-        <div>
-          <form onSubmit={formSubmitHandler}>
-            <div className="form-control">
+        <form onSubmit={formSubmitHandler}>
+          <div className="form-control">
+            <label className="label">
+              <span className="label-text">Username</span>
+            </label>
+            <input
+              type="email"
+              name="email"
+              id="email"
+              value={enteredEmail}
+              onChange={emailChangeHandler}
+              onBlur={emailBlurHandler}
+              required
+              placeholder="username"
+              className={emailInputClass}
+            />
+            {emailHasError && (
               <label className="label">
-                <span className="label-text">Username</span>
+                <span className="label-text text-warning">
+                  โปรดตรวจสอบอีเมล
+                </span>
               </label>
+            )}
+            <label className="label">
+              <span className="label-text">รหัสผ่าน</span>
+            </label>
+            <div className="relative">
               <input
-                type="email"
-                name="email"
-                id="email"
-                value={enteredEmail}
-                onChange={emailChangeHandler}
-                onBlur={emailBlurHandler}
+                type={passwordVisible}
+                name="password"
+                id="password"
+                value={enteredPass}
+                onChange={passChangeHandler}
+                onBlur={passBlurHandler}
                 required
-                placeholder="username"
-                className={emailInputClass}
+                placeholder="password"
+                className={passInputClass}
               />
-              {emailHasError && (
-                <label className="label">
-                  <span className="label-text text-warning">
-                    โปรดตรวจสอบอีเมล
-                  </span>
-                </label>
-              )}
-            </div>
-            <div className="form-control">
-              <label className="label">
-                <span className="label-text">รหัสผ่าน</span>
-              </label>
-              <div className="relative">
-                <input
-                  type={passwordVisible}
-                  name="password"
-                  id="password"
-                  value={enteredPass}
-                  onChange={passChangeHandler}
-                  onBlur={passBlurHandler}
-                  required
-                  placeholder="password"
-                  className={passInputClass}
-                />
-                <div
-                  className="absolute top-0 right-0 cursor-pointer"
-                  onClick={toggleVisible}
-                >
-                  {!isVisible ? (
-                    <EyeIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
-                  ) : (
-                    <EyeOffIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
-                  )}
-                </div>
-              </div>
-              {passHasError && (
-                <label className="label">
-                  <span className="label-text text-warning">
-                    โปรดตรวจสอบรหัสผ่าน
-                  </span>
-                </label>
-              )}
-            </div>
-
-            {/* submit button */}
-            <div className="pt-3">
-              <button
-                disabled={!formIsValid}
-                type="submit"
-                className="btn btn-primary btn-sm btn-block text-lg"
+              <div
+                className="absolute top-0 right-0 cursor-pointer"
+                onClick={toggleVisible}
               >
-                เข้าสู่ระบบ
-              </button>
-              <p className="text-right pt-2">
-                ยังไม่มีบัญชี?{" "}
-                <Link
-                  className="text-accent font-semibold hover:text-accent-focus hover:underline"
-                  to="/registration"
-                >
-                  ลงทะเบียน
-                </Link>
-              </p>
+                {!isVisible ? (
+                  <EyeIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
+                ) : (
+                  <EyeOffIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
+                )}
+              </div>
             </div>
-          </form>
-        </div>
+            {passHasError && (
+              <label className="label">
+                <span className="label-text text-warning">
+                  โปรดตรวจสอบรหัสผ่าน
+                </span>
+              </label>
+            )}
+          </div>
+
+          {/* submit button */}
+          <div className="pt-3">
+            <button
+              disabled={!formIsValid}
+              type="submit"
+              className="btn btn-primary btn-sm btn-block text-lg"
+            >
+              เข้าสู่ระบบ
+            </button>
+          </div>
+          <div className="border-2 border-secondary rounded-lg mt-3 p-2">
+            <p className="text-center">
+              ยังไม่มีบัญชี?{" "}
+              <Link
+                className="text-info font-semibold hover:text-accent-focus hover:underline"
+                to="/registration"
+              >
+                ลงทะเบียน
+              </Link>
+            </p>
+          </div>
+        </form>
       </Card>
     </div>
   );
