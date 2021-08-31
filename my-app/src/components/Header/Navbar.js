@@ -12,7 +12,7 @@ const Navbar = () => {
     <div className="navbar shadow-lg bg-primary text-neutral-content">
       {showMenu && (
         <Modal type="DECISION" closeModal={toggleMenu}>
-          <NavBarMenu />
+          <NavBarMenu toggleMenu={toggleMenu} />
         </Modal>
       )}
       <div className="flex-1">

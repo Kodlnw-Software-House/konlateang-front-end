@@ -1,16 +1,14 @@
 import React from "react";
-// import Navbar from "./components/Header/Navbar";
-// import Footer from "./components/ui/Footer";
 import WelcomePage from "./pages/welcome-page";
 import PatientLogin from "./pages/patient-login-page";
 import HospitalLogin from "./pages/hospital-login-page";
 import PatientRegister from "./pages/patient-register-page";
 import Notification from "./components/ui/notification-modal";
-import Profile from "./pages/withAuth/Profile";
 import { useSelector } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
-import "./index.css";
 import ProtectedRoute from "./components/functions/ProtectedRoute";
+import AuthRouter from "./pages/withAuth/authentication-router";
+import "./index.css";
 
 function App() {
   const theme = useSelector((state) => state.ui.theme);
@@ -47,12 +45,17 @@ function App() {
         </Switch>
       ) : (
         <Switch>
+          <Route path="/" exact>
+            <Redirect to="/kon-la-tieng" />
+          </Route>
           <ProtectedRoute
-            path="/"
-            exact
-            component={Profile}
+            path="/kon-la-tieng"
+            component={AuthRouter}
             isAuth={isLoggedIn}
           />
+          <Route path="*">
+            <Redirect to="/kon-la-tieng" />
+          </Route>
         </Switch>
       )}
     </div>
