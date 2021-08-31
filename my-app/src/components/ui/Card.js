@@ -1,6 +1,4 @@
 const Card = (props) => {
-  return (
-    <div className="p-4 mb-2">{props.children}</div>
-  );
+  return <div className="p-4 shadow-md">{props.children}</div>;
 };
 export default Card;

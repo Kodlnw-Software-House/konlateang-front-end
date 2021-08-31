@@ -4,10 +4,11 @@ import PatientLogin from "./pages/patient-login-page";
 import HospitalLogin from "./pages/hospital-login-page";
 import PatientRegister from "./pages/patient-register-page";
 import Notification from "./components/ui/notification-modal";
-import { useSelector } from "react-redux";
-import { Switch, Route, Redirect } from "react-router-dom";
 import ProtectedRoute from "./components/functions/ProtectedRoute";
 import AuthRouter from "./pages/withAuth/authentication-router";
+import { useSelector } from "react-redux";
+import { Switch, Route, Redirect } from "react-router-dom";
+
 import "./index.css";
 
 function App() {
@@ -16,7 +17,7 @@ function App() {
   const notification = useSelector((state) => state.ui.notification);
 
   return (
-    <div data-theme={theme}>
+    <theme data-theme={theme}>
       {notification && (
         <Notification
           status={notification.status}
@@ -24,7 +25,7 @@ function App() {
           message={notification.message}
         />
       )}
-      {/* use ProtectedRoute for Navigation Guard */}
+      {/* if not Authenticaton, cannot go to Authentication Page */}
       {!isLoggedIn ? (
         <Switch>
           <Route path="/" exact>
@@ -58,7 +59,7 @@ function App() {
           </Route>
         </Switch>
       )}
-    </div>
+    </theme>
   );
 }
 

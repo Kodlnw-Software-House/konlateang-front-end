@@ -15,35 +15,37 @@ const AuthRouter = () => {
   return (
     <Fragment>
       <Navbar />
-      <Switch>
-        <ProtectedRoute
-          path={path}
-          component={MainPage}
-          isAuth={isLoggedIn}
-          exact
-        />
-        <ProtectedRoute
-          path={`${path}/my-profile`}
-          component={Profile}
-          isAuth={isLoggedIn}
-          exact
-        />
-        <ProtectedRoute
-          path={`${path}/about-us`}
-          component={AboutUs}
-          isAuth={isLoggedIn}
-          exact
-        />
-        <ProtectedRoute
-          path={`${path}/not-found`}
-          component={NotFound}
-          isAuth={isLoggedIn}
-          exact
-        />
-        <Route path="*">
-          <Redirect to={`${path}/not-found`} />
-        </Route>
-      </Switch>
+      <div className="bg-blue-200 min-h-screen flow-root">
+        <Switch>
+          <ProtectedRoute
+            path={path}
+            component={MainPage}
+            isAuth={isLoggedIn}
+            exact
+          />
+          <ProtectedRoute
+            path={`${path}/my-profile`}
+            component={Profile}
+            isAuth={isLoggedIn}
+            exact
+          />
+          <ProtectedRoute
+            path={`${path}/about-us`}
+            component={AboutUs}
+            isAuth={isLoggedIn}
+            exact
+          />
+          <ProtectedRoute
+            path={`${path}/not-found`}
+            component={NotFound}
+            isAuth={isLoggedIn}
+            exact
+          />
+          <Route path="*">
+            <Redirect to={`${path}/not-found`} />
+          </Route>
+        </Switch>
+      </div>
       <Footer />
     </Fragment>
   );

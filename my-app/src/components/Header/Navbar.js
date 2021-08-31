@@ -1,15 +1,16 @@
 import { MenuIcon } from "@heroicons/react/outline";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useRouteMatch } from "react-router-dom";
 import Modal from "../ui/Modal";
 import NavBarMenu from "./NavbarMenu";
 const Navbar = () => {
   const [showMenu, setMenu] = useState(false);
+  const { path } = useRouteMatch();
   const toggleMenu = () => {
     setMenu((prev) => !prev);
   };
   return (
-    <div className="navbar shadow-lg bg-primary text-neutral-content">
+    <header className="navbar shadow-lg bg-primary text-neutral-content">
       {showMenu && (
         <Modal type="DECISION" closeModal={toggleMenu}>
           <NavBarMenu toggleMenu={toggleMenu} />
@@ -28,13 +29,13 @@ const Navbar = () => {
           <p>สวัสดี, ณัชนนท์</p>
           <p>helloword@example.com</p>
         </div>
-        <Link to="/" className="avatar cursor-pointer">
+        <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
           <div className="rounded-full w-14 h-14 m-1 ">
             <img src="https://i.pravatar.cc/500?img=32" alt="profile_pic" />
           </div>
         </Link>
       </div>
-    </div>
+    </header>
   );
 };
 

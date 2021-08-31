@@ -1,4 +1,4 @@
 const MainPage = () => {
-  return <div>หน้าแรกไอโง่</div>;
+  return <div>ไอหำ</div>;
 };
 export default MainPage;
