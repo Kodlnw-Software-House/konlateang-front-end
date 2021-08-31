@@ -1,13 +1,16 @@
 import React from "react";
-import Navbar from "./components/Header/Navbar";
+// import Navbar from "./components/Header/Navbar";
+// import Footer from "./components/ui/Footer";
 import WelcomePage from "./pages/welcome-page";
 import PatientLogin from "./pages/patient-login-page";
 import HospitalLogin from "./pages/hospital-login-page";
 import PatientRegister from "./pages/patient-register-page";
 import Notification from "./components/ui/notification-modal";
+import Profile from "./pages/withAuth/Profile";
 import { useSelector } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 import "./index.css";
+import ProtectedRoute from "./components/functions/ProtectedRoute";
 
 function App() {
   const theme = useSelector((state) => state.ui.theme);
@@ -23,10 +26,8 @@ function App() {
           message={notification.message}
         />
       )}
-      {/* check if user has login */}
-      {isLoggedIn ? (
-        <Navbar />
-      ) : (
+      {/* use ProtectedRoute for Navigation Guard */}
+      {!isLoggedIn ? (
         <Switch>
           <Route path="/" exact>
             <WelcomePage />
@@ -43,6 +44,15 @@ function App() {
           <Route path="*">
             <Redirect to="/" />
           </Route>
+        </Switch>
+      ) : (
+        <Switch>
+          <ProtectedRoute
+            path="/"
+            exact
+            component={Profile}
+            isAuth={isLoggedIn}
+          />
         </Switch>
       )}
     </div>
