@@ -1,6 +1,13 @@
 import { Link, useRouteMatch } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AuthAction } from "../../redux/auth-slice";
 const NavBarMenu = (props) => {
-  const { path,url } = useRouteMatch();
+  const distpatch = useDispatch();
+  const { path, url } = useRouteMatch();
+  const logoutHandler = () => {
+    props.toggleMenu();
+    distpatch(AuthAction.logout());
+  };
   return (
     <div className="flex flex-col justify-center text-center space-y-2">
       <Link
@@ -24,7 +31,7 @@ const NavBarMenu = (props) => {
       >
         <span className="text-2xl leading-relaxed">เกี่ยวกับเรา</span>
       </Link>
-      <div onClick={props.toggleMenu}>
+      <div onClick={logoutHandler}>
         <span className="text-2xl leading-relaxed">ออกจากระบบ</span>
       </div>
     </div>

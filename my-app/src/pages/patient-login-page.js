@@ -9,7 +9,7 @@ import { useState } from "react";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../redux/ui-slice.js";
-
+import { AuthAction } from "../redux/auth-slice";
 const PatientLogin = () => {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
@@ -54,6 +54,11 @@ const PatientLogin = () => {
       uiActions.setNoti({
         status: "success",
         title: "Login Successful",
+      })
+    );
+    dispatch(
+      AuthAction.login({
+        email: enteredEmail,
       })
     );
     resetEmail();

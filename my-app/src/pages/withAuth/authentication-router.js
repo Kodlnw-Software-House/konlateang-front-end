@@ -15,7 +15,7 @@ const AuthRouter = () => {
   return (
     <Fragment>
       <Navbar />
-      <div className="bg-blue-200 min-h-screen flow-root">
+      <div className="bg-blue-50 min-h-screen flow-root">
         <Switch>
           <ProtectedRoute
             path={path}
