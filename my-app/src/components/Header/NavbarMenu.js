@@ -31,7 +31,7 @@ const NavBarMenu = (props) => {
       >
         <span className="text-2xl leading-relaxed">เกี่ยวกับเรา</span>
       </Link>
-      <div onClick={logoutHandler}>
+      <div className="cursor-pointer" onClick={logoutHandler}>
         <span className="text-2xl leading-relaxed">ออกจากระบบ</span>
       </div>
     </div>
