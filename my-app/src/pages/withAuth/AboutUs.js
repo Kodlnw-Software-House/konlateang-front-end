@@ -1,5 +1,6 @@
 import Card from "../../components/ui/Card";
 import ped from "../../assets/pedyim.jpg";
+import bg_hospital from "../../assets/bg_hospital.jpg";
 
 const TeamMember = (props) => {
   return (
@@ -23,7 +24,10 @@ const AboutUs = () => {
   ];
   return (
     <div>
-      <div className="bg-neutral-content">
+      <div
+        className="bg-cover bg-clip-content "
+        style={{ backgroundImage: `url(${bg_hospital})` }}
+      >
         <Card>
           <div className="text-left m-4">
             <p className="text-4xl font-bold p-2">
@@ -35,9 +39,9 @@ const AboutUs = () => {
               อย่างแท้จริง."
             </p>
           </div>
-          <div className="pt-36 pb-3">
-            <p className="text-lg break-words">
-              <span className="text-2xl">เว็บแอพพลิเคชั่น</span>
+          <div className="pt-36 pb-3 ">
+            <p className="text-lg break-words text-black shadow-2xl p-2 hover:bg-black hover:bg-opacity-50 hover:text-primary-content">
+              <span className="text-2xl p-2">เว็บแอพพลิเคชั่น</span>
               สำหรับช่วยเหลือ ผู้ป่วยติดเชื้อ Covid-19 ในการลงทะเบียนจองเตียง
               จากศูนย์พักคอยต่างๆรวมไปถึงโรงพยาบาลที่เปิดรับ
               เพื่อให้ผู้ป่วยที่รักษาตนเองอยู่ที่บ้านลดความเสี่ยงในการแพร่กระจายเชื้อ

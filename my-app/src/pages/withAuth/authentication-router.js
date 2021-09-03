@@ -7,7 +7,7 @@ import NotFound from "./not-found";
 import { useSelector } from "react-redux";
 import Profile from "./Profile";
 import AboutUs from "./AboutUs";
-import MainPage from "./MainPage";
+import MainPage from "./MainPage/MainPage";
 import { Route, Redirect, useRouteMatch } from "react-router";
 const AuthRouter = () => {
   let { path } = useRouteMatch();
