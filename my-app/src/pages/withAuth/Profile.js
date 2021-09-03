@@ -16,45 +16,68 @@ const Profile = () => {
     <div>
       {isModal && (
         <Modal type="DECISION" closeModal={modalHandler}>
-          <div className="max-h-96 overflow-scroll">
-            <div class="form-control">
+          <div className="">
+            <div class="form-control max-h-96 overflow-scroll">
               <label class="label">
                 <span class="label-text">Username</span>
               </label>
-              <input type="text" placeholder="username" class="input" />
+              <input
+                type="text"
+                placeholder="username"
+                class="input mx-1 input-sm"
+              />
               <label class="label">
                 <span class="label-text">Username</span>
               </label>
-              <input type="text" placeholder="username" class="input" />
+              <input
+                type="text"
+                placeholder="username"
+                class="input mx-1 input-sm"
+              />
               <label class="label">
                 <span class="label-text">Username</span>
               </label>
-              <input type="text" placeholder="username" class="input" />
+              <input
+                type="text"
+                placeholder="username"
+                class="input mx-1 input-sm"
+              />
               <label class="label">
                 <span class="label-text">Username</span>
               </label>
-              <input type="text" placeholder="username" class="input" />
+              <input
+                type="text"
+                placeholder="username"
+                class="input mx-1 input-sm"
+              />
               <label class="label">
                 <span class="label-text">Username</span>
               </label>
-              <input type="text" placeholder="username" class="input" />
-              <label class="label">
-                <span class="label-text">Username</span>
-              </label>
-              <input type="text" placeholder="username" class="input" />
-              <label class="label">
-                <span class="label-text">Username</span>
-              </label>
-              <input type="text" placeholder="username" class="input" />
+              <input
+                type="text"
+                placeholder="username"
+                class="input mx-1 input-sm"
+              />
+            </div>
+            <div className="flex flex-row justify-end space-x-3 pt-4">
+              <button
+                className="btn btn-outline btn-accent btn-sm"
+                onClick={modalHandler}
+              >
+                ยกเลิก
+              </button>
+              <button className="btn btn-primary btn-accent btn-sm">
+                ยืนยันการแก้ไข
+              </button>
             </div>
           </div>
         </Modal>
       )}
       {/* user information */}
       <ItemCard>
-        <div className="flex flex-row justify-start space-x-3 h-60">
+        <div className="flex flex-row justify-start space-x-3 min-h-16">
           <div>
-            <div className="w-24 h-24 ">
+            <div className="w-24 h-24">
               <img
                 className="rounded-full"
                 src="https://i.pravatar.cc/500?img=32"
@@ -65,9 +88,19 @@ const Profile = () => {
               <PhotographIcon className="h-6 w-6 inline-block " /> Edit
             </button>
           </div>
-          <div className="pt-5">
-            <p>ณัชนนท์ มนต์ติกานนท์</p>
-            <p>helloword@example.com</p>
+          <div className="flex-1">
+            <div tabindex="0" class="collapse collapse-plus w-full hover:bg-gray-200 mb-2">
+              <div class="collapse-title text-xl font-medium">
+                ข้อมูลส่วนตัว
+              </div>
+              <div class="collapse-content">
+                <p>yinyin.domo@hotmail.com</p>
+                <p>ณัชนนท์ มนต์ติกานนท์</p>
+                <p>ณัชนนท์ มนต์ติกานนท์</p>
+                <p>ณัชนนท์ มนต์ติกานนท์</p>
+                <p>ณัชนนท์ มนต์ติกานนท์</p>
+              </div>
+            </div>
           </div>
         </div>
         <div className="flex justify-end">

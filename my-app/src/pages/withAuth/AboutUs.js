@@ -3,13 +3,13 @@ import ped from "../../assets/pedyim.jpg";
 
 const TeamMember = (props) => {
   return (
-    <div class="flex-col hero-content my-2 lg:flex-row lg:justify-around">
-      <img src={ped} class="max-w-xs max-h-96 rounded-lg" alt="pic" />
+    <div className="flex-col hero-content my-2 lg:flex-row lg:justify-around">
+      <img src={ped} className="max-w-xs max-h-96 rounded-3xl" alt="pic" />
       <div className="text-center md:text-left">
-        <h1 class="mb-5 text-3xl font-bold">{props.fname}</h1>
-        <p class="text-xl mb-5">{props.task}</p>
-        <button class="btn btn-sm btn-ghost">Facebook</button>
-        <button class="btn btn-sm btn-ghost">Github</button>
+        <h1 className="mb-2 text-3xl font-bold">{props.fname}</h1>
+        <p className="text-xl mb-5">{props.task}</p>
+        <button className="btn btn-sm btn-ghost">Facebook</button>
+        <button className="btn btn-sm btn-ghost">Github</button>
       </div>
     </div>
   );
@@ -54,7 +54,7 @@ const AboutUs = () => {
             MEET THE TEAM
           </p>
         </div>
-        <div class="bg-blue-50">
+        <div className="bg-blue-50">
           {team.map((item) => (
             <TeamMember key={item.fname} fname={item.fname} task={item.task} />
           ))}

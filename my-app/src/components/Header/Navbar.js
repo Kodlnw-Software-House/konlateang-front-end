@@ -10,21 +10,24 @@ const Navbar = () => {
     setMenu((prev) => !prev);
   };
   return (
-    <header className="navbar shadow-lg bg-primary text-neutral-content">
+    <header className="navbar justify-between shadow-lg bg-primary text-neutral-content">
       {showMenu && (
         <Modal type="DECISION" closeModal={toggleMenu}>
           <NavBarMenu toggleMenu={toggleMenu} />
         </Modal>
       )}
-      <div className="flex-1">
+
+      <div className="flex">
         <button className="btn btn-square btn-ghost" onClick={toggleMenu}>
           <MenuIcon />
         </button>
       </div>
-      <div className="flex-1 hidden px-2 mx-2 lg:flex">
+
+      <div className="hidden px-2 mx-2 md:flex md:flex-1">
         <span className="text-2xl font-bold">คนละเตียง</span>
       </div>
-      <div className="space-x-1 lg:flex-none">
+
+      <div className="space-x-1">
         <div className="text-right leading-5">
           <p>สวัสดี, ณัชนนท์</p>
           <p>helloword@example.com</p>
@@ -35,6 +38,7 @@ const Navbar = () => {
           </div>
         </Link>
       </div>
+
     </header>
   );
 };
