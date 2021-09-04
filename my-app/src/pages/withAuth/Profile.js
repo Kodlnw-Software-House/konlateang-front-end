@@ -3,6 +3,7 @@ import ItemCard from "../../components/ui/ItemCard";
 import { PhotographIcon } from "@heroicons/react/outline";
 import Modal from "../../components/ui/Modal";
 import { useState } from "react";
+import BookingHistory from "../../components/ProfilePage/BookingHistory";
 const Profile = () => {
   const [isModal, toggleModal] = useState(false);
 
@@ -89,7 +90,10 @@ const Profile = () => {
             </button>
           </div>
           <div className="flex-1">
-            <div tabindex="0" class="collapse collapse-plus w-full hover:bg-gray-200 mb-2">
+            <div
+              tabindex="0"
+              class="collapse collapse-plus w-full hover:bg-gray-200 mb-2"
+            >
               <div class="collapse-title text-xl font-medium">
                 ข้อมูลส่วนตัว
               </div>
@@ -112,50 +116,18 @@ const Profile = () => {
       <div className="m-4">
         <p className="text-xl">ประวัติการจองเตียง :</p>
       </div>
-      <ItemCard>
-        <div className="flex flex-row items-center space-x-3">
-          <div className="avatar">
-            <div className="rounded-box">
-              <img
-                src="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-                alt="hospital_pic"
-              />
-            </div>
-          </div>
-          <div>
-            <p className="text-xl">โรงพยาบาลนครธน</p>
-            <p>วันที่ 20 สิงหาคม 2564 เวลา 18.05 น.</p>
-            <p className="text-sm mt-2">
-              สถานะ:{" "}
-              <span className="badge-success badge-md rounded-badge p-1">
-                จองสำเร็จรอดำเนินการ
-              </span>
-            </p>
-          </div>
-        </div>
-      </ItemCard>
-      <ItemCard>
-        <div className="flex flex-row items-center space-x-3">
-          <div className="avatar">
-            <div className="rounded-box">
-              <img
-                src="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-                alt="hospital_pic"
-              />
-            </div>
-          </div>
-          <div>
-            <p className="text-xl">โรงพยาบาลนครธน</p>
-            <p>วันที่ 20 สิงหาคม 2564 เวลา 18.05 น.</p>
-            <p className="text-sm mt-2">
-              สถานะ:{" "}
-              <span className="badge-success badge-md rounded-badge p-1">
-                จองสำเร็จรอดำเนินการ
-              </span>
-            </p>
-          </div>
-        </div>
-      </ItemCard>
+      <BookingHistory
+        hospitalName="โรงพยาบาลนครธน"
+        bookingDate="20 สิงหาคม 2564 เวลา 18.05"
+        bookingStatus="จองสำเร็จรอดำเนินการ"
+        pic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
+      />
+      <BookingHistory
+        hospitalName="โรงพยาบาลนครธน"
+        bookingDate="20 สิงหาคม 2564 เวลา 18.05"
+        bookingStatus="จองสำเร็จรอดำเนินการ"
+        pic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
+      />
     </div>
   );
 };
