@@ -113,7 +113,7 @@ const Profile = () => {
           </button>
         </div>
       </ItemCard>
-      <div className="m-4">
+      <div className="m-4 p-1">
         <p className="text-xl">ประวัติการจองเตียง :</p>
       </div>
       <BookingHistory

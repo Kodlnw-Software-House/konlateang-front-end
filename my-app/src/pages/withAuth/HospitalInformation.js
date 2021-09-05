@@ -1,0 +1,97 @@
+import { useParams, useLocation, useHistory } from "react-router";
+import ItemCard from "../../components/ui/ItemCard";
+import { HomeIcon } from "@heroicons/react/solid";
+import ped from "../../assets/pedyim.jpg";
+import { useEffect } from "react";
+const HospitalInfo = (props) => {
+  const location = useLocation();
+  const history = useHistory();
+  const currentPath = location.pathname;
+  let { id } = useParams();
+
+  const onTop = () => {
+    window.scrollTo(0, 0);
+  };
+
+  useEffect(() => {
+    onTop();
+  }, [location]);
+
+  const getBack = () => {
+    history.push("/kon-la-tieng");
+  };
+
+  return (
+    <div>
+      <div className="mt-1">
+        <button onClick={getBack} className="btn text-lg btn-ghost">
+          &#8617; กลับสู่หน้าหลัก
+        </button>
+      </div>
+      <ItemCard>
+        <div className="mx-auto overflow-hidden bg-white rounded-lg">
+          <div class="w-full carousel">
+            <div id="item1" class="w-full carousel-item">
+              <img
+                src={ped}
+                className="object-cover object-center w-full h-64"
+              />
+            </div>
+            <div id="item2" class="w-full carousel-item">
+              <img
+                src={ped}
+                className="object-cover object-center w-full h-64"
+              />
+            </div>
+            <div id="item3" class="w-full carousel-item">
+              <img
+                src={ped}
+                className="object-cover object-center w-full h-64"
+              />
+            </div>
+          </div>
+          <div class="flex justify-center w-full space-x-2 py-2">
+            <a href={`${currentPath}#item1`} class="btn btn-sm btn-circle">
+              1
+            </a>
+            <a href={`${currentPath}#item2`} class="btn btn-sm btn-circle">
+              2
+            </a>
+            <a href={`${currentPath}#item3`} class="btn btn-sm btn-circle">
+              3
+            </a>
+          </div>
+
+          {/* Hospital Info */}
+          <div className="flex items-center px-6 py-3 bg-gray-900">
+            <HomeIcon
+              className="w-6 h-6 text-white fill-current"
+              xmlns="http://www.w3.org/2000/svg"
+            />
+            <h1 className="mx-3 text-lg text-white">โรงพยาบาลนครธน</h1>
+          </div>
+
+          <div className="px-6 py-4">
+            <h1 className="text-xl font-semibold text-gray-800">
+              จำนวนเตียงคงเหลือ{" "}
+              <span className="badge badge-outline badge-info badge-lg text-xl">
+                85 เตียง
+              </span>
+            </h1>
+
+            <p className="py-2 text-gray-700 ">
+              เลขที่ 1 ซอยพระรามที่ 2 ซอย 56 แขวงแสมดำ บางขุนเทียน กรุงเทพฯ
+              10150
+            </p>
+          </div>
+          <div className="px-6 py-2">
+            <button className="btn btn-success btn-block text-lg">
+              จองเตียงศูนย์พักคอย/โรงพยาบาลนี้
+            </button>
+          </div>
+        </div>
+      </ItemCard>
+    </div>
+  );
+};
+export default HospitalInfo;

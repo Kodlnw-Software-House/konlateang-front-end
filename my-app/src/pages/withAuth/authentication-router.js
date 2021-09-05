@@ -4,6 +4,7 @@ import Navbar from "../../components/Header/Navbar";
 import Footer from "../../components/ui/Footer";
 import ProtectedRoute from "../../components/functions/ProtectedRoute";
 import NotFound from "./not-found";
+import HospitalInfo from "./HospitalInformation";
 import { useSelector } from "react-redux";
 import Profile from "./Profile";
 import AboutUs from "./AboutUs";
@@ -32,6 +33,12 @@ const AuthRouter = () => {
           <ProtectedRoute
             path={`${path}/about-us`}
             component={AboutUs}
+            isAuth={isLoggedIn}
+            exact
+          />
+          <ProtectedRoute
+            path={`${path}/community-isolation/id/:id`}
+            component={HospitalInfo}
             isAuth={isLoggedIn}
             exact
           />

@@ -24,12 +24,7 @@ const MainPage = () => {
             <RefreshIcon className="w-10 h-10 animate-spin" />
           </div>
         )}
-        {error && (
-          <div className="mx-auto">
-            <span>Error : {error}</span>
-          </div>
-        )}
-        {!loading && covidData && !error && (
+        {!loading && covidData && (
           <CovidInfo
             newCase={covidData[0].new_case}
             updateDate={covidData[0].update_date}
@@ -65,23 +60,37 @@ const MainPage = () => {
           <p className="text-xl">ศูนย์พักคอยที่เปิดรับ</p>
         </Card>
         <ActiveHospital
+          hospitalId="1"
           hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
           hospitalName="โรงพยาบาลนครธน"
           totalActiveBed="20"
           hospitalAddress="เลขที่ 1 ซอยพระรามที่ 2 ซอย 56 แขวงแสมดำ บางขุนเทียน กรุงเทพฯ 10150"
         />
         <ActiveHospital
+          hospitalId="2"
           hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
           hospitalName="โรงพยาบาลไทยพาณิชย์"
           totalActiveBed="20"
           hospitalAddress="เลขที่ 1 ซอยพระรามที่ 2 ซอย 56 แขวงแสมดำ บางขุนเทียน กรุงเทพฯ 10150"
         />
         <ActiveHospital
+          hospitalId="3"
           hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
           hospitalName="โรงพยาบาลกสิกร"
           totalActiveBed="20"
           hospitalAddress="เลขที่ 1 ซอยพระรามที่ 2 ซอย 56 แขวงแสมดำ บางขุนเทียน กรุงเทพฯ 10150"
         />
+      </div>
+      {/* Pagination */}
+      <div className="my-2">
+        <div class="btn-group justify-center">
+          <button class="btn btn-sm btn-outline btn-primary">Prev</button>
+          <button class="btn btn-sm btn-ghost btn-primary btn-active">1</button>
+          <button class="btn btn-sm btn-ghost btn-primary">2</button>
+          <button class="btn btn-sm btn-ghost btn-primary">3</button>
+          <button class="btn btn-sm btn-ghost btn-primary">4</button>
+          <button class="btn btn-sm btn-outline btn-primary">Next</button>
+        </div>
       </div>
     </div>
   );
