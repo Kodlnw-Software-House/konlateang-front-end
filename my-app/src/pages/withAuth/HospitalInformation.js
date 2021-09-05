@@ -2,12 +2,22 @@ import { useParams, useLocation, useHistory } from "react-router";
 import ItemCard from "../../components/ui/ItemCard";
 import { HomeIcon } from "@heroicons/react/solid";
 import ped from "../../assets/pedyim.jpg";
-import { useEffect } from "react";
+import Modal from "../../components/ui/Modal";
+import { useEffect, useState } from "react";
 const HospitalInfo = (props) => {
+  const [isModal, toggleModal] = useState(true);
   const location = useLocation();
   const history = useHistory();
   const currentPath = location.pathname;
   let { id } = useParams();
+
+  const openModal = () => {
+    toggleModal(true);
+  };
+
+  const modalHandler = () => {
+    toggleModal(false);
+  };
 
   const onTop = () => {
     window.scrollTo(0, 0);
@@ -23,6 +33,26 @@ const HospitalInfo = (props) => {
 
   return (
     <div>
+      {isModal && (
+        <Modal type="DECISION" closeModal={modalHandler}>
+          <div>
+            <p className="text-center text-xl">
+              ยืนยันการจองเตียงที่
+              <br />
+              โรงพยาบาลนครธน ?
+            </p>
+          </div>
+          <div className="text-center space-x-4 pt-2">
+            <button
+              className="btn btn-lg btn-outline btn-primary"
+              onClick={modalHandler}
+            >
+              ยกเลิก
+            </button>
+            <button className="btn btn-lg btn-primary">ยืนยัน</button>
+          </div>
+        </Modal>
+      )}
       <div className="mt-1">
         <button onClick={getBack} className="btn text-lg btn-ghost">
           &#8617; กลับสู่หน้าหลัก
@@ -85,7 +115,10 @@ const HospitalInfo = (props) => {
             </p>
           </div>
           <div className="px-6 py-2">
-            <button className="btn btn-success btn-block text-lg">
+            <button
+              className="btn btn-success btn-block text-lg"
+              onClick={openModal}
+            >
               จองเตียงศูนย์พักคอย/โรงพยาบาลนี้
             </button>
           </div>
