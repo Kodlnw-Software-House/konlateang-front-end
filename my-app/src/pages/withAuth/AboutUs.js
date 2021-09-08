@@ -28,7 +28,7 @@ const AboutUs = () => {
         className="bg-cover bg-clip-content "
         style={{ backgroundImage: `url(${bg_hospital})` }}
       >
-        <Card>
+        <div className="mx-4 p-2">
           <div className="text-left m-4">
             <p className="text-4xl font-bold p-2">
               "คนละเตียง <br />
@@ -49,7 +49,7 @@ const AboutUs = () => {
               และช่วยบรรเทาอาการผู้ป่วยที่รุนแรงให้ถึงมือแพทย์ให้ได้ไวที่สุด
             </p>
           </div>
-        </Card>
+        </div>
       </div>
 
       <div className="min-h-screen">

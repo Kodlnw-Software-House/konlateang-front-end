@@ -46,7 +46,7 @@ const registerFour = (props) => {
       </div>
 
       <div className="flex flex-col space-y-2 pt-8">
-        <button className="btn btn-primary btn-md" onClick={props.submitForm}>
+        <button className="btn btn-primary btn-md" type="submit">
           ลงทะเบียน
         </button>
         <button

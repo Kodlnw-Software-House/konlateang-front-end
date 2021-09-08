@@ -56,7 +56,7 @@ module.exports = {
         /* Success */
         'warning': '#ff9900',
         /* Warning */
-        'error': '#ff5724',
+        'error': '#ff0000',
         /* Error */
       },
       'hospitalTheme': {
@@ -93,7 +93,7 @@ module.exports = {
         /* Success */
         'warning': '#ff9900',
         /* Warning */
-        'error': '#ff5724',
+        'error': '#ff0000',
         /* Error */
       },
       'adminTheme': {
@@ -130,7 +130,7 @@ module.exports = {
         /* Success */
         'warning': '#ff9900',
         /* Warning */
-        'error': '#ff5724',
+        'error': '#ff0000',
         /* Error */
       },
     }, ]

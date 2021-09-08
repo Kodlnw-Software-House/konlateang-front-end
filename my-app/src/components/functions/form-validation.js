@@ -10,5 +10,10 @@ const passwordValidate = (pass) => {
   }
   return false;
 };
-
-export { emailValidate, passwordValidate };
+const checkNotEmpty = (value) => {
+  if (value && value.length > 0) {
+    return true;
+  }
+  return false;
+};
+export { emailValidate, passwordValidate, checkNotEmpty };

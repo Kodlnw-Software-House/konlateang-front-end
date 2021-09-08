@@ -1,9 +1,12 @@
 import Card from "../ui/Card";
 
-const registerOne = (props) => {
-  const goToLogin = () => {
-    props.goToLogin();
-  };
+const RegisterOne = (props) => {
+  const emailInputClasses = props.emailError
+    ? "input input-sm input-error text-warning"
+    : "input input-sm input-info";
+  const passInputClasses = props.passwordError
+    ? "input input-sm input-error text-warning"
+    : "input input-sm input-info";
   return (
     <Card>
       <div className="form-control">
@@ -12,32 +15,36 @@ const registerOne = (props) => {
         </label>
         <input
           type="email"
-          name="email"
-          id="email"
-          value={props.enteredEmail}
-          onChange={props.emailChangeHandler}
-          // onBlur={emailBlurHandler}
           placeholder="Email"
-          className="input input-sm input-info"
+          className={emailInputClasses}
+          {...props.register("Email", {
+            required: true,
+            pattern: /^\S+@\S+$/i,
+          })}
         />
-        {/* {emailHasError && (
-        <label className="label">
-          <span className="label-text text-warning">โปรดตรวจสอบอีเมล</span>
+        {props.emailError && (
+          <label className="label">
+            <span className="label-text text-error">โปรดตรวจสอบอีเมล</span>
+          </label>
+        )}
+        <label htmlFor="password" className="label">
+          <span className="label-text">Password</span>
         </label>
-      )} */}
-      </div>
-      <div className="flex flex-col justify-center pt-8">
-        <button className="btn btn-link btn-md" onClick={props.nextStep}>
-          ถัดไป
-        </button>
-        <button
-          className="btn btn-link btn-md text-secondary-focus"
-          onClick={goToLogin}
-        >
-          มีบัญชีอยู่แล้ว ? เข้าสู่ระบบ
-        </button>
+        <input
+          type="text"
+          placeholder="ระบุรหัสผ่าน"
+          className={passInputClasses}
+          {...props.register("Password", {
+            required: true,
+          })}
+        />
+        {props.passwordError && (
+          <label className="label">
+            <span className="label-text text-error">โปรดตรวจสอบรหัสผ่าน</span>
+          </label>
+        )}
       </div>
     </Card>
   );
 };
-export default registerOne;
+export default RegisterOne;

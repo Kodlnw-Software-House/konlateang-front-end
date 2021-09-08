@@ -5,7 +5,7 @@ import ped from "../../assets/pedyim.jpg";
 import Modal from "../../components/ui/Modal";
 import { useEffect, useState } from "react";
 const HospitalInfo = (props) => {
-  const [isModal, toggleModal] = useState(true);
+  const [isModal, toggleModal] = useState(false);
   const location = useLocation();
   const history = useHistory();
   const currentPath = location.pathname;
@@ -35,21 +35,23 @@ const HospitalInfo = (props) => {
     <div>
       {isModal && (
         <Modal type="DECISION" closeModal={modalHandler}>
-          <div>
-            <p className="text-center text-xl">
-              ยืนยันการจองเตียงที่
-              <br />
-              โรงพยาบาลนครธน ?
-            </p>
-          </div>
-          <div className="text-center space-x-4 pt-2">
-            <button
-              className="btn btn-lg btn-outline btn-primary"
-              onClick={modalHandler}
-            >
-              ยกเลิก
-            </button>
-            <button className="btn btn-lg btn-primary">ยืนยัน</button>
+          <div className="h-40 flex flex-col justify-center space-y-2">
+            <div>
+              <p className="text-center text-2xl">
+                ยืนยันการจองเตียงที่
+                <br />
+                โรงพยาบาลนครธน ?
+              </p>
+            </div>
+            <div className="text-center space-x-4 pt-2">
+              <button
+                className="btn btn-outline btn-primary text-lg"
+                onClick={modalHandler}
+              >
+                ยกเลิก
+              </button>
+              <button className="btn btn-primary text-lg">ยืนยัน</button>
+            </div>
           </div>
         </Modal>
       )}

@@ -1,51 +1,63 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import RegisterOne from "../components/login/register-1";
 import RegisterTwo from "../components/login/register-2";
 import RegisterThree from "../components/login/register-3";
 import RegisterFour from "../components/login/register-4-finish";
 import Card from "../components/ui/Card";
 import { useHistory } from "react-router";
-// import {
-//   emailValidate,
-//   passwordValidate,
-// } from "../components/functions/form-validation";
+import RenderButton from "../components/login/RegisterButton";
+import { useForm } from "react-hook-form";
 
 const PatientRegister = () => {
   const history = useHistory();
-  const [step, setStep] = useState(1);
-  const [form, setForm] = useState({
-    email: "",
-    pass: "",
-    fName: "",
-    lName: "",
+  const {
+    register,
+    handleSubmit,
+    watch,
+    setValue,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onBlur",
   });
+  const enteredDOB = watch("dob");
+  console.log(errors);
+  const [step, setStep] = useState(1);
+
+  const calculateDate = (date) => {
+    let birthDate = new Date(date);
+    let difference = Date.now() - birthDate.getTime();
+    let ageDate = new Date(difference);
+    var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+    return calculatedAge;
+  };
+
+  useEffect(() => {
+    setValue("age", calculateDate(enteredDOB), { shouldValidate: true });
+  }, [enteredDOB]);
+
   const goToLogin = () => {
     history.replace("/patient-login");
-  };
-  const handleChange = (event) => {
-    setForm({
-      ...form,
-      [event.target.name]: event.target.value,
-    });
   };
 
   const prevStep = () => {
     setStep((prev) => prev - 1);
   };
   const nextStep = () => {
-    setStep((prev) => prev + 1);
+    if (isValid) {
+      setStep((prev) => prev + 1);
+    } else {
+      return;
+    }
   };
 
-  const submitForm = (e) => {
-    e.preventDefault();
-    console.log(form.email);
-    console.log(form.pass);
-    console.log(form.fName);
-    console.log(form.lName);
+  const submitForm = (data) => {
+    console.log(data);
   };
+
   let secondStepClass = step >= 2 ? "step step-accent" : "step";
   let thirdStepClass = step >= 3 ? "step step-accent" : "step";
   let finalStepClass = step >= 4 ? "step step-accent" : "step";
+
   return (
     <div className="bg-gradient-to-b from-blue-400 via-blue-200 to-blue-100 flex flex-col justify-center space-y-3 min-h-screen">
       <Card>
@@ -56,49 +68,45 @@ const PatientRegister = () => {
           <li className={finalStepClass}>ตรวจสอบ</li>
         </ul>
       </Card>
-      <form onSubmit={submitForm}>
+      <form onSubmit={handleSubmit(submitForm)}>
         {(() => {
           switch (step) {
             case 1:
               return (
                 <RegisterOne
                   goToLogin={goToLogin}
-                  nextStep={nextStep}
-                  enteredEmail={form.email}
-                  emailChangeHandler={handleChange}
+                  emailError={errors.Email}
+                  passwordError={errors.Password}
+                  register={register}
                 />
               );
             case 2:
               return (
                 <RegisterTwo
-                  nextStep={nextStep}
-                  prevStep={prevStep}
-                  enteredPass={form.pass}
-                  passChangeHandler={handleChange}
+                  register={register}
+                  citizenIdError={errors.citizenId}
+                  fNameError={errors.fName}
+                  lNameError={errors.lName}
+                  dobError={errors.dob}
+                  ageError={errors.age}
                 />
               );
             case 3:
-              return (
-                <RegisterThree
-                  nextStep={nextStep}
-                  prevStep={prevStep}
-                  enteredFirstName={form.fName}
-                  enteredLastName={form.lName}
-                  onChangeHandler={handleChange}
-                />
-              );
+              return <RegisterThree register={register} />;
             case 4:
-              return (
-                <RegisterFour
-                  prevStep={prevStep}
-                  submitForm={submitForm}
-                  value={form}
-                />
-              );
+              return <RegisterFour register={register} />;
             default:
           }
         })()}
       </form>
+      <RenderButton
+        nextStep={nextStep}
+        prevStep={prevStep}
+        step={step}
+        goToLogin={goToLogin}
+        isValid={isValid}
+      />
+      <pre>{JSON.stringify(watch(), null, 2)}</pre>
     </div>
   );
 };
