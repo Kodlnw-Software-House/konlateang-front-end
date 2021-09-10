@@ -10,12 +10,11 @@ import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../redux/ui-slice.js";
 import { AuthAction } from "../redux/auth-slice";
-import { useForm } from "react-hook-form";
 
 const PatientLogin = () => {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
-  const { register, handleSubmit } = useForm();
+
 
   const {
     value: enteredEmail,

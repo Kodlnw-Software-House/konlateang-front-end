@@ -17,7 +17,7 @@ function App() {
   const notification = useSelector((state) => state.ui.notification);
 
   return (
-    <theme data-theme={theme}>
+    <div data-theme={theme}>
       {notification && (
         <Notification
           status={notification.status}
@@ -59,7 +59,7 @@ function App() {
           </Route>
         </Switch>
       )}
-    </theme>
+    </div>
   );
 }
 

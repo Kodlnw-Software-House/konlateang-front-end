@@ -9,7 +9,7 @@ const RenderButton = (props) => {
         <div className="flex flex-col space-y-2">
           <button
             className="btn btn-primary btn-md"
-            type="submit"
+            onClick={props.submitForm}
             disabled={isDisable}
           >
             ลงทะเบียน

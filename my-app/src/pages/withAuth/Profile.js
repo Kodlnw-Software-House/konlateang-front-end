@@ -17,47 +17,47 @@ const Profile = () => {
     <div>
       {isModal && (
         <Modal type="DECISION" closeModal={modalHandler}>
-          <div className="">
-            <div class="form-control max-h-96 overflow-scroll">
-              <label class="label">
-                <span class="label-text">Username</span>
+          <div>
+            <div className="form-control max-h-96 overflow-scroll">
+              <label className="label">
+                <span className="label-text">Username</span>
               </label>
               <input
                 type="text"
                 placeholder="username"
-                class="input mx-1 input-sm"
+                className="input mx-1 input-sm"
               />
-              <label class="label">
-                <span class="label-text">Username</span>
+              <label className="label">
+                <span className="label-text">Username</span>
               </label>
               <input
                 type="text"
                 placeholder="username"
-                class="input mx-1 input-sm"
+                className="input mx-1 input-sm"
               />
-              <label class="label">
-                <span class="label-text">Username</span>
+              <label className="label">
+                <span className="label-text">Username</span>
               </label>
               <input
                 type="text"
                 placeholder="username"
-                class="input mx-1 input-sm"
+                className="input mx-1 input-sm"
               />
-              <label class="label">
-                <span class="label-text">Username</span>
+              <label className="label">
+                <span className="label-text">Username</span>
               </label>
               <input
                 type="text"
                 placeholder="username"
-                class="input mx-1 input-sm"
+                className="input mx-1 input-sm"
               />
-              <label class="label">
-                <span class="label-text">Username</span>
+              <label className="label">
+                <span className="label-text">Username</span>
               </label>
               <input
                 type="text"
                 placeholder="username"
-                class="input mx-1 input-sm"
+                className="input mx-1 input-sm"
               />
             </div>
             <div className="flex flex-row justify-end space-x-3 pt-4">
@@ -91,13 +91,13 @@ const Profile = () => {
           </div>
           <div className="flex-1">
             <div
-              tabindex="0"
-              class="collapse collapse-plus w-full hover:bg-gray-200 mb-2"
+              tabIndex="0"
+              className="collapse collapse-plus w-full hover:bg-gray-200 mb-2"
             >
-              <div class="collapse-title text-xl font-medium">
+              <div className="collapse-title text-xl font-medium">
                 ข้อมูลส่วนตัว
               </div>
-              <div class="collapse-content">
+              <div className="collapse-content">
                 <p>yinyin.domo@hotmail.com</p>
                 <p>ณัชนนท์ มนต์ติกานนท์</p>
                 <p>ณัชนนท์ มนต์ติกานนท์</p>

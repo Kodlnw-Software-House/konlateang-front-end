@@ -9,11 +9,9 @@ import {
   AdjustmentsIcon,
 } from "@heroicons/react/outline";
 const MainPage = () => {
-  const {
-    data: covidData,
-    error,
-    loading,
-  } = useFetch("https://covid19.ddc.moph.go.th/api/Cases/today-cases-all");
+  const { data: covidData, loading } = useFetch(
+    "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
+  );
 
   return (
     // Covid19 Todays
@@ -37,14 +35,14 @@ const MainPage = () => {
       </ItemCard>
       {/* search input */}
       <Card>
-        <div class="form-control shadow-sm">
-          <div class="relative">
+        <div className="form-control shadow-sm">
+          <div className="relative">
             <input
               type="text"
               placeholder="ค้นหาศูนย์พักคอย"
-              class="w-full pr-16 input input-sm rounded-box"
+              className="w-full pr-16 input input-sm rounded-box"
             />
-            <button class="absolute top-0 right-0 rounded-l-none btn btn-sm btn-ghost">
+            <button className="absolute top-0 right-0 rounded-l-none btn btn-sm btn-ghost">
               <SearchCircleIcon className="w-7 h-auto" />
             </button>
           </div>
@@ -83,13 +81,13 @@ const MainPage = () => {
       </div>
       {/* Pagination */}
       <div className="my-2">
-        <div class="btn-group justify-center">
-          <button class="btn btn-sm btn-outline btn-primary">Prev</button>
-          <button class="btn btn-sm btn-ghost btn-primary btn-active">1</button>
-          <button class="btn btn-sm btn-ghost btn-primary">2</button>
-          <button class="btn btn-sm btn-ghost btn-primary">3</button>
-          <button class="btn btn-sm btn-ghost btn-primary">4</button>
-          <button class="btn btn-sm btn-outline btn-primary">Next</button>
+        <div className="btn-group justify-center">
+          <button className="btn btn-sm btn-outline btn-primary">Prev</button>
+          <button className="btn btn-sm btn-ghost btn-primary btn-active">1</button>
+          <button className="btn btn-sm btn-ghost btn-primary">2</button>
+          <button className="btn btn-sm btn-ghost btn-primary">3</button>
+          <button className="btn btn-sm btn-ghost btn-primary">4</button>
+          <button className="btn btn-sm btn-outline btn-primary">Next</button>
         </div>
       </div>
     </div>

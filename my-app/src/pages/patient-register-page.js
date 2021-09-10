@@ -7,8 +7,11 @@ import Card from "../components/ui/Card";
 import { useHistory } from "react-router";
 import RenderButton from "../components/login/RegisterButton";
 import { useForm } from "react-hook-form";
-
+import ItemCard from "../components/ui/ItemCard";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../redux/ui-slice";
 const PatientRegister = () => {
+  const dispatch = useDispatch();
   const history = useHistory();
   const {
     register,
@@ -19,8 +22,9 @@ const PatientRegister = () => {
   } = useForm({
     mode: "onBlur",
   });
+  const [formData, setFormData] = useState({});
   const enteredDOB = watch("dob");
-  console.log(errors);
+
   const [step, setStep] = useState(1);
 
   const calculateDate = (date) => {
@@ -33,7 +37,7 @@ const PatientRegister = () => {
 
   useEffect(() => {
     setValue("age", calculateDate(enteredDOB), { shouldValidate: true });
-  }, [enteredDOB]);
+  }, [enteredDOB, setValue]);
 
   const goToLogin = () => {
     history.replace("/patient-login");
@@ -43,17 +47,21 @@ const PatientRegister = () => {
     setStep((prev) => prev - 1);
   };
   const nextStep = () => {
-    if (isValid) {
-      setStep((prev) => prev + 1);
-    } else {
-      return;
-    }
+    setStep((prev) => prev + 1);
   };
 
-  const submitForm = (data) => {
-    console.log(data);
+  const collectData = (data) => {
+    setFormData(data);
   };
-
+  const submitForm = () => {
+    console.log(formData);
+    dispatch(
+      uiActions.setNoti({
+        status: "success",
+        title: "Register Successful",
+      })
+    );
+  };
   let secondStepClass = step >= 2 ? "step step-accent" : "step";
   let thirdStepClass = step >= 3 ? "step step-accent" : "step";
   let finalStepClass = step >= 4 ? "step step-accent" : "step";
@@ -61,6 +69,9 @@ const PatientRegister = () => {
   return (
     <div className="bg-gradient-to-b from-blue-400 via-blue-200 to-blue-100 flex flex-col justify-center space-y-3 min-h-screen">
       <Card>
+        <div className="text-center my-4 mx-auto border-b-4 border-primary w-3/4">
+          <p className="text-2xl">ลงทะเบียนผู้ป่วย คนละเตียง</p>
+        </div>
         <ul className="w-full steps">
           <li className="step step-accent">บัญชี</li>
           <li className={secondStepClass}>ข้อมูลส่วนตัว</li>
@@ -68,45 +79,53 @@ const PatientRegister = () => {
           <li className={finalStepClass}>ตรวจสอบ</li>
         </ul>
       </Card>
-      <form onSubmit={handleSubmit(submitForm)}>
-        {(() => {
-          switch (step) {
-            case 1:
-              return (
-                <RegisterOne
-                  goToLogin={goToLogin}
-                  emailError={errors.Email}
-                  passwordError={errors.Password}
-                  register={register}
-                />
-              );
-            case 2:
-              return (
-                <RegisterTwo
-                  register={register}
-                  citizenIdError={errors.citizenId}
-                  fNameError={errors.fName}
-                  lNameError={errors.lName}
-                  dobError={errors.dob}
-                  ageError={errors.age}
-                />
-              );
-            case 3:
-              return <RegisterThree register={register} />;
-            case 4:
-              return <RegisterFour register={register} />;
-            default:
-          }
-        })()}
-      </form>
-      <RenderButton
-        nextStep={nextStep}
-        prevStep={prevStep}
-        step={step}
-        goToLogin={goToLogin}
-        isValid={isValid}
-      />
-      <pre>{JSON.stringify(watch(), null, 2)}</pre>
+      <ItemCard>
+        <form onSubmit={handleSubmit(collectData)}>
+          {(() => {
+            switch (step) {
+              case 1:
+                return (
+                  <RegisterOne
+                    goToLogin={goToLogin}
+                    emailError={errors.Email}
+                    passwordError={errors.Password}
+                    register={register}
+                  />
+                );
+              case 2:
+                return (
+                  <RegisterTwo
+                    register={register}
+                    citizenIdError={errors.citizenId}
+                    fNameError={errors.fName}
+                    lNameError={errors.lName}
+                    dobError={errors.dob}
+                    ageError={errors.age}
+                  />
+                );
+              case 3:
+                return (
+                  <RegisterThree
+                    register={register}
+                    addressError={errors.address}
+                    telNoError={errors.telNo}
+                  />
+                );
+              case 4:
+                return <RegisterFour formData={formData} />;
+              default:
+            }
+          })()}
+          <RenderButton
+            nextStep={nextStep}
+            prevStep={prevStep}
+            step={step}
+            goToLogin={goToLogin}
+            isValid={isValid}
+            submitForm={submitForm}
+          />
+        </form>
+      </ItemCard>
     </div>
   );
 };

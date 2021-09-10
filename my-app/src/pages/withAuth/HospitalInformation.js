@@ -1,4 +1,4 @@
-import { useParams, useLocation, useHistory } from "react-router";
+import { useLocation, useHistory } from "react-router";
 import ItemCard from "../../components/ui/ItemCard";
 import { HomeIcon } from "@heroicons/react/solid";
 import ped from "../../assets/pedyim.jpg";
@@ -9,7 +9,6 @@ const HospitalInfo = (props) => {
   const location = useLocation();
   const history = useHistory();
   const currentPath = location.pathname;
-  let { id } = useParams();
 
   const openModal = () => {
     toggleModal(true);
@@ -62,34 +61,37 @@ const HospitalInfo = (props) => {
       </div>
       <ItemCard>
         <div className="mx-auto overflow-hidden bg-white rounded-lg">
-          <div class="w-full carousel">
-            <div id="item1" class="w-full carousel-item">
+          <div className="w-full carousel">
+            <div id="item1" className="w-full carousel-item">
               <img
+                alt="picture_1"
                 src={ped}
                 className="object-cover object-center w-full h-64"
               />
             </div>
-            <div id="item2" class="w-full carousel-item">
+            <div id="item2" className="w-full carousel-item">
               <img
+                alt="picture_2"
                 src={ped}
                 className="object-cover object-center w-full h-64"
               />
             </div>
-            <div id="item3" class="w-full carousel-item">
+            <div id="item3" className="w-full carousel-item">
               <img
+                alt="picture_3"
                 src={ped}
                 className="object-cover object-center w-full h-64"
               />
             </div>
           </div>
-          <div class="flex justify-center w-full space-x-2 py-2">
-            <a href={`${currentPath}#item1`} class="btn btn-sm btn-circle">
+          <div className="flex justify-center w-full space-x-2 py-2">
+            <a href={`${currentPath}#item1`} className="btn btn-sm btn-circle">
               1
             </a>
-            <a href={`${currentPath}#item2`} class="btn btn-sm btn-circle">
+            <a href={`${currentPath}#item2`} className="btn btn-sm btn-circle">
               2
             </a>
-            <a href={`${currentPath}#item3`} class="btn btn-sm btn-circle">
+            <a href={`${currentPath}#item3`} className="btn btn-sm btn-circle">
               3
             </a>
           </div>

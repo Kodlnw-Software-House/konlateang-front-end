@@ -25,7 +25,7 @@ const Notification = (props) => {
   if (props.status === "error") {
     return (
       <Modal>
-        <div className="alert flex-row alert-error">
+        <div className="alert flex-row alert-error hover:bg-opacity-100 hover:text-primary-content focus:bg-opacity-100 focus:text-primary-content">
           <div className="flex-1">
             <ExclamationCircleIcon className="w-6 h-6 mx-2" />
             <span>{props.title}!</span>
@@ -43,7 +43,7 @@ const Notification = (props) => {
   if (props.status === "success") {
     return (
       <Modal>
-        <div className="alert flex-row alert-success">
+        <div className="alert flex-row alert-success hover:bg-opacity-100 hover:text-primary-content focus:bg-opacity-100 focus:text-primary-content">
           <div className="flex-1">
             <CheckIcon className="w-6 h-6 mx-2" />
             <span>{props.title}!</span>

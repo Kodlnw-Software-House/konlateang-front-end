@@ -1,4 +1,3 @@
-import Card from "../../components/ui/Card";
 import ped from "../../assets/pedyim.jpg";
 import bg_hospital from "../../assets/bg_hospital.jpg";
 
