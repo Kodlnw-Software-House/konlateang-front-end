@@ -1,28 +1,26 @@
-import axios from "axios";
+import http from "../components/functions/services/auth-header";
 import { useEffect } from "react";
 import { useState } from "react";
 
-const useFetch = (url) => {
+export const useFetch = (axiosParams) => {
   const [data, setData] = useState(null);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
+
+  const fetchData = async (params) => {
+    try {
+      const result = await http.request(params);
+      setData(result.data);
+    } catch (error) {
+      setError(error);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   useEffect(() => {
-    setLoading(true);
-    axios
-      .get(url)
-      .then((res) => {
-        setData(res.data);
-      })
-      .catch((error) => {
-        setError(error);
-      })
-      .finally(() => {
-        setLoading(false);
-      });
-  }, [url]);
+    fetchData(axiosParams);
+  }, []);
 
   return { data, loading, error };
 };
-
-export default useFetch;

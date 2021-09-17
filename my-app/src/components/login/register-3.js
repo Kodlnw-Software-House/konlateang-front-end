@@ -1,11 +1,11 @@
 import Card from "../ui/Card";
 const registerThree = (props) => {
   const addressInputClasses = props.addressError
-  ? "textarea h-24 input-error text-warning"
-  : "textarea h-24";
-const telNoInputClasses = props.telNoError
-  ? "input input-sm input-error text-warning"
-  : "input input-sm input-info";
+    ? "textarea h-24 textarea-bordered textarea-primary input-error text-warning"
+    : "textarea h-24 textarea-bordered textarea-primary";
+  const telNoInputClasses = props.telNoError
+    ? "input input-sm input-error text-warning"
+    : "input input-sm input-info";
   return (
     <Card>
       <div className="form-control">
@@ -15,12 +15,14 @@ const telNoInputClasses = props.telNoError
         <textarea
           className={addressInputClasses}
           placeholder="ที่อยู่..."
-          {...props.register("address", { required: true })}
+          {...props.register("address", { required: true, maxLength: 500 })}
         />
         {props.addressError && (
           <label className="label">
             <span className="label-text text-error">
-              โปรดระบุที่อยู่ของท่าน
+              {props.addressError.type === "required"
+                ? "โปรดระบุที่อยู่ของท่าน"
+                : "ที่อยู่ต้องมีความยาวไม่เกิน 500 ตัวอักษร"}
             </span>
           </label>
         )}

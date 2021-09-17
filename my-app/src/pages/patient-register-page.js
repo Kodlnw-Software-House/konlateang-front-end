@@ -8,9 +8,22 @@ import { useHistory } from "react-router";
 import RenderButton from "../components/login/RegisterButton";
 import { useForm } from "react-hook-form";
 import ItemCard from "../components/ui/ItemCard";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../redux/ui-slice";
+import { AuthSelecter, AuthAction, userRegister } from "../redux/auth-slice";
+import { RefreshIcon } from "@heroicons/react/outline";
+
+const calculateDate = (date) => {
+  let birthDate = new Date(date);
+  let difference = Date.now() - birthDate.getTime();
+  let ageDate = new Date(difference);
+  var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+  return calculatedAge;
+};
+
 const PatientRegister = () => {
+  const { isFetching, isSuccess, isError, errorMessage } =
+    useSelector(AuthSelecter);
   const dispatch = useDispatch();
   const history = useHistory();
   const {
@@ -24,16 +37,37 @@ const PatientRegister = () => {
   });
   const [formData, setFormData] = useState({});
   const enteredDOB = watch("dob");
-
   const [step, setStep] = useState(1);
 
-  const calculateDate = (date) => {
-    let birthDate = new Date(date);
-    let difference = Date.now() - birthDate.getTime();
-    let ageDate = new Date(difference);
-    var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
-    return calculatedAge;
-  };
+  useEffect(() => {
+    let mounted = true;
+    if (isSuccess) {
+      if (mounted) {
+        dispatch(
+          uiActions.setNoti({
+            status: "success",
+            title: "Register Successful",
+          })
+        );
+        dispatch(AuthAction.clearStatus());
+        dispatch(AuthAction.userLoggedIn());
+      }
+    }
+    if (isError) {
+      if (mounted) {
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: errorMessage,
+          })
+        );
+        dispatch(AuthAction.clearStatus());
+      }
+      return function cleanup() {
+        mounted = false;
+      };
+    }
+  }, [isError, isSuccess]);
 
   useEffect(() => {
     setValue("age", calculateDate(enteredDOB), { shouldValidate: true });
@@ -53,15 +87,24 @@ const PatientRegister = () => {
   const collectData = (data) => {
     setFormData(data);
   };
+
   const submitForm = () => {
-    console.log(formData);
-    dispatch(
-      uiActions.setNoti({
-        status: "success",
-        title: "Register Successful",
-      })
-    );
+    if (isValid) {
+      dispatch(
+        userRegister({
+          email: formData.Email,
+          password: formData.Password,
+          citizen_id: formData.citizenId,
+          fname: formData.fName,
+          lname: formData.lName,
+          age: formData.age,
+          dob: formData.dob,
+          address: formData.address,
+        })
+      );
+    }
   };
+
   let secondStepClass = step >= 2 ? "step step-accent" : "step";
   let thirdStepClass = step >= 3 ? "step step-accent" : "step";
   let finalStepClass = step >= 4 ? "step step-accent" : "step";
@@ -116,14 +159,20 @@ const PatientRegister = () => {
               default:
             }
           })()}
-          <RenderButton
-            nextStep={nextStep}
-            prevStep={prevStep}
-            step={step}
-            goToLogin={goToLogin}
-            isValid={isValid}
-            submitForm={submitForm}
-          />
+          {isFetching ? (
+            <div className="mx-auto">
+              <RefreshIcon className="w-10 h-10 animate-spin" />
+            </div>
+          ) : (
+            <RenderButton
+              nextStep={nextStep}
+              prevStep={prevStep}
+              step={step}
+              goToLogin={goToLogin}
+              isValid={isValid}
+              submitForm={submitForm}
+            />
+          )}
         </form>
       </ItemCard>
     </div>

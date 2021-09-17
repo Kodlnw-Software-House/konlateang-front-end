@@ -34,7 +34,7 @@ const registerTwo = (props) => {
         {props.citizenIdError && (
           <label className="label">
             <span className="label-text text-error">
-              โปรดระบุเลขประจำตัวประชาชน 13 หลัก
+              โปรดระบุเลขประจำตัวประชาชนทั้ง 13 หลัก
             </span>
           </label>
         )}
@@ -45,12 +45,14 @@ const registerTwo = (props) => {
           type="text"
           placeholder="ชื่อจริง"
           className={fNameInputClasses}
-          {...props.register("fName", { required: true, maxLength: 80 })}
+          {...props.register("fName", { required: true, maxLength: 45 })}
         />
         {props.fNameError && (
           <label className="label">
             <span className="label-text text-error">
-              โปรดระบุชื่อจริงให้ถูกต้อง
+              {props.fNameError.type === "required"
+                ? "โปรดระบุชื่อจริง"
+                : "ชื่อจริงต้องมีขนาดไม่เกิน 45 ตัวอักษร"}
             </span>
           </label>
         )}
@@ -61,11 +63,15 @@ const registerTwo = (props) => {
           type="text"
           placeholder="นามสกุล"
           className={lNameInputClasses}
-          {...props.register("lName", { required: true, maxLength: 80 })}
+          {...props.register("lName", { required: true, maxLength: 45 })}
         />
         {props.lNameError && (
           <label className="label">
-            <span className="label-text text-error">โปรดระบุนามสกุล</span>
+            <span className="label-text text-error">
+              {props.lNameError.type === "required"
+                ? "โปรดระบุนามสกุล"
+                : "นามกสุลต้องมีขนาดไม่เกิน 45 ตัวอักษร"}
+            </span>
           </label>
         )}
         <label htmlFor="dob" className="label">
@@ -79,7 +85,7 @@ const registerTwo = (props) => {
         {props.dobError && (
           <label className="label">
             <span className="label-text text-error">
-              โปรดระบุวันเดือนปีเกิดของคุณ
+              โปรดระบุ วันเดือนปีเกิด ของคุณ
             </span>
           </label>
         )}
@@ -97,7 +103,7 @@ const registerTwo = (props) => {
         />
         {props.ageError && (
           <label className="label">
-            <span className="label-text">โปรดระบุวันเดือนปีเกิด</span>
+            <span className="label-text">คุณต้องมีอายุอย่างน้อย 1 ปี</span>
           </label>
         )}
       </div>
