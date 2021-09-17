@@ -1,69 +1,40 @@
-import useInputValidation from "../hooks/use-input-validation";
-import {
-  emailValidate,
-  passwordValidate,
-} from "../components/functions/form-validation";
 import Card from "../components/ui/Card";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 import { useState } from "react";
-import { useDispatch } from "react-redux";
-import { uiActions } from "../redux/ui-slice";
+// import { useDispatch } from "react-redux";
+// import { uiActions } from "../redux/ui-slice";
+import { Link } from "react-router-dom";
+import { useForm } from "react-hook-form";
 const HospitalLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
-  const dispatch = useDispatch();
-
+  // const dispatch = useDispatch();
   const {
-    value: enteredEmail,
-    inputChangeHandler: emailChangeHandler,
-    hasError: emailHasError,
-    valueIsValid: enteredEmailIsValid,
-    inputBlurHandler: emailBlurHandler,
-    reset: resetEmail,
-  } = useInputValidation(emailValidate);
-  const {
-    value: enteredPass,
-    inputChangeHandler: passChangeHandler,
-    hasError: passHasError,
-    valueIsValid: enteredPassIsValid,
-    inputBlurHandler: passBlurHandler,
-    reset: resetPass,
-  } = useInputValidation(passwordValidate);
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onBlur",
+  });
 
   const toggleVisible = () => {
     setIsVisible((prev) => !prev);
   };
 
-  let formIsValid = false;
-
-  if (enteredPassIsValid && enteredEmailIsValid) {
-    formIsValid = true;
-  }
-
-  const formSubmitHandler = (e) => {
-    e.preventDefault();
-    emailBlurHandler(true);
-    passBlurHandler(true);
-
-    if (!formIsValid) {
-      console.log("This is Invalid Form");
-      return;
-    }
-    dispatch(
-      uiActions.setNoti({
-        status: "success",
-        title: "Login Successful",
-      })
-    );
-    resetEmail();
-    resetPass();
+  const formSubmitHandler = (data) => {
+    console.log("data", data);
+    // if (isValid) {
+    //   dispatch(userLogin({ email: data.email, password: data.password }));
+    // }
   };
-  const emailInputClass = emailHasError
-    ? "input input-sm  input-error"
-    : "input input-sm input-primary";
-  const passInputClass = passHasError
-    ? "w-full input input-sm  input-error"
+
+  const emailInputClass = errors.email
+    ? "input  input-sm input-error"
+    : "input input-primary input-sm";
+  const passInputClass = errors.password
+    ? "w-full input input-sm input-error"
     : "w-full input input-sm input-primary";
   const passwordVisible = isVisible ? "text" : "password";
+
   return (
     <div
       data-theme="hospitalTheme"
@@ -78,7 +49,7 @@ const HospitalLogin = () => {
         </div>
         {/* Form */}
         <div>
-          <form onSubmit={formSubmitHandler}>
+          <form onSubmit={handleSubmit(formSubmitHandler)}>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">ชื่อผู้ใช้</span>
@@ -87,22 +58,23 @@ const HospitalLogin = () => {
                 type="email"
                 name="email"
                 id="email"
-                value={enteredEmail}
-                onChange={emailChangeHandler}
-                onBlur={emailBlurHandler}
                 required
-                placeholder="username"
+                {...register("email", {
+                  required: true,
+                  pattern: /^\S+@\S+$/i,
+                })}
+                placeholder="username หรือ email"
                 className={emailInputClass}
               />
-              {emailHasError && (
+              {errors.email && (
                 <label className="label">
-                  <span className="label-text text-warning">
-                    โปรดตรวจสอบอีเมล
+                  <span className="label-text text-error">
+                    {errors.email.type === "required"
+                      ? "โปรดระบุอีเมล"
+                      : "โปรดระบุอีเมลให้ถูกต้อง"}
                   </span>
                 </label>
               )}
-            </div>
-            <div className="form-control">
               <label className="label">
                 <span className="label-text">รหัสผ่าน</span>
               </label>
@@ -111,9 +83,7 @@ const HospitalLogin = () => {
                   type={passwordVisible}
                   name="password"
                   id="password"
-                  value={enteredPass}
-                  onChange={passChangeHandler}
-                  onBlur={passBlurHandler}
+                  {...register("password", { required: true })}
                   required
                   placeholder="password"
                   className={passInputClass}
@@ -123,15 +93,15 @@ const HospitalLogin = () => {
                   onClick={toggleVisible}
                 >
                   {!isVisible ? (
-                    <EyeIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
-                  ) : (
                     <EyeOffIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
+                  ) : (
+                    <EyeIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
                   )}
                 </div>
               </div>
-              {passHasError && (
+              {errors.password && (
                 <label className="label">
-                  <span className="label-text text-warning">
+                  <span className="label-text text-error">
                     โปรดตรวจสอบรหัสผ่าน
                   </span>
                 </label>
@@ -141,12 +111,22 @@ const HospitalLogin = () => {
             {/* submit button */}
             <div className="pt-3">
               <button
-                disabled={!formIsValid}
+                disabled={!isValid}
                 type="submit"
                 className="btn btn-primary btn-sm btn-block text-lg"
               >
                 เข้าสู่ระบบ
               </button>
+            </div>
+            <div className="mt-3 p-2">
+              <p className="text-center">
+                <Link
+                  className="text-info font-semibold hover:text-accent-focus hover:underline"
+                  to="/"
+                >
+                  กลับหน้าหลัก
+                </Link>
+              </p>
             </div>
           </form>
         </div>

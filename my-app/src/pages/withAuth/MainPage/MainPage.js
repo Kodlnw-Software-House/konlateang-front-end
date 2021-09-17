@@ -1,5 +1,5 @@
 import ItemCard from "../../../components/ui/ItemCard";
-import useFetch from "../../../hooks/use-fetch";
+import { useFetch } from "../../../hooks/use-fetch";
 import CovidInfo from "../../../components/MainPage/Covid19Info";
 import ActiveHospital from "../../../components/MainPage/ActiveHospital";
 import Card from "../../../components/ui/Card";
@@ -9,20 +9,28 @@ import {
   AdjustmentsIcon,
 } from "@heroicons/react/outline";
 const MainPage = () => {
-  const { data: covidData, loading } = useFetch(
-    "https://covid19.ddc.moph.go.th/api/Cases/today-cases-all"
-  );
-
+  const {
+    data: covidData,
+    loading,
+    error,
+  } = useFetch({
+    method: "get",
+    baseURL: "https://covid19.ddc.moph.go.th/api/Cases",
+    url: "/today-cases-all",
+  });
   return (
     // Covid19 Todays
     <div>
       <ItemCard>
-        {loading && (
+        {loading ? (
           <div className="mx-auto">
             <RefreshIcon className="w-10 h-10 animate-spin" />
           </div>
-        )}
-        {!loading && covidData && (
+        ) : error ? (
+          <div className="mx-auto">
+            <div className="w-10 h-10">{error}</div>
+          </div>
+        ) : (
           <CovidInfo
             newCase={covidData[0].new_case}
             updateDate={covidData[0].update_date}
@@ -83,7 +91,9 @@ const MainPage = () => {
       <div className="my-2">
         <div className="btn-group justify-center">
           <button className="btn btn-sm btn-outline btn-primary">Prev</button>
-          <button className="btn btn-sm btn-ghost btn-primary btn-active">1</button>
+          <button className="btn btn-sm btn-ghost btn-primary btn-active">
+            1
+          </button>
           <button className="btn btn-sm btn-ghost btn-primary">2</button>
           <button className="btn btn-sm btn-ghost btn-primary">3</button>
           <button className="btn btn-sm btn-ghost btn-primary">4</button>

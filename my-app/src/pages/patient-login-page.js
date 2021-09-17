@@ -1,75 +1,68 @@
-import useInputValidation from "../hooks/use-input-validation";
-import {
-  emailValidate,
-  passwordValidate,
-} from "../components/functions/form-validation";
 import Card from "../components/ui/Card";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../redux/ui-slice.js";
-import { AuthAction } from "../redux/auth-slice";
-
+import { AuthAction, AuthSelecter, userLogin } from "../redux/auth-slice";
+import { useForm } from "react-hook-form";
 const PatientLogin = () => {
   const dispatch = useDispatch();
   const [isVisible, setIsVisible] = useState(false);
-
-
+  const { isSuccess, isError, errorMessage } = useSelector(AuthSelecter);
   const {
-    value: enteredEmail,
-    inputChangeHandler: emailChangeHandler,
-    hasError: emailHasError,
-    valueIsValid: enteredEmailIsValid,
-    inputBlurHandler: emailBlurHandler,
-    reset: resetEmail,
-  } = useInputValidation(emailValidate);
-  const {
-    value: enteredPass,
-    inputChangeHandler: passChangeHandler,
-    hasError: passHasError,
-    valueIsValid: enteredPassIsValid,
-    inputBlurHandler: passBlurHandler,
-    reset: resetPass,
-  } = useInputValidation(passwordValidate);
+    register,
+    handleSubmit,
+    formState: { errors, isValid },
+  } = useForm({
+    mode: "onBlur",
+  });
 
   const toggleVisible = () => {
     setIsVisible((prev) => !prev);
   };
 
-  let formIsValid = false;
-
-  if (enteredPassIsValid && enteredEmailIsValid) {
-    formIsValid = true;
-  }
-
-  const formSubmitHandler = (e) => {
-    e.preventDefault();
-    emailBlurHandler(true);
-    passBlurHandler(true);
-
-    if (!formIsValid) {
-      console.log("This is Invalid Form");
-      return;
+  useEffect(() => {
+    let mounted = true;
+    if (isSuccess) {
+      if (mounted) {
+        dispatch(
+          uiActions.setNoti({
+            status: "success",
+            title: "Login Successful",
+          })
+        );
+        dispatch(AuthAction.clearStatus());
+        dispatch(AuthAction.userLoggedIn());
+      }
     }
-    dispatch(
-      uiActions.setNoti({
-        status: "success",
-        title: "Login Successful",
-      })
-    );
-    dispatch(
-      AuthAction.login({
-        email: enteredEmail,
-      })
-    );
-    resetEmail();
-    resetPass();
+    if (isError) {
+      if (mounted) {
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: "โปรดตรวจสอบอีเมล/พาสเวิร์ดอีกครั้ง",
+          })
+        );
+        dispatch(AuthAction.clearStatus());
+      }
+      return function cleanup() {
+        mounted = false;
+      };
+    }
+  }, [isError, isSuccess]);
+
+  const formSubmitHandler = (data) => {
+    console.log("data", data);
+    if (isValid) {
+      dispatch(userLogin({ email: data.email, password: data.password }));
+    }
   };
-  const emailInputClass = emailHasError
+
+  const emailInputClass = errors.email
     ? "input input-sm input-error"
     : "input input-sm input-info";
-  const passInputClass = passHasError
+  const passInputClass = errors.password
     ? "w-full input input-sm input-error"
     : "w-full input input-sm input-info";
   const passwordVisible = isVisible ? "text" : "password";
@@ -83,7 +76,7 @@ const PatientLogin = () => {
           </span>
         </div>
         {/* Form */}
-        <form onSubmit={formSubmitHandler}>
+        <form onSubmit={handleSubmit(formSubmitHandler)}>
           <div className="form-control">
             <label className="label">
               <span className="label-text">Username</span>
@@ -92,17 +85,17 @@ const PatientLogin = () => {
               type="email"
               name="email"
               id="email"
-              value={enteredEmail}
-              onChange={emailChangeHandler}
-              onBlur={emailBlurHandler}
               required
-              placeholder="username"
+              {...register("email", { required: true, pattern: /^\S+@\S+$/i })}
+              placeholder="username หรือ email"
               className={emailInputClass}
             />
-            {emailHasError && (
+            {errors.email && (
               <label className="label">
-                <span className="label-text text-warning">
-                  โปรดตรวจสอบอีเมล
+                <span className="label-text text-error">
+                  {errors.email.type === "required"
+                    ? "โปรดระบุอีเมล"
+                    : "โปรดระบุอีเมลให้ถูกต้อง"}
                 </span>
               </label>
             )}
@@ -114,9 +107,7 @@ const PatientLogin = () => {
                 type={passwordVisible}
                 name="password"
                 id="password"
-                value={enteredPass}
-                onChange={passChangeHandler}
-                onBlur={passBlurHandler}
+                {...register("password", { required: true })}
                 required
                 placeholder="password"
                 className={passInputClass}
@@ -126,15 +117,15 @@ const PatientLogin = () => {
                 onClick={toggleVisible}
               >
                 {!isVisible ? (
-                  <EyeIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
-                ) : (
                   <EyeOffIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
+                ) : (
+                  <EyeIcon className="btn-sm btn-ghost w-10 rounded-l-none" />
                 )}
               </div>
             </div>
-            {passHasError && (
+            {errors.password && (
               <label className="label">
-                <span className="label-text text-warning">
+                <span className="label-text text-error">
                   โปรดตรวจสอบรหัสผ่าน
                 </span>
               </label>
@@ -144,7 +135,7 @@ const PatientLogin = () => {
           {/* submit button */}
           <div className="pt-3">
             <button
-              disabled={!formIsValid}
+              disabled={!isValid}
               type="submit"
               className="btn btn-primary btn-sm btn-block text-lg"
             >
