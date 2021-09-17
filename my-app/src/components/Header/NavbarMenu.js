@@ -1,13 +1,24 @@
 import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AuthAction } from "../../redux/auth-slice";
+import userService from "../functions/services/user-service";
 const NavBarMenu = (props) => {
   const distpatch = useDispatch();
   const { path, url } = useRouteMatch();
+
   const logoutHandler = () => {
     props.toggleMenu();
-    distpatch(AuthAction.logout());
+    let token = localStorage.getItem("user");
+    userService
+      .user_logout(token)
+      .then(() => {
+        distpatch(AuthAction.userLogedOut());
+      })
+      .catch((e) => {
+        console.log(e.response.data.error);
+      });
   };
+
   return (
     <div className="flex flex-col justify-center text-center space-y-2">
       <Link

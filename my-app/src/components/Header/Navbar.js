@@ -34,11 +34,13 @@ const Navbar = () => {
         </div>
         <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
           <div className="rounded-full w-14 h-14 m-1 ">
-            <img src="https://i.pravatar.cc/500?img=32" alt="profile_pic" />
+            <img
+              src={process.env.REACT_APP_BACKEND_MAIN_URL + "patient/avatar/1"}
+              alt="profile_pic"
+            />
           </div>
         </Link>
       </div>
-
     </header>
   );
 };
