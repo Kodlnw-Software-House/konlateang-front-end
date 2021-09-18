@@ -41,7 +41,7 @@ const PatientLogin = () => {
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: "โปรดตรวจสอบอีเมล/พาสเวิร์ดอีกครั้ง",
+            title: errorMessage,
           })
         );
         dispatch(AuthAction.clearStatus());

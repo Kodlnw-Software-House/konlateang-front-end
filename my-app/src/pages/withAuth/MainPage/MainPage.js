@@ -32,12 +32,12 @@ const MainPage = () => {
           </div>
         ) : (
           <CovidInfo
-            newCase={covidData[0].new_case}
-            updateDate={covidData[0].update_date}
-            newRecovered={covidData[0].new_recovered}
-            totalRecovered={covidData[0].total_recovered}
-            newDeath={covidData[0].new_death}
-            totalDeath={covidData[0].total_death}
+            newCase={covidData[0]?.new_case}
+            updateDate={covidData[0]?.update_date}
+            newRecovered={covidData[0]?.new_recovered}
+            totalRecovered={covidData[0]?.total_recovered}
+            newDeath={covidData[0]?.new_death}
+            totalDeath={covidData[0]?.total_death}
           />
         )}
       </ItemCard>

@@ -100,6 +100,9 @@ const AuthSlice = createSlice({
       state.token = null;
       state.isLoggedIn = false;
     },
+    updateUser(state, action) {
+      state.user = action.payload.user;
+    },
   },
   extraReducers: {
     [userLogin.fulfilled]: (state, { payload }) => {

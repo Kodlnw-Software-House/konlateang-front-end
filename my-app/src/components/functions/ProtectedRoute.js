@@ -1,8 +1,12 @@
 import { Route, Redirect } from "react-router";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../redux/ui-slice";
-const ProtectedRoute = ({ isAuth, component: Component, ...rest }) => {
-    
+const ProtectedRoute = ({
+  isAuth,
+  component: Component,
+  userData,
+  ...rest
+}) => {
   const dispatch = useDispatch();
 
   if (!isAuth) {
@@ -18,7 +22,7 @@ const ProtectedRoute = ({ isAuth, component: Component, ...rest }) => {
       {...rest}
       render={(props) => {
         if (isAuth) {
-          return <Component />;
+          return <Component isAuth={isAuth} userData={userData} />;
         } else {
           return (
             <Redirect to={{ pathName: "/", state: { from: props.location } }} />

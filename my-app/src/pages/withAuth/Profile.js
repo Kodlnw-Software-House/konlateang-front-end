@@ -2,10 +2,17 @@ import { withRouter } from "react-router";
 import ItemCard from "../../components/ui/ItemCard";
 import { PhotographIcon } from "@heroicons/react/outline";
 import Modal from "../../components/ui/Modal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import BookingHistory from "../../components/ProfilePage/BookingHistory";
-const Profile = () => {
+import default_profile from "../../assets/default_profile.png";
+
+const Profile = (props) => {
   const [isModal, toggleModal] = useState(false);
+  const [userData, setUserData] = useState(props.userData);
+  console.log(userData);
+  useEffect(() => {
+    setUserData(props.userData);
+  }, [props.userData]);
 
   const openModal = () => {
     toggleModal(true);
@@ -81,8 +88,15 @@ const Profile = () => {
             <div className="w-24 h-24">
               <img
                 className="rounded-full"
-                src="https://i.pravatar.cc/500?img=32"
+                src={
+                  props.userData
+                    ? `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${props.userData.patient_id}`
+                    : default_profile
+                }
                 alt="profile_pic"
+                onError={(e) =>
+                  (e.target.onerror = null)((e.target.src = default_profile))
+                }
               />
             </div>
             <button className="btn btn-sm btn-ghost btn-block text-secondary-focus">
@@ -97,12 +111,13 @@ const Profile = () => {
               <div className="collapse-title text-xl font-medium">
                 ข้อมูลส่วนตัว
               </div>
-              <div className="collapse-content">
-                <p>yinyin.domo@hotmail.com</p>
-                <p>ณัชนนท์ มนต์ติกานนท์</p>
-                <p>ณัชนนท์ มนต์ติกานนท์</p>
-                <p>ณัชนนท์ มนต์ติกานนท์</p>
-                <p>ณัชนนท์ มนต์ติกานนท์</p>
+              <div className="collapse-content space-y-1">
+                <p>{`อีเมล: ${userData?.email}`}</p>
+                <p>{`ชื่อจริง-นามสกุล: ${userData?.fname} ${userData?.lname}`}</p>
+                <p>{`อายุ: ${userData?.age} ปี`}</p>
+                <p>{`เลขประจำตัวประชาชน: ${userData?.citizen_id}`}</p>
+                <p>{`วันเดือนปีเกิด: ${userData?.dob}`}</p>
+                <p>{`ที่อยู่ปัจจุบัน: ${userData?.address}`}</p>
               </div>
             </div>
           </div>
@@ -116,12 +131,6 @@ const Profile = () => {
       <div className="m-4 p-1">
         <p className="text-xl">ประวัติการจองเตียง :</p>
       </div>
-      <BookingHistory
-        hospitalName="โรงพยาบาลนครธน"
-        bookingDate="20 สิงหาคม 2564 เวลา 18.05"
-        bookingStatus="จองสำเร็จรอดำเนินการ"
-        pic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-      />
       <BookingHistory
         hospitalName="โรงพยาบาลนครธน"
         bookingDate="20 สิงหาคม 2564 เวลา 18.05"

@@ -3,7 +3,8 @@ import { useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
 import Modal from "../ui/Modal";
 import NavBarMenu from "./NavbarMenu";
-const Navbar = () => {
+import default_profile from "../../assets/default_profile.png";
+const Navbar = (props) => {
   const [showMenu, setMenu] = useState(false);
   const { path } = useRouteMatch();
   const toggleMenu = () => {
@@ -29,14 +30,21 @@ const Navbar = () => {
 
       <div className="space-x-1">
         <div className="text-right leading-5">
-          <p>สวัสดี, ณัชนนท์</p>
-          <p>helloword@example.com</p>
+          <p>สวัสดี, {props.userData?.fname}</p>
+          <p>{props.userData?.email}</p>
         </div>
         <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
           <div className="rounded-full w-14 h-14 m-1 ">
             <img
-              src={process.env.REACT_APP_BACKEND_MAIN_URL + "patient/avatar/1"}
+              src={
+                props.userData
+                  ? `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${props.userData.patient_id}`
+                  : default_profile
+              }
               alt="profile_pic"
+              onError={(e) =>
+                (e.target.onerror = null)((e.target.src = default_profile))
+              }
             />
           </div>
         </Link>
