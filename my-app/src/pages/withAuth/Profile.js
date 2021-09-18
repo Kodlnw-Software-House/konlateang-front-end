@@ -2,14 +2,19 @@ import { withRouter } from "react-router";
 import ItemCard from "../../components/ui/ItemCard";
 import { PhotographIcon } from "@heroicons/react/outline";
 import Modal from "../../components/ui/Modal";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import BookingHistory from "../../components/ProfilePage/BookingHistory";
 import default_profile from "../../assets/default_profile.png";
-
+import userService from "../../components/functions/services/user-service";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../redux/ui-slice";
 const Profile = (props) => {
+  const dispatch = useDispatch();
+  const newImgRef = useRef("");
   const [isModal, toggleModal] = useState(false);
   const [userData, setUserData] = useState(props.userData);
-  console.log(userData);
+  const [newImg, setNewImg] = useState("");
+
   useEffect(() => {
     setUserData(props.userData);
   }, [props.userData]);
@@ -20,6 +25,28 @@ const Profile = (props) => {
   const modalHandler = () => {
     toggleModal(false);
   };
+  const handleChange = (e) => {
+    setNewImg(e.target.files[0]);
+  };
+
+  const uploadNewImg = () => {
+    const data = new FormData();
+    data.append("avatar", newImg);
+    userService
+      .uploadNewPicture(data)
+      .then((res) => {
+        console.log(res.data);
+      })
+      .then(() => {
+        dispatch(
+          uiActions.setNoti({
+            status: "success",
+            title: "Upload file success",
+          })
+        );
+      });
+  };
+
   return (
     <div>
       {isModal && (
@@ -94,15 +121,32 @@ const Profile = (props) => {
                     : default_profile
                 }
                 alt="profile_pic"
-                onError={(e) =>
-                  (e.target.onerror = null)((e.target.src = default_profile))
-                }
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = default_profile;
+                }}
               />
             </div>
-            <button className="btn btn-sm btn-ghost btn-block text-secondary-focus">
+            {newImg ? (
+              <div>
+                <button className="btn btn-warning btn-xs">ยกเลิก</button>
+                <button
+                  className="btn btn-success btn-xs"
+                  onClick={uploadNewImg}
+                >
+                  บันทึก
+                </button>
+              </div>
+            ) : null}
+            <input type="file" hidden ref={newImgRef} onChange={handleChange} />
+            <button
+              className="btn btn-sm btn-ghost btn-block text-secondary-focus"
+              onClick={() => newImgRef.current.click()}
+            >
               <PhotographIcon className="h-6 w-6 inline-block " /> Edit
             </button>
           </div>
+
           <div className="flex-1">
             <div
               tabIndex="0"

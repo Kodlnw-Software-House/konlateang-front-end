@@ -11,6 +11,7 @@ import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthAction } from "./redux/auth-slice";
 import userService from "./components/functions/services/user-service";
 import "./index.css";
+import { uiActions } from "./redux/ui-slice";
 
 function App() {
   const dispatch = useDispatch();
@@ -18,7 +19,7 @@ function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const notification = useSelector((state) => state.ui.notification);
   const currentUser = useSelector((state) => state.auth.user);
-  
+
   useEffect(() => {
     if (!currentUser && isLoggedIn) {
       userService
@@ -28,7 +29,13 @@ function App() {
           dispatch(AuthAction.updateUser({ user }));
         })
         .catch((err) => {
-          console.log(err);
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: err,
+            })
+          );
+          dispatch(AuthAction.userLogedOut());
         });
     }
   }, []);

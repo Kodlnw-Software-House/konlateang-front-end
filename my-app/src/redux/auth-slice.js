@@ -99,6 +99,7 @@ const AuthSlice = createSlice({
       localStorage.removeItem("user");
       state.token = null;
       state.isLoggedIn = false;
+      state.user = null;
     },
     updateUser(state, action) {
       state.user = action.payload.user;

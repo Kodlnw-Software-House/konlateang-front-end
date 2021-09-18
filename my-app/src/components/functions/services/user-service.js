@@ -11,6 +11,14 @@ class userService {
   fetchCurrentPatientProfile() {
     return http.get("/patient/me");
   }
+  uploadNewPicture(data, token = userToken) {
+    return http.post("/patient/upload", data, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
   // anything else
 }
 
