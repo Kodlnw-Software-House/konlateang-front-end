@@ -1,19 +1,21 @@
 import { withRouter } from "react-router";
 import ItemCard from "../../components/ui/ItemCard";
-import { PhotographIcon } from "@heroicons/react/outline";
 import Modal from "../../components/ui/Modal";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import BookingHistory from "../../components/ProfilePage/BookingHistory";
 import default_profile from "../../assets/default_profile.png";
 import userService from "../../components/functions/services/user-service";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../redux/ui-slice";
+import UploadImage from "../../components/ProfilePage/UploadImage";
+import { PhotographIcon } from "@heroicons/react/outline";
+import EditPersonalData from "../../components/ProfilePage/EditPersonalData";
 const Profile = (props) => {
   const dispatch = useDispatch();
-  const newImgRef = useRef("");
-  const [isModal, toggleModal] = useState(false);
+  const [isEditData, toggleModal] = useState(false);
+  const [isEditPicture, setIsEditPicture] = useState(false);
   const [userData, setUserData] = useState(props.userData);
-  const [newImg, setNewImg] = useState("");
+  const [newImg, setNewImg] = useState({ preview: "", raw: "" });
 
   useEffect(() => {
     setUserData(props.userData);
@@ -26,12 +28,17 @@ const Profile = (props) => {
     toggleModal(false);
   };
   const handleChange = (e) => {
-    setNewImg(e.target.files[0]);
+    setNewImg({
+      preview: URL.createObjectURL(e.target.files[0]),
+      raw: e.target.files[0],
+    });
   };
-
+  const toggleEditPicture = () => {
+    setIsEditPicture((prev) => !prev);
+  };
   const uploadNewImg = () => {
     const data = new FormData();
-    data.append("avatar", newImg);
+    data.append("avatar", newImg.raw);
     userService
       .uploadNewPicture(data)
       .then((res) => {
@@ -41,71 +48,37 @@ const Profile = (props) => {
         dispatch(
           uiActions.setNoti({
             status: "success",
-            title: "Upload file success",
+            title: "บันทึกรูปภาพเรียบร้อย",
           })
         );
+      })
+      .finally(() => {
+        toggleEditPicture();
       });
   };
-
+  const cancelUploadFile = () => {
+    setNewImg({ preview: "", raw: "" });
+    toggleEditPicture();
+  };
   return (
     <div>
-      {isModal && (
+      {isEditData && (
         <Modal type="DECISION" closeModal={modalHandler}>
-          <div>
-            <div className="form-control max-h-96 overflow-scroll">
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                placeholder="username"
-                className="input mx-1 input-sm"
-              />
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                placeholder="username"
-                className="input mx-1 input-sm"
-              />
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                placeholder="username"
-                className="input mx-1 input-sm"
-              />
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                placeholder="username"
-                className="input mx-1 input-sm"
-              />
-              <label className="label">
-                <span className="label-text">Username</span>
-              </label>
-              <input
-                type="text"
-                placeholder="username"
-                className="input mx-1 input-sm"
-              />
-            </div>
-            <div className="flex flex-row justify-end space-x-3 pt-4">
-              <button
-                className="btn btn-outline btn-accent btn-sm"
-                onClick={modalHandler}
-              >
-                ยกเลิก
-              </button>
-              <button className="btn btn-primary btn-accent btn-sm">
-                ยืนยันการแก้ไข
-              </button>
-            </div>
-          </div>
+          <EditPersonalData modalHandler={modalHandler} />
+        </Modal>
+      )}
+      {isEditPicture && (
+        <Modal
+          type="DECISION"
+          closeModal={toggleEditPicture}
+          userData={userData}
+        >
+          <UploadImage
+            handleChange={handleChange}
+            calcelUploadFile={cancelUploadFile}
+            uploadFile={uploadNewImg}
+            previewImg={newImg.preview}
+          />
         </Modal>
       )}
       {/* user information */}
@@ -127,26 +100,13 @@ const Profile = (props) => {
                 }}
               />
             </div>
-            {newImg ? (
-              <div>
-                <button className="btn btn-warning btn-xs">ยกเลิก</button>
-                <button
-                  className="btn btn-success btn-xs"
-                  onClick={uploadNewImg}
-                >
-                  บันทึก
-                </button>
-              </div>
-            ) : null}
-            <input type="file" hidden ref={newImgRef} onChange={handleChange} />
             <button
               className="btn btn-sm btn-ghost btn-block text-secondary-focus"
-              onClick={() => newImgRef.current.click()}
+              onClick={toggleEditPicture}
             >
               <PhotographIcon className="h-6 w-6 inline-block " /> Edit
             </button>
           </div>
-
           <div className="flex-1">
             <div
               tabIndex="0"
@@ -179,7 +139,7 @@ const Profile = (props) => {
         hospitalName="โรงพยาบาลนครธน"
         bookingDate="20 สิงหาคม 2564 เวลา 18.05"
         bookingStatus="จองสำเร็จรอดำเนินการ"
-        pic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
+        pic={default_profile}
       />
     </div>
   );
