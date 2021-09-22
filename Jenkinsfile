@@ -48,7 +48,7 @@ spec:
     ENV_NAME = "${BRANCH_NAME == "master" ? "uat" : "${BRANCH_NAME}"}"
     SCANNER_HOME = tool 'konlateang-sonarqube'
     PROJECT_KEY = "konlateang-front-end"
-    PROJECT_NAME = "konlateang-back-end"
+    PROJECT_NAME = "konlateang-front-end"
   }
 
   // Start Pipeline
