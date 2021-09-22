@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: feconfig
+  namespace: {{ .Values.frontend.namespace }}
+data:
+  config.js: |
+    var config = (() => {
+      return {
+        "VUE_APP_API": "{{ .Values.extraEnv.BACK_API }}"
+      };
+    })();
