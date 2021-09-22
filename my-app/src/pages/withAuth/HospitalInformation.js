@@ -27,7 +27,7 @@ const HospitalInfo = (props) => {
   }, [location]);
 
   const getBack = () => {
-    history.push("/kon-la-tieng");
+    history.goBack();
   };
 
   return (

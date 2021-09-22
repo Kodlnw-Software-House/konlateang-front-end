@@ -3,11 +3,11 @@ import { useFetch } from "../../../hooks/use-fetch";
 import CovidInfo from "../../../components/MainPage/Covid19Info";
 import ActiveHospital from "../../../components/MainPage/ActiveHospital";
 import Card from "../../../components/ui/Card";
-import {
-  SearchCircleIcon,
-  RefreshIcon,
-  AdjustmentsIcon,
-} from "@heroicons/react/outline";
+import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+import IsolationService from "../../../components/functions/services/isolation-service";
+import { SearchCircleIcon, AdjustmentsIcon } from "@heroicons/react/outline";
+import { useEffect, useState } from "react";
+
 const MainPage = () => {
   const {
     data: covidData,
@@ -18,14 +18,37 @@ const MainPage = () => {
     baseURL: "https://covid19.ddc.moph.go.th/api/Cases",
     url: "/today-cases-all",
   });
+  const [isFetchIsolation, setisFetchIsolation] = useState(false);
+  const [isolationData, setIsolationData] = useState([]);
+  const [page, setPage] = useState({ pagSize: 4, pageNo: 1, search: "" });
+  const [pages] = useState(Math.round(isolationData.length / page.pagSize));
+
+  useEffect(() => {
+    setisFetchIsolation(true);
+    IsolationService.getAllIsolation(page.pagSize, page.pageNo, page.search)
+      .then((response) => {
+        console.log(response.data.result);
+        setIsolationData(response.data.result);
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+      .finally(() => {
+        setisFetchIsolation(false);
+      });
+  }, [page.pagSize, page.pageNo, page.search]);
+
+  const nextPage = () => {};
+  const prevPage = () =>{};
+  const changePage = (event) =>{};
+  const getPaginationData = () => {}
+  const getPaginationGroup = () => {}
   return (
     // Covid19 Todays
     <div>
       <ItemCard>
         {loading ? (
-          <div className="mx-auto">
-            <RefreshIcon className="w-10 h-10 animate-spin" />
-          </div>
+          <LoadingSpinner />
         ) : error ? (
           <div className="mx-auto">
             <div className="w-10 h-10">{error}</div>
@@ -65,27 +88,24 @@ const MainPage = () => {
         <Card>
           <p className="text-xl">ศูนย์พักคอยที่เปิดรับ</p>
         </Card>
-        <ActiveHospital
-          hospitalId="1"
-          hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-          hospitalName="โรงพยาบาลนครธน"
-          totalActiveBed="20"
-          hospitalAddress="เลขที่ 1 ซอยพระรามที่ 2 ซอย 56 แขวงแสมดำ บางขุนเทียน กรุงเทพฯ 10150"
-        />
-        <ActiveHospital
-          hospitalId="2"
-          hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-          hospitalName="โรงพยาบาลไทยพาณิชย์"
-          totalActiveBed="20"
-          hospitalAddress="เลขที่ 1 ซอยพระรามที่ 2 ซอย 56 แขวงแสมดำ บางขุนเทียน กรุงเทพฯ 10150"
-        />
-        <ActiveHospital
-          hospitalId="3"
-          hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-          hospitalName="โรงพยาบาลกสิกร"
-          totalActiveBed="20"
-          hospitalAddress="เลขที่ 1 ซอยพระรามที่ 2 ซอย 56 แขวงแสมดำ บางขุนเทียน กรุงเทพฯ 10150"
-        />
+        {isFetchIsolation ? (
+          <LoadingSpinner />
+        ) : isolationData ? (
+          isolationData.map((item, key) => {
+            return (
+              <ActiveHospital
+                key={key}
+                hospitalId={item.community_isolation_id}
+                hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
+                hospitalName={item.community_isolation_name}
+                totalActiveBed={item.available_bed}
+                hospitalAddress={item.address}
+              />
+            );
+          })
+        ) : (
+          <LoadingSpinner />
+        )}
       </div>
       {/* Pagination */}
       <div className="my-2">
