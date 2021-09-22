@@ -100,6 +100,7 @@ const PatientRegister = () => {
           age: formData.age,
           dob: formData.dob,
           address: formData.address,
+          tel: formData.telNo,
         })
       );
     }

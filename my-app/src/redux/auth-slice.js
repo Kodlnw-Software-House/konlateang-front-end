@@ -34,7 +34,7 @@ export const userLogin = createAsyncThunk(
 export const userRegister = createAsyncThunk(
   "auth/userRegister",
   async (
-    { email, password, citizen_id, fname, lname, age, dob, address },
+    { email, password, citizen_id, fname, lname, age, dob, address, tel },
     thunkAPI
   ) => {
     try {
@@ -47,6 +47,7 @@ export const userRegister = createAsyncThunk(
         age,
         dob,
         address,
+        tel,
       });
       let data = await response.data;
       if (response.status === 201) {
