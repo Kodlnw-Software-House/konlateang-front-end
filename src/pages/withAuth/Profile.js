@@ -106,8 +106,9 @@ const Profile = (props) => {
           <div className="flex-1">
             <div
               tabIndex="0"
-              className="collapse collapse-plus w-full hover:bg-gray-200 mb-2"
+              className="collapse collapse-arrow w-full hover:bg-gray-200 mb-2"
             >
+              <input type="checkbox" />
               <div className="collapse-title text-xl font-medium">
                 ข้อมูลส่วนตัว
               </div>
