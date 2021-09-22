@@ -20,8 +20,30 @@ const MainPage = () => {
   });
   const [isFetchIsolation, setisFetchIsolation] = useState(false);
   const [isolationData, setIsolationData] = useState([]);
+  const [enteredSearch, setEnteredSearch] = useState("");
   const [page, setPage] = useState({ pagSize: 4, pageNo: 1, search: "" });
-  const [pages] = useState(Math.round(isolationData.length / page.pagSize));
+  let items = [];
+
+  for (let i = 1; i <= isolationData.totalPage - 1; i++) {
+    items.push(
+      <div
+        key={i}
+        className={
+          page.pageNo === i
+            ? "btn btn-sm btn-ghost btn-primary btn-active"
+            : "btn btn-sm btn-ghost btn-primary"
+        }
+        onClick={() => {
+          setPage((prev) => ({
+            ...prev,
+            pageNo: i,
+          }));
+        }}
+      >
+        {i}
+      </div>
+    );
+  }
 
   useEffect(() => {
     setisFetchIsolation(true);
@@ -38,11 +60,30 @@ const MainPage = () => {
       });
   }, [page.pagSize, page.pageNo, page.search]);
 
-  const nextPage = () => {};
-  const prevPage = () =>{};
-  const changePage = (event) =>{};
-  const getPaginationData = () => {}
-  const getPaginationGroup = () => {}
+  const nextPage = () => {
+    if (page.pageNo < isolationData.totalPage - 1) {
+      setPage((prev) => ({
+        ...prev,
+        pageNo: prev.pageNo + 1,
+      }));
+    }
+  };
+  const prevPage = () => {
+    if (page.pageNo > 1) {
+      setPage((prev) => ({
+        ...prev,
+        pageNo: prev.pageNo - 1,
+      }));
+    }
+  };
+  const searchIsolation = (e) => {
+    e.preventDefault();
+    setPage((prev) => ({
+      ...prev,
+      search: enteredSearch,
+    }));
+    document.getElementById("isolation_list_title").scrollIntoView();
+  };
   return (
     // Covid19 Todays
     <div>
@@ -67,16 +108,21 @@ const MainPage = () => {
       {/* search input */}
       <Card>
         <div className="form-control shadow-sm">
-          <div className="relative">
+          <form className="relative" onSubmit={searchIsolation}>
             <input
               type="text"
               placeholder="ค้นหาศูนย์พักคอย"
               className="w-full pr-16 input input-sm rounded-box"
+              value={enteredSearch}
+              onChange={(e) => setEnteredSearch(e.target.value)}
             />
-            <button className="absolute top-0 right-0 rounded-l-none btn btn-sm btn-ghost">
+            <button
+              type="submit"
+              className="absolute top-0 right-0 rounded-l-none btn btn-sm btn-ghost"
+            >
               <SearchCircleIcon className="w-7 h-auto" />
             </button>
-          </div>
+          </form>
         </div>
         <div className="border-b-2 border-primary flex items-center py-2">
           <AdjustmentsIcon className="w-7 h-auto" />
@@ -86,12 +132,14 @@ const MainPage = () => {
       {/* active hospital list */}
       <div>
         <Card>
-          <p className="text-xl">ศูนย์พักคอยที่เปิดรับ</p>
+          <div id="isolation_list_title" className="text-xl">
+            ศูนย์พักคอยที่เปิดรับ
+          </div>
         </Card>
         {isFetchIsolation ? (
           <LoadingSpinner />
-        ) : isolationData ? (
-          isolationData.map((item, key) => {
+        ) : isolationData.rows ? (
+          isolationData.rows.map((item, key) => {
             return (
               <ActiveHospital
                 key={key}
@@ -108,16 +156,21 @@ const MainPage = () => {
         )}
       </div>
       {/* Pagination */}
-      <div className="my-2">
+      <div className="my-4">
         <div className="btn-group justify-center">
-          <button className="btn btn-sm btn-outline btn-primary">Prev</button>
-          <button className="btn btn-sm btn-ghost btn-primary btn-active">
-            1
+          <button
+            className="btn btn-sm btn-outline btn-primary"
+            onClick={prevPage}
+          >
+            Prev
           </button>
-          <button className="btn btn-sm btn-ghost btn-primary">2</button>
-          <button className="btn btn-sm btn-ghost btn-primary">3</button>
-          <button className="btn btn-sm btn-ghost btn-primary">4</button>
-          <button className="btn btn-sm btn-outline btn-primary">Next</button>
+          {items}
+          <button
+            className="btn btn-sm btn-outline btn-primary"
+            onClick={nextPage}
+          >
+            Next
+          </button>
         </div>
       </div>
     </div>
