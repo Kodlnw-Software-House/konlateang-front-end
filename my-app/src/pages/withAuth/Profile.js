@@ -40,7 +40,7 @@ const Profile = (props) => {
     const data = new FormData();
     data.append("avatar", newImg.raw);
     userService
-      .uploadNewPicture(data)
+      .uploadNewPicture(data, localStorage.getItem("user"))
       .then((res) => {
         console.log(res.data);
       })
@@ -64,15 +64,11 @@ const Profile = (props) => {
     <div>
       {isEditData && (
         <Modal type="DECISION" closeModal={modalHandler}>
-          <EditPersonalData modalHandler={modalHandler} />
+          <EditPersonalData modalHandler={modalHandler} userData={userData} />
         </Modal>
       )}
       {isEditPicture && (
-        <Modal
-          type="DECISION"
-          closeModal={toggleEditPicture}
-          userData={userData}
-        >
+        <Modal type="DECISION" closeModal={toggleEditPicture}>
           <UploadImage
             handleChange={handleChange}
             calcelUploadFile={cancelUploadFile}
@@ -119,8 +115,12 @@ const Profile = (props) => {
                 <p>{`อีเมล: ${userData?.email}`}</p>
                 <p>{`ชื่อจริง-นามสกุล: ${userData?.fname} ${userData?.lname}`}</p>
                 <p>{`อายุ: ${userData?.age} ปี`}</p>
+                <p>{`เพศ: ${
+                  userData?.gender ? userData?.gender : "ไม่ระบุ"
+                }`}</p>
                 <p>{`เลขประจำตัวประชาชน: ${userData?.citizen_id}`}</p>
                 <p>{`วันเดือนปีเกิด: ${userData?.dob}`}</p>
+                <p>{`เบอร์โทรศัพท์: ${userData?.tel}`}</p>
                 <p>{`ที่อยู่ปัจจุบัน: ${userData?.address}`}</p>
               </div>
             </div>
