@@ -1,15 +1,36 @@
-import ped from "../../assets/pedyim.jpg";
 import bg_hospital from "../../assets/bg_hospital.jpg";
-
+import jj from "../../assets/jj.jpg";
+import leng from "../../assets/leng.jpg";
+import gun from "../../assets/gun.jpg";
 const TeamMember = (props) => {
   return (
     <div className="flex-col hero-content my-2 lg:flex-row lg:justify-around">
-      <img src={ped} className="max-w-xs max-h-96 rounded-3xl" alt="pic" />
+      <img
+        src={props.img}
+        className="max-w-xs max-h-80 rounded-3xl"
+        alt="pic"
+      />
       <div className="text-center md:text-left">
         <h1 className="mb-2 text-3xl font-bold">{props.fname}</h1>
         <p className="text-xl mb-5">{props.task}</p>
-        <button className="btn btn-sm btn-ghost">Facebook</button>
-        <button className="btn btn-sm btn-ghost">Github</button>
+        <div className="space-x-2">
+          <a
+            href={props.fb}
+            target="_blank"
+            rel="noreferrer nofollow"
+            className="btn btn-md btn-primary"
+          >
+            Facebook
+          </a>
+          <a
+            href={props.gh}
+            target="_blank"
+            rel="noreferrer nofollow"
+            className="btn btn-md btn-secondary"
+          >
+            Github
+          </a>
+        </div>
       </div>
     </div>
   );
@@ -17,9 +38,27 @@ const TeamMember = (props) => {
 
 const AboutUs = () => {
   const team = [
-    { fname: "Nachanon Montikanon", task: "Front-end Developer" },
-    { fname: "Thanapat Leng", task: "Front-end Developer" },
-    { fname: "Punnapop Gun", task: "Front-end Developer" },
+    {
+      fname: "Nachanon Montikanon",
+      task: "Front-end Developer and Database Management",
+      img: jj,
+      fb: "https://www.facebook.com/nachanon.montikanon/",
+      gh: "https://github.com/kakajj",
+    },
+    {
+      fname: "Thanapat Loharattanavisid",
+      task: "Back-end Developer and Database Management",
+      img: leng,
+      fb: "https://www.facebook.com/lengg.tha",
+      gh: "https://github.com/lengleng9090",
+    },
+    {
+      fname: "Punnapop Chalor",
+      task: "DevSecOps Developer",
+      img: gun,
+      fb: "https://www.facebook.com/profile.php?id=100011436772819",
+      gh: "https://github.com/gun082544",
+    },
   ];
   return (
     <div>
@@ -59,7 +98,14 @@ const AboutUs = () => {
         </div>
         <div className="bg-blue-50">
           {team.map((item) => (
-            <TeamMember key={item.fname} fname={item.fname} task={item.task} />
+            <TeamMember
+              key={item.fname}
+              fname={item.fname}
+              task={item.task}
+              img={item.img}
+              fb={item.fb}
+              gh={item.gh}
+            />
           ))}
         </div>
       </div>
