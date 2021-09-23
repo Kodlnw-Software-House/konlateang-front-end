@@ -12,6 +12,7 @@ import { AuthAction } from "./redux/auth-slice";
 import userService from "./components/functions/services/user-service";
 import "./index.css";
 import { uiActions } from "./redux/ui-slice";
+import Health from "./pages/health";
 
 function App() {
   const dispatch = useDispatch();
@@ -62,6 +63,9 @@ function App() {
           </Route>
           <Route path="/registration" exact>
             <PatientRegister />
+          </Route>
+          <Route path="/health" exact>
+            <Health />
           </Route>
           <Route path="*">
             <Redirect to="/" />
