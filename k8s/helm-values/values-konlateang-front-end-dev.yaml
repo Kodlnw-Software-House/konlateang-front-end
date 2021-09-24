@@ -1,0 +1,17 @@
+frontend:
+  namespace: konlateang-service-dev
+  image: ghcr.io/kodlnw-software-house/front-end-service
+  tag: prd
+  replicas: 1
+  imagePullSecrets: kodlnw-registry
+  port: 80
+  healthCheckPath: "/health"
+ingress:
+  host: kodlnw-product.net
+  serviceType: ClusterIP
+  annotations:
+    kubernetes.io/ingress.class: nginx
+    nginx.ingress.kubernetes.io/rewrite-target: /$2
+extraEnv:
+  PORT: 8080
+  REACT_APP_BACKEND_MAIN_URL: http://localhost:3000/
