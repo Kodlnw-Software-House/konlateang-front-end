@@ -19,6 +19,11 @@ class userService {
       },
     });
   }
+  getBooking(token = userToken) {
+    return http.get("/patient/getBookings", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
   // anything else
 }
 

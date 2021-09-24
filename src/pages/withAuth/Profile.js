@@ -1,4 +1,5 @@
 import { withRouter } from "react-router";
+import { useHistory } from "react-router";
 import ItemCard from "../../components/ui/ItemCard";
 import Modal from "../../components/ui/Modal";
 import { useEffect, useState } from "react";
@@ -10,12 +11,36 @@ import { uiActions } from "../../redux/ui-slice";
 import UploadImage from "../../components/ProfilePage/UploadImage";
 import { PhotographIcon } from "@heroicons/react/outline";
 import EditPersonalData from "../../components/ProfilePage/EditPersonalData";
+import LoadingSpinner from "../../components/ui/LoadingSpinner";
+
 const Profile = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
   const [isEditData, toggleModal] = useState(false);
   const [isEditPicture, setIsEditPicture] = useState(false);
   const [userData, setUserData] = useState(props.userData);
   const [newImg, setNewImg] = useState({ preview: "", raw: "" });
+  const [bookings, setBookings] = useState([]);
+  const [isLoadBookings, setIsLoadBookings] = useState(false);
+
+  useEffect(() => {
+    setIsLoadBookings(true);
+    userService
+      .getBooking(localStorage.getItem("user"))
+      .then((response) => {
+        setBookings(response.data.bookings);
+      })
+      .catch((error) => {
+        console.log(error.response.data);
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: error.response.data.error,
+          })
+        );
+      })
+      .finally(setIsLoadBookings(false));
+  }, [dispatch]);
 
   useEffect(() => {
     setUserData(props.userData);
@@ -51,9 +76,15 @@ const Profile = (props) => {
             title: "บันทึกรูปภาพเรียบร้อย",
           })
         );
-      })
-      .finally(() => {
         toggleEditPicture();
+      })
+      .catch((error) => {
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: error.response.data,
+          })
+        );
       });
   };
   const cancelUploadFile = () => {
@@ -136,12 +167,37 @@ const Profile = (props) => {
       <div className="m-4 p-1">
         <p className="text-xl">ประวัติการจองเตียง :</p>
       </div>
-      <BookingHistory
-        hospitalName="โรงพยาบาลนครธน"
-        bookingDate="20 สิงหาคม 2564 เวลา 18.05"
-        bookingStatus="จองสำเร็จรอดำเนินการ"
-        pic={default_profile}
-      />
+      {isLoadBookings ? (
+        <LoadingSpinner />
+      ) : bookings.length === 0 ? (
+        <ItemCard>
+          <div className="text-center space-y-4">
+            <div className="text-xl">- ไม่พบประวัติการจองเตียง -</div>
+            <div>
+              <button
+                className="btn btn-md btn-success text-base"
+                onClick={() => {
+                  history.push("/");
+                }}
+              >
+                ค้นหาเตียงที่ยังว่าง
+              </button>
+            </div>
+          </div>
+        </ItemCard>
+      ) : (
+        bookings.map((item) => {
+          return (
+            <BookingHistory
+              key={item.community_isolation_id}
+              hospitalName={item.community_isolation_id}
+              bookingDate={item.create_at}
+              bookingStatus={item.status_id}
+              pic={default_profile}
+            />
+          );
+        })
+      )}
     </div>
   );
 };
