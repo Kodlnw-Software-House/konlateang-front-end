@@ -67,7 +67,7 @@ const PatientRegister = () => {
         mounted = false;
       };
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess, dispatch]);
 
   useEffect(() => {
     setValue("age", calculateDate(enteredDOB), { shouldValidate: true });

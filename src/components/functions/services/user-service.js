@@ -24,6 +24,15 @@ class userService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
+  bookingIsolation(id, token = userToken) {
+    return http.post(
+      "/patient/booking",
+      { community_isolation_id: id },
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
+  }
   // anything else
 }
 

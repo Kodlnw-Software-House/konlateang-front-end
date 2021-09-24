@@ -50,7 +50,7 @@ const PatientLogin = () => {
         mounted = false;
       };
     }
-  }, [isError, isSuccess]);
+  }, [isError, isSuccess,dispatch]);
 
   const formSubmitHandler = (data) => {
     console.log("data", data);

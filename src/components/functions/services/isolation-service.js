@@ -16,5 +16,10 @@ class IsolationService {
       }
     );
   }
+  getIsolationById(id, token = userToken) {
+    return http.get(`/isolation/get/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }
 export default new IsolationService();

@@ -6,7 +6,7 @@ const UploadImage = (props) => {
     <div>
       {props.previewImg ? (
         <div className="w-52 min-h-16 max-h-full m-3 p-3 mx-auto">
-          <img className="max-w-full max-h-full" src={props.previewImg} />
+          <img className="max-w-full max-h-full" src={props.previewImg} alt="preview" />
         </div>
       ) : null}
       <input
