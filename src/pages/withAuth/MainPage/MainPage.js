@@ -7,7 +7,6 @@ import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import IsolationService from "../../../components/functions/services/isolation-service";
 import { SearchCircleIcon, AdjustmentsIcon } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
-
 const MainPage = () => {
   const {
     data: covidData,
@@ -24,7 +23,14 @@ const MainPage = () => {
   const [page, setPage] = useState({ pagSize: 4, pageNo: 1, search: "" });
   let items = [];
 
-  for (let i = 1; i <= isolationData.totalPage - 1; i++) {
+  for (
+    let i = 1;
+    i <=
+    (isolationData.totalPage === 1
+      ? isolationData.totalPage
+      : isolationData.totalPage - 1);
+    i++
+  ) {
     items.push(
       <div
         key={i}
@@ -46,6 +52,8 @@ const MainPage = () => {
   }
 
   useEffect(() => {
+    // const pageNo = query.get("pageNo") ? query.get("pageNo") : page.pageNo;
+    // const searchText = query.get("search") ? query.get("search") : page.search;
     setisFetchIsolation(true);
     IsolationService.getAllIsolation(page.pagSize, page.pageNo, page.search)
       .then((response) => {
@@ -78,10 +86,12 @@ const MainPage = () => {
   };
   const searchIsolation = (e) => {
     e.preventDefault();
+
     setPage((prev) => ({
       ...prev,
       search: enteredSearch,
     }));
+
     document.getElementById("isolation_list_title").scrollIntoView();
   };
   return (
@@ -92,7 +102,7 @@ const MainPage = () => {
           <LoadingSpinner />
         ) : error ? (
           <div className="mx-auto">
-            <div className="w-10 h-10">{error}</div>
+            <div className="w-10 h-10">ไม่สามารถโหลดข้อมูล covid-19 ได้</div>
           </div>
         ) : (
           <CovidInfo

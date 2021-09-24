@@ -16,7 +16,7 @@ const CovidInfo = (props) => {
       <div className="shadow overflow-hidden stats">
         <div className="stat bg-green-200">
           <div className="stat-title">กลับบ้านวันนี้</div>
-          <div className="stat-value text-success">
+          <div className="stat-value text-success text-2xl md:text-4xl">
             {props.newRecovered.toLocaleString() + " "}
             <span className="font-light text-xl">ราย</span>
           </div>
@@ -43,7 +43,7 @@ const CovidInfo = (props) => {
       <div className="shadow overflow-hidden stats">
         <div className="stat bg-gray-300">
           <div className="stat-title">เสียชีวิตสะสม</div>
-          <div className="stat-value">
+          <div className="stat-value text-2xl md:text-4xl">
             {props.totalDeath.toLocaleString() + " "}
             <span className="font-light text-xl">ราย</span>
           </div>
