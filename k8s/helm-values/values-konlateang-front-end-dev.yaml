@@ -14,4 +14,4 @@ ingress:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
 extraEnv:
   PORT: 8080
-  REACT_APP_BACKEND_MAIN_URL: http://localhost:3000/
+  REACT_APP_BACKEND_MAIN_URL: http://konlateang-service-back-end-dev:3000/
