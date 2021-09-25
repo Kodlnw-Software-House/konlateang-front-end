@@ -1,6 +1,6 @@
 frontend:
   namespace: konlateang-service-uat
-  image: ghcr.io/kodlnw-software-house/front-end-service
+  image: ghcr.io/kodlnw-software-house/konlateang-front-end
   tag: uat
   replicas: 1
   imagePullSecrets: konlateang-ghcr
