@@ -64,7 +64,7 @@ spec:
           script {
             // Git clone repo and checkout branch as we put in parameter
             scmVars = git branch: "${BRANCH_NAME}",
-                          credentialsId: 'konlateang-ghcr',
+                          credentialsId: 'konlateang-deploy-key',
                           url: 'git@github.com:Kodlnw-Software-House/konlateang-front-end.git'
           } // End script
         } // End container
