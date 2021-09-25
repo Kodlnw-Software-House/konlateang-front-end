@@ -1,9 +1,9 @@
 frontend:
   namespace: konlateang-service-uat
   image: ghcr.io/kodlnw-software-house/front-end-service
-  tag: prd
+  tag: uat
   replicas: 1
-  imagePullSecrets: kodlnw-registry
+  imagePullSecrets: konlateang-ghcr
   port: 80
   healthCheckPath: "/health"
 ingress:
