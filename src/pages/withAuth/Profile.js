@@ -190,7 +190,7 @@ const Profile = (props) => {
           return (
             <BookingHistory
               key={item.community_isolation_id}
-              hospitalName={item.community_isolation_id}
+              hospitalName={item.community_isolation.community_isolation_name}
               bookingDate={item.create_at}
               bookingStatus={item.status_id}
               pic={default_profile}

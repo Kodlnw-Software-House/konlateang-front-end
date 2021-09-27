@@ -1,4 +1,10 @@
 import ItemCard from "../ui/ItemCard";
+function addZero(i) {
+  if (i < 10) {
+    i = "0" + i;
+  }
+  return i;
+}
 const BookingHistory = (props) => {
   const date = new Date(props.bookingDate);
   const [month, day, year] = [
@@ -6,7 +12,10 @@ const BookingHistory = (props) => {
     date.getDate(),
     date.getFullYear(),
   ];
-  const [hour, minutes] = [date.getHours(), date.getMinutes()];
+  const [hour, minutes] = [
+    addZero(date.getHours()),
+    addZero(date.getMinutes()),
+  ];
   const realMonth = [
     "มกราคม",
     "กุมภาพันธ์",
@@ -56,7 +65,7 @@ const BookingHistory = (props) => {
         </div>
         <div className="w-2/3 leading-7">
           <p className="text-xl">{props.hospitalName}</p>
-          <p>{`จองเมื่อ วันที่ ${day} ${realMonth} ${year + 543}`}</p>
+          <p>{`จองเมื่อ วันที่ ${day} ${realMonth} พ.ศ. ${year + 543}`}</p>
           <p>{`เวลา ${hour}:${minutes} นาที`}</p>
           <p className="text-sm mt-2">
             สถานะ: <span className={statusClasses}>{status}</span>

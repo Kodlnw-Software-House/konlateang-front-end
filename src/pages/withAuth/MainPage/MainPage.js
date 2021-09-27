@@ -5,7 +5,11 @@ import ActiveHospital from "../../../components/MainPage/ActiveHospital";
 import Card from "../../../components/ui/Card";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import IsolationService from "../../../components/functions/services/isolation-service";
-import { SearchCircleIcon, AdjustmentsIcon } from "@heroicons/react/outline";
+import {
+  SearchCircleIcon,
+  AdjustmentsIcon,
+  InformationCircleIcon,
+} from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
 const MainPage = () => {
   const {
@@ -22,13 +26,15 @@ const MainPage = () => {
   const [enteredSearch, setEnteredSearch] = useState("");
   const [page, setPage] = useState({ pagSize: 4, pageNo: 1, search: "" });
   let items = [];
-
+  console.log(isolationData);
   for (
     let i = 1;
     i <=
     (isolationData.totalPage === 1
-      ? isolationData.totalPage
-      : isolationData.totalPage - 1);
+      ? 1
+      : isolationData.totalPage === 0
+      ? 1
+      : isolationData.totalPage);
     i++
   ) {
     items.push(
@@ -40,10 +46,12 @@ const MainPage = () => {
             : "btn btn-sm btn-ghost btn-primary"
         }
         onClick={() => {
-          setPage((prev) => ({
-            ...prev,
-            pageNo: i,
-          }));
+          if (page.pageNo !== i) {
+            setPage((prev) => ({
+              ...prev,
+              pageNo: i,
+            }));
+          }
         }}
       >
         {i}
@@ -69,7 +77,7 @@ const MainPage = () => {
   }, [page.pagSize, page.pageNo, page.search]);
 
   const nextPage = () => {
-    if (page.pageNo < isolationData.totalPage - 1) {
+    if (page.pageNo < isolationData.totalPage) {
       setPage((prev) => ({
         ...prev,
         pageNo: prev.pageNo + 1,
@@ -148,7 +156,7 @@ const MainPage = () => {
         </Card>
         {isFetchIsolation ? (
           <LoadingSpinner />
-        ) : isolationData.rows ? (
+        ) : isolationData.rows && isolationData.rows.length !== 0 ? (
           isolationData.rows.map((item, key) => {
             return (
               <ActiveHospital
@@ -162,7 +170,18 @@ const MainPage = () => {
             );
           })
         ) : (
-          <LoadingSpinner />
+          <ItemCard>
+            <div className="flex flex-col justify-center space-y-2">
+              <div>
+                <InformationCircleIcon className="w-10 h-10 mx-auto" />
+              </div>
+              {page.search ? (
+                <div className="text-center">ไม่พบข้อมูลที่ค้นหา</div>
+              ) : (
+                <div className="text-center">ไม่พบข้อมูลในระบบ</div>
+              )}
+            </div>
+          </ItemCard>
         )}
       </div>
       {/* Pagination */}
