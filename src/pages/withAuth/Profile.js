@@ -12,6 +12,7 @@ import UploadImage from "../../components/ProfilePage/UploadImage";
 import { PhotographIcon } from "@heroicons/react/outline";
 import EditPersonalData from "../../components/ProfilePage/EditPersonalData";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
+import { AuthAction } from "../../redux/auth-slice";
 
 const Profile = (props) => {
   const dispatch = useDispatch();
@@ -19,6 +20,7 @@ const Profile = (props) => {
   const [isEditData, toggleModal] = useState(false);
   const [isEditPicture, setIsEditPicture] = useState(false);
   const [userData, setUserData] = useState(props.userData);
+
   const [newImg, setNewImg] = useState({ preview: "", raw: "" });
   const [bookings, setBookings] = useState([]);
   const [isLoadBookings, setIsLoadBookings] = useState(false);
@@ -76,6 +78,10 @@ const Profile = (props) => {
             title: "บันทึกรูปภาพเรียบร้อย",
           })
         );
+        dispatch(AuthAction.updateUserPicture({ id: null }));
+      })
+      .then(() => {
+        dispatch(AuthAction.updateUserPicture({ id: userData.patient_id }));
         toggleEditPicture();
       })
       .catch((error) => {
@@ -115,11 +121,7 @@ const Profile = (props) => {
             <div className="w-24 h-24">
               <img
                 className="rounded-full"
-                src={
-                  props.userData
-                    ? `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${props.userData.patient_id}`
-                    : default_profile
-                }
+                src={props.userPic ? props.userPic : default_profile}
                 alt="profile_pic"
                 onError={(e) => {
                   e.target.onerror = null;

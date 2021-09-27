@@ -11,15 +11,20 @@ import MainPage from "./MainPage/MainPage";
 import { Route, Redirect, useRouteMatch } from "react-router";
 const AuthRouter = (props) => {
   const [userData, setUserData] = useState(props.userData);
+  const [userPic, setUserPic] = useState(props.userPic);
   let { path } = useRouteMatch();
 
   useEffect(() => {
     setUserData(props.userData);
   }, [props.userData]);
 
+  useEffect(() => {
+    setUserPic(props.userPic);
+  }, [props.userPic]);
+
   return (
     <Fragment>
-      <Navbar userData={userData} />
+      <Navbar userData={userData} userPic={userPic} />
       <div className="bg-blue-50 min-h-screen flow-root">
         <Switch>
           <ProtectedRoute
@@ -34,6 +39,7 @@ const AuthRouter = (props) => {
             isAuth={props.isAuth}
             exact
             userData={userData}
+            userPic={userPic}
           />
           <ProtectedRoute
             path={`${path}/about-us`}

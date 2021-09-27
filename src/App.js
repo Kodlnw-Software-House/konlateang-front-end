@@ -20,20 +20,21 @@ function App() {
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
   const notification = useSelector((state) => state.ui.notification);
   const currentUser = useSelector((state) => state.auth.user);
+  const currentPic = useSelector((state) => state.auth.userPic);
 
   useEffect(() => {
     if (!currentUser && isLoggedIn) {
       userService
         .fetchCurrentPatientProfile()
         .then((response) => {
-          const user = response.data;
+          const user = response.data.patient;
           dispatch(AuthAction.updateUser({ user }));
         })
         .catch((err) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: err,
+              title: "ไม่สามารถเรียกข้อมูลผู้ใช่ได้",
             })
           );
           dispatch(AuthAction.userLogedOut());
@@ -81,6 +82,7 @@ function App() {
             component={AuthRouter}
             isAuth={isLoggedIn}
             userData={currentUser}
+            userPic={currentPic}
           />
           <Route path="*">
             <Redirect to="/kon-la-tieng" />

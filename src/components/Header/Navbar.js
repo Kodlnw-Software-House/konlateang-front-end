@@ -40,11 +40,7 @@ const Navbar = (props) => {
         <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
           <div className="rounded-full w-14 h-14 m-1 ">
             <img
-              src={
-                props.userData
-                  ? `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${props.userData.patient_id}`
-                  : default_profile
-              }
+              src={props.userPic ? props.userPic : default_profile}
               alt="profile_pic"
               onError={(e) => {
                 e.target.onerror = null;

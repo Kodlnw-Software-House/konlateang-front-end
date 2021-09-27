@@ -5,6 +5,7 @@ const ProtectedRoute = ({
   isAuth,
   component: Component,
   userData,
+  userPic,
   ...rest
 }) => {
   const dispatch = useDispatch();
@@ -22,7 +23,9 @@ const ProtectedRoute = ({
       {...rest}
       render={(props) => {
         if (isAuth) {
-          return <Component isAuth={isAuth} userData={userData} />;
+          return (
+            <Component isAuth={isAuth} userData={userData} userPic={userPic} />
+          );
         } else {
           return (
             <Redirect to={{ pathName: "/", state: { from: props.location } }} />

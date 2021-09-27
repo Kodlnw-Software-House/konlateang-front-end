@@ -25,8 +25,7 @@ const MainPage = () => {
   const [isolationData, setIsolationData] = useState([]);
   const [enteredSearch, setEnteredSearch] = useState("");
   const [page, setPage] = useState({ pagSize: 4, pageNo: 1, search: "" });
-  let items = [];
-  console.log(isolationData);
+  let items = [];  
   for (
     let i = 1;
     i <=

@@ -74,6 +74,7 @@ const AuthSlice = createSlice({
     token: token,
     isLoggedIn: loggedIn,
     user: null,
+    userPic: null,
     isFetching: false,
     isSuccess: false,
     isError: false,
@@ -86,6 +87,7 @@ const AuthSlice = createSlice({
       state.isSuccess = false;
       state.user = null;
       state.token = null;
+      state.userPic = null;
       state.isLoggedIn = false;
     },
     clearStatus(state) {
@@ -104,12 +106,17 @@ const AuthSlice = createSlice({
     },
     updateUser(state, action) {
       state.user = action.payload.user;
+      state.userPic = `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${action.payload.user.patient_id}`;
+    },
+    updateUserPicture(state, action) {
+      state.userPic = `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${action.payload.id}`;
     },
   },
   extraReducers: {
     [userLogin.fulfilled]: (state, { payload }) => {
       state.token = payload.token;
       state.user = payload.patient;
+      state.userPic = `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${payload.patient.patient_id}`;
       state.isFetching = false;
       state.isSuccess = true;
     },
@@ -124,6 +131,7 @@ const AuthSlice = createSlice({
     [userRegister.fulfilled]: (state, { payload }) => {
       state.token = payload.token;
       state.user = payload.patient;
+      state.userPic = `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${payload.patient.patient_id}`;
       state.isFetching = false;
       state.isSuccess = true;
     },
