@@ -18,7 +18,7 @@ versionLabel: 0.3.0
 
 env:
   - name: PORT
-    value: 80
+    value: 80 
   - name: REACT_APP_BACKEND_MAIN_URL
     value: http://konlateang-service-back-end-prd:3000/
   # - name: SAMPLE_SHARED_CONFIG
@@ -172,8 +172,8 @@ ingress:
   #    - b.example.com
   #    secretName: wildcard.example.com
 
-# istioIngress:
-  # enabled: false
+istioIngress:
+  enabled: false
   # serverPort: 80 # or 443
   # tls: {}
     # mode: SIMPLE
