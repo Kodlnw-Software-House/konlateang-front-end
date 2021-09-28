@@ -20,7 +20,7 @@ env:
   - name: PORT
     value: 80 
   - name: REACT_APP_BACKEND_MAIN_URL
-    value: http://10.4.2.62:3000/
+    value: http://10.8.15.183:3000/
   # - name: SAMPLE_SHARED_CONFIG
   #   configmap:
   #     name: shared-configmap
