@@ -28,11 +28,15 @@ spec:
             path: {{ .Values.frontend.healthCheckPath }}
             port: {{ .Values.frontend.port }}
             scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30 
         readinessProbe:
           httpGet:
             path: {{ .Values.frontend.healthCheckPath }}
             port: {{ .Values.frontend.port }}
             scheme: HTTP
+          initialDelaySeconds: 5
+          periodSeconds: 30 
         {{- if .Values.extraEnv }}
         env:
         {{- range $key, $value := .Values.extraEnv }}
