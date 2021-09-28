@@ -20,7 +20,7 @@ env:
   - name: PORT
     value: 80 
   - name: REACT_APP_BACKEND_MAIN_URL
-    value: http://konlateang-back-end-deployment-headless.konlateang-service-dev.svc.cluster.local:3000/
+    value: http://konlateang-back-end-deployment-headless.konlateang-service-dev:3000/
   # - name: SAMPLE_SHARED_CONFIG
   #   configmap:
   #     name: shared-configmap
@@ -62,14 +62,14 @@ affinity: {}
 # Waiting time in seconds for shutting down pod after sent SIGTERM
 terminationGracePeriodSeconds: 30
 
-services: {}
-  # - type: NodePort
-  #   annotation: {}
-  #   ports:
-  #     - name: sample1-service-port
-  #       protocol: TCP
-  #       port: 80
-  #       targetPort: 80
+services:
+  - type: ClusterIP
+    annotation: {}
+    ports:
+      - name: konlateang-front-end-port
+        protocol: TCP
+        port: 80
+        targetPort: 80
   #       nodePort: 32080
   #     - name: sample2-service-port
   #       protocol: TCP
@@ -90,13 +90,13 @@ services: {}
   #       targetPort: 8080
 
 serviceHeadless:
-  enabled: true
+  enabled: false
   # annotation: {}
-  ports:
-    - name: konlateang-front-end-port
-      protocol: TCP
-      port: 80
-      targetPort: 80
+  # ports:
+  #   - name: konlateang-front-end-port
+  #     protocol: TCP
+  #     port: 80
+  #     targetPort: 80
   #   - name: sample2-service-port
   #     protocol: TCP
   #     port: 8080
@@ -151,7 +151,7 @@ ingress:
       http:
         paths:
           - path: /*
-            pathType: Prefix
+            pathType: ImplementationSpecific
             backend:
               service:
                 port:
