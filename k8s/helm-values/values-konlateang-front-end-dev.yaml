@@ -20,7 +20,7 @@ env:
   - name: PORT
     value: 80 
   - name: REACT_APP_BACKEND_MAIN_URL
-    value: http://konlateang-back-end-deployment-headless:3000/
+    value: http://konlateang-back-end-deployment-headless.konlateang-service-dev.cluster-domain.example:3000/
   # - name: SAMPLE_SHARED_CONFIG
   #   configmap:
   #     name: shared-configmap
@@ -147,7 +147,7 @@ ingress:
     nginx.ingress.kubernetes.io/rewrite-target: /$2
   # ingressClassName: nginx
   rules:
-    - host: dev.kodlnw-product.net
+    - host: ""
       http:
         paths:
           - path: /
