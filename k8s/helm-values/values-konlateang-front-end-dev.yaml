@@ -7,7 +7,7 @@ frontend:
   port: 80
   healthCheckPath: "/health"
 ingress:
-  host: kodlnw-product.net
+  host: dev.kodlnw-product.net
   serviceType: ClusterIP
   annotations:
     kubernetes.io/ingress.class: nginx
