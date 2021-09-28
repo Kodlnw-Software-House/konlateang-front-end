@@ -20,7 +20,7 @@ env:
   - name: PORT
     value: 80 
   - name: REACT_APP_BACKEND_MAIN_URL
-    value: http://konlateang-back-end-deployment-headless.konlateang-service-dev:3000/
+    value: http://10.8.0.123:3000/
   # - name: SAMPLE_SHARED_CONFIG
   #   configmap:
   #     name: shared-configmap
