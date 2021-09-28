@@ -152,7 +152,7 @@ ingress:
         paths:
           - path: /
             backend:
-              service
+              service:
                 port:
                   number: 80
     #       - path: /api
