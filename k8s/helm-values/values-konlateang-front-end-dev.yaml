@@ -20,7 +20,7 @@ env:
   - name: PORT
     value: 80 
   - name: REACT_APP_BACKEND_MAIN_URL
-    value: http://konlateang-back-end-deployment-headless.konlateang-service-dev.cluster-domain.example:3000/
+    value: http://konlateang-back-end-deployment-headless.konlateang-service-dev.svc.cluster.local:3000/
   # - name: SAMPLE_SHARED_CONFIG
   #   configmap:
   #     name: shared-configmap
@@ -142,15 +142,15 @@ autoscaling:
 
 ingress:
   enabled: true
-  annotations:
-    kubernetes.io/ingress.class: nginx
-    nginx.ingress.kubernetes.io/rewrite-target: /$2
+  annotations: {}
+    # kubernetes.io/ingress.class: nginx
+    # nginx.ingress.kubernetes.io/rewrite-target: /$2
   # ingressClassName: nginx
   rules:
     - host: ""
       http:
         paths:
-          - path: /
+          - path: /*
             pathType: Prefix
             backend:
               service:
