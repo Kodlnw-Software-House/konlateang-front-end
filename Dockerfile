@@ -12,9 +12,9 @@ RUN npm install
 
 # Copies everything over to Docker environment
 COPY . .
-
+# ENV REACT_APP_BACKEND_MAIN_URL=http://dev.api.kodlnw-product.net/
 # RUN npm run build
-CMD [ "npm", "run", "build" ]
+RUN npm run build
 
 FROM node:14-alpine AS production
 
