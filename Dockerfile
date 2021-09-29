@@ -13,7 +13,7 @@ RUN npm install
 # Copies everything over to Docker environment
 COPY . .
 
-ENV REACT_APP_BACKEND_MAIN_URL=http://dev.api.kodlnw-product.net/
+ENV REACT_APP_BACKEND_MAIN_URL=https://dev.api.kodlnw-product.net/
 ENV PORT=5000
 # RUN npm run build
 RUN npm run build
