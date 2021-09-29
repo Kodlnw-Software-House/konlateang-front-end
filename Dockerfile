@@ -28,7 +28,7 @@ RUN npm install serve
 
 EXPOSE 5000
 
-CMD ["npx", "serve", "build"]
+CMD ["npx", "serve", "build", "-l", "tcp://0.0.0.0", "-s"]
 # #pull the official nginx:1.19.0 base image
 # FROM nginx:1.21.3-alpine
 # #copies React to the container directory
