@@ -14,8 +14,19 @@ RUN npm install
 COPY . .
 
 # RUN npm run build
-CMD [ "npm", "start" ]
+CMD [ "npm", "run", "build" ]
 
+FROM node:14-alpine AS production
+
+WORKDIR /usr/src/app
+
+COPY --from=builder /usr/src/app/build build
+
+RUN npm install serve
+
+EXPOSE 5000
+
+CMD ["npx", "serve", "build"]
 # #pull the official nginx:1.19.0 base image
 # FROM nginx:1.21.3-alpine
 # #copies React to the container directory
