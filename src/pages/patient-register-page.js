@@ -153,6 +153,7 @@ const PatientRegister = () => {
                     register={register}
                     addressError={errors.address}
                     telNoError={errors.telNo}
+                    genderError={errors.gender}
                   />
                 );
               case 4:

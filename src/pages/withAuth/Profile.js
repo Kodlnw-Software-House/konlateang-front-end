@@ -63,6 +63,12 @@ const Profile = (props) => {
   const toggleEditPicture = () => {
     setIsEditPicture((prev) => !prev);
   };
+  const dispatchPicture = () => {
+    dispatch(AuthAction.updateUserPicture({ id: userData.patient_id }));
+  };
+  const refreshPicture = () => {
+    setTimeout(dispatchPicture, 2000);
+  };
   const uploadNewImg = () => {
     const data = new FormData();
     data.append("avatar", newImg.raw);
@@ -81,8 +87,8 @@ const Profile = (props) => {
         dispatch(AuthAction.updateUserPicture({ id: null }));
       })
       .then(() => {
-        dispatch(AuthAction.updateUserPicture({ id: userData.patient_id }));
-        toggleEditPicture();
+        cancelUploadFile();
+        refreshPicture();
       })
       .catch((error) => {
         dispatch(
@@ -91,6 +97,7 @@ const Profile = (props) => {
             title: error.response.data,
           })
         );
+        cancelUploadFile();
       });
   };
   const cancelUploadFile = () => {
@@ -133,7 +140,7 @@ const Profile = (props) => {
               className="btn btn-sm btn-ghost btn-block text-secondary-focus"
               onClick={toggleEditPicture}
             >
-              <PhotographIcon className="h-6 w-6 inline-block " /> Edit
+              <PhotographIcon className="h-6 w-6 inline-block " /> แก้ไข
             </button>
           </div>
           <div className="flex-1">

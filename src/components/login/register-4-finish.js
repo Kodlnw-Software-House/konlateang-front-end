@@ -1,7 +1,17 @@
 import Card from "../ui/Card";
 const registerFour = (props) => {
-  const { Email, Password, age, citizenId, fName, lName, dob, address, telNo } =
-    props.formData;
+  const {
+    Email,
+    Password,
+    age,
+    citizenId,
+    fName,
+    lName,
+    dob,
+    address,
+    telNo,
+    gender,
+  } = props.formData;
   return (
     <Card>
       <div className="overflow-y-scroll max-h-96">
@@ -29,6 +39,12 @@ const registerFour = (props) => {
           </p>
           <p>
             อายุ: <span className="text-primary-focus">{age} ปี</span>
+          </p>
+          <p>
+            เพศ:{" "}
+            <span className="text-primary-focus">
+              {gender === "M" ? "ชาย" : gender === "F" ? "หญิง" : "ไม่ระบุ"}
+            </span>
           </p>
           <div className="divider">ที่อยู่</div>
           <p>
