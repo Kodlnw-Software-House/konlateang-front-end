@@ -157,7 +157,11 @@ const Profile = (props) => {
                 <p>{`ชื่อจริง-นามสกุล: ${userData?.fname} ${userData?.lname}`}</p>
                 <p>{`อายุ: ${userData?.age} ปี`}</p>
                 <p>{`เพศ: ${
-                  userData?.gender ? userData?.gender : "ไม่ระบุ"
+                  userData?.gender === "M"
+                    ? "ชาย"
+                    : userData?.gender === "F"
+                    ? "หญิง"
+                    : "ไม่ระบุ"
                 }`}</p>
                 <p>{`เลขประจำตัวประชาชน: ${userData?.citizen_id}`}</p>
                 <p>{`วันเดือนปีเกิด: ${userData?.dob}`}</p>

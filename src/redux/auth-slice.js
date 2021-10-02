@@ -34,7 +34,18 @@ export const userLogin = createAsyncThunk(
 export const userRegister = createAsyncThunk(
   "auth/userRegister",
   async (
-    { email, password, citizen_id, fname, lname, age, dob, address, tel },
+    {
+      email,
+      password,
+      citizen_id,
+      fname,
+      lname,
+      age,
+      dob,
+      address,
+      tel,
+      gender,
+    },
     thunkAPI
   ) => {
     try {
@@ -48,8 +59,10 @@ export const userRegister = createAsyncThunk(
         dob,
         address,
         tel,
+        gender,
       });
       let data = await response.data;
+      console.log(data);
       if (response.status === 201) {
         localStorage.setItem("user", data.token);
         return data;

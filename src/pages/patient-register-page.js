@@ -101,6 +101,7 @@ const PatientRegister = () => {
           dob: formData.dob,
           address: formData.address,
           tel: formData.telNo,
+          gender: formData.gender,
         })
       );
     }
