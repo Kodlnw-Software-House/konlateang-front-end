@@ -124,6 +124,9 @@ const AuthSlice = createSlice({
     updateUserPicture(state, action) {
       state.userPic = `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${action.payload.id}`;
     },
+    editUserData(state, action) {
+      state.user = action.payload.user;
+    },
   },
   extraReducers: {
     [userLogin.fulfilled]: (state, { payload }) => {

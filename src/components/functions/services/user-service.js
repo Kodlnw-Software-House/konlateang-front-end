@@ -33,6 +33,11 @@ class userService {
       }
     );
   }
+  editUserData(newData, token = userToken) {
+    return http.put("/patient/edit", newData, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
   // anything else
 }
 

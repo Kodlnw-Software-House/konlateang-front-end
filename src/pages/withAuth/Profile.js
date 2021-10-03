@@ -104,11 +104,40 @@ const Profile = (props) => {
     setNewImg({ preview: "", raw: "" });
     toggleEditPicture();
   };
+  const editUserData = (data) => {
+    userService
+      .editUserData(data, localStorage.getItem("user"))
+      .then((response) => {
+        // console.log(response.data.editedPatient);
+        dispatch(
+          AuthAction.editUserData({ user: response.data.editedPatient })
+        );
+        dispatch(
+          uiActions.setNoti({
+            status: "success",
+            title: "บันทึกข้อมูลสำเร็จ",
+          })
+        );
+        toggleModal();
+      })
+      .catch((error) => {
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: error.response.data,
+          })
+        );
+      });
+  };
   return (
     <div>
       {isEditData && (
         <Modal type="DECISION" closeModal={modalHandler}>
-          <EditPersonalData modalHandler={modalHandler} userData={userData} />
+          <EditPersonalData
+            editUserData={editUserData}
+            modalHandler={modalHandler}
+            userData={userData}
+          />
         </Modal>
       )}
       {isEditPicture && (

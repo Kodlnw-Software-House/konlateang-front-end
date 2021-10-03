@@ -1,63 +1,23 @@
 import { Fragment } from "react";
 import { useForm } from "react-hook-form";
 
-const diff = function (obj1, obj2) {
-  if (!obj2 || Object.prototype.toString.call(obj2) !== "[object Object]") {
-    return obj1;
-  }
-  var diffs = {};
-  var key;
-
-  var compare = function (item1, item2, key) {
-    var type1 = Object.prototype.toString.call(item1);
-    var type2 = Object.prototype.toString.call(item2);
-
-    if (type2 === "[object Undefined]") {
-      diffs[key] = null;
-      return;
-    }
-
-    if (type1 !== type2) {
-      diffs[key] = item2;
-      return;
-    }
-
-    if (type1 === "[object Object]") {
-      var objDiff = diff(item1, item2);
-      if (Object.keys(objDiff).length > 0) {
-        diffs[key] = objDiff;
-      }
-      return;
-    }
-
-    if (type1 === "[object Function]") {
-      if (item1.toString() !== item2.toString()) {
-        diffs[key] = item2;
-      }
-    } else {
-      if (item1 !== item2) {
-        diffs[key] = item2;
-      }
-    }
-  };
-
-  for (key in obj1) {
-    if (obj1.hasOwnProperty(key)) {
-      compare(obj1[key], obj2[key], key);
-    }
-  }
-
-  for (key in obj2) {
-    if (obj2.hasOwnProperty(key)) {
-      if (!obj1[key] && obj1[key] !== obj2[key]) {
-        diffs[key] = obj2[key];
+const compareObj = (o1, o2) => {
+  for (let p in o1) {
+    if (o1.hasOwnProperty(p)) {
+      if (o1[p] !== o2[p]) {
+        return false;
       }
     }
   }
-
-  return diffs;
+  for (let p in o2) {
+    if (o2.hasOwnProperty(p)) {
+      if (o1[p] !== o2[p]) {
+        return false;
+      }
+    }
+  }
+  return true;
 };
-
 const EditPersonalData = (props) => {
   const {
     register,
@@ -71,30 +31,49 @@ const EditPersonalData = (props) => {
     },
   });
   const sumbitForm = (data) => {
+    let editData = {};
+
     const oldData = {
       address: props.userData.address,
       tel: props.userData.tel,
     };
-    console.log(oldData);
-
     const newData = {
       address: data.address,
       tel: data.telNo,
     };
-    console.log(newData);
-    // newData.filter((data)=>)
-    console.log(diff(oldData, newData));
+    if (compareObj(oldData, newData)) {
+      props.modalHandler();
+      return;
+    }
+    if (
+      oldData.address !== newData.address &&
+      oldData.address.length !== newData.address.length
+    ) {
+      editData.address = newData.address;
+    }
+    if (oldData.tel !== newData.tel) {
+      editData.tel = newData.tel;
+    }
+    console.log("PUT data", editData);
+    props.editUserData(editData);
   };
+
+  const addressInputClasses = errors.address
+    ? "textarea textarea-error h-36"
+    : "textarea textarea-info h-36";
+  const telInputClasses = errors.telNo
+    ? "input input-error mx-1 input-sm"
+    : "input input-info mx-1 input-sm";
   return (
     <Fragment>
       <form onSubmit={handleSubmit(sumbitForm)}>
-        <div className="form-control max-h-72 overflow-scroll space-y-2 p-1">
+        <div className="form-control max-h-72 overflow-scroll p-1">
           <label className="label">
             <span className="label-text">ที่อยู่ปัจจุบัน</span>
           </label>
           <textarea
             {...register("address", { required: true, maxLength: 500 })}
-            className="textarea h-36"
+            className={addressInputClasses}
             placeholder="ระบุที่อยู่ ณ ปัจจุบัน"
           />
           <label className="label">
@@ -107,9 +86,9 @@ const EditPersonalData = (props) => {
             })}
             type="number"
             placeholder="username"
-            className="input mx-1 input-sm"
+            className={telInputClasses}
           />
-          <label className="label">
+          {/* <label className="label">
             <span className="label-text">รหัสผ่านใหม่</span>
           </label>
           <input
@@ -119,7 +98,7 @@ const EditPersonalData = (props) => {
             type="password"
             placeholder="ระบุรหัสผ่านใหม่ หากต้องการเปลี่ยนแปลง"
             className="input mx-1 input-sm"
-          />
+          /> */}
         </div>
         <div className="flex flex-row justify-end space-x-3 pt-4">
           <button
