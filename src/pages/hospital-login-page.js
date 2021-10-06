@@ -1,13 +1,16 @@
 import Card from "../components/ui/Card";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
-import { useState } from "react";
-// import { useDispatch } from "react-redux";
-// import { uiActions } from "../redux/ui-slice";
+import { useState, useEffect } from "react";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../redux/ui-slice";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
+import { useSelector } from "react-redux";
+import { AuthSelecter, AuthAction, hospitalLogin } from "../redux/auth-slice";
 const HospitalLogin = () => {
   const [isVisible, setIsVisible] = useState(false);
-  // const dispatch = useDispatch();
+  const { isSuccess, isError, errorMessage } = useSelector(AuthSelecter);
+  const dispatch = useDispatch();
   const {
     register,
     handleSubmit,
@@ -20,11 +23,41 @@ const HospitalLogin = () => {
     setIsVisible((prev) => !prev);
   };
 
+  useEffect(() => {
+    let mounted = true;
+    if (isSuccess) {
+      if (mounted) {
+        dispatch(
+          uiActions.setNoti({
+            status: "success",
+            title: "Login Successful",
+          })
+        );
+        dispatch(uiActions.toggleTheme({ theme: "hospitalTheme" }));
+        dispatch(AuthAction.clearStatus());
+        dispatch(AuthAction.userLoggedIn());
+      }
+    }
+    if (isError) {
+      if (mounted) {
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: errorMessage,
+          })
+        );
+        dispatch(AuthAction.clearStatus());
+      }
+      return function cleanup() {
+        mounted = false;
+      };
+    }
+  }, [isError, isSuccess, dispatch]);
+
   const formSubmitHandler = (data) => {
-    console.log("data", data);
-    // if (isValid) {
-    //   dispatch(userLogin({ email: data.email, password: data.password }));
-    // }
+    if (isValid) {
+      dispatch(hospitalLogin({ email: data.email, password: data.password }));
+    }
   };
 
   const emailInputClass = errors.email

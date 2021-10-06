@@ -32,6 +32,7 @@ const PatientLogin = () => {
             title: "Login Successful",
           })
         );
+        dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
         dispatch(AuthAction.clearStatus());
         dispatch(AuthAction.userLoggedIn());
       }

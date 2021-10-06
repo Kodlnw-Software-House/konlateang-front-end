@@ -18,27 +18,36 @@ function App() {
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.ui.theme);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
+  const role = useSelector((state) => state.auth.role);
   const notification = useSelector((state) => state.ui.notification);
   const currentUser = useSelector((state) => state.auth.user);
   const currentPic = useSelector((state) => state.auth.userPic);
 
   useEffect(() => {
     if (!currentUser && isLoggedIn) {
-      userService
-        .fetchCurrentPatientProfile()
-        .then((response) => {
-          const user = { ...response.data.patient, role: "PATIENT" };
-          dispatch(AuthAction.updateUser({ user }));
-        })
-        .catch((err) => {
-          dispatch(
-            uiActions.setNoti({
-              status: "error",
-              title: "ไม่สามารถเรียกข้อมูลผู้ใช่ได้",
-            })
-          );
-          dispatch(AuthAction.userLogedOut());
-        });
+      if (role === "PATIENT") {
+        userService
+          .fetchCurrentPatientProfile()
+          .then((response) => {
+            const user = { ...response.data.patient, role: "PATIENT" };
+            dispatch(AuthAction.updateUser({ user }));
+            dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          })
+          .catch(() => {
+            dispatch(
+              uiActions.setNoti({
+                status: "error",
+                title: "ไม่สามารถเรียกข้อมูลผู้ใช่ได้",
+              })
+            );
+            dispatch(AuthAction.userLogedOut());
+          });
+      } else if (role === "HOSPITAL") {
+        dispatch(uiActions.toggleTheme({ theme: "hospitalTheme" }));
+        console.log("fetching hospital account data");
+      } else {
+        console.log("fetching superadmin data");
+      }
     }
   }, []);
   return (
@@ -72,7 +81,7 @@ function App() {
             <Redirect to="/" />
           </Route>
         </Switch>
-      ) : (
+      ) : role === "PATIENT" ? (
         <Switch>
           <Route path="/" exact>
             <Redirect to="/kon-la-tieng" />
@@ -88,6 +97,12 @@ function App() {
             <Redirect to="/kon-la-tieng" />
           </Route>
         </Switch>
+      ) : role === "HOSPITAL" ? (
+        <div>
+          <button className="btn btn-wide btn-primary">Hospital</button>
+        </div>
+      ) : (
+        <div>SuperAdmin</div>
       )}
     </div>
   );

@@ -1,9 +1,18 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const currentTheme =
+  localStorage.getItem("role") === "PATIENT"
+    ? "patientTheme"
+    : localStorage.getItem("role") === "HOSPITAL"
+    ? "hospitalTheme"
+    : localStorage.getItem("role") === "ADMIN"
+    ? "adminTheme"
+    : "patientTheme";
+
 const uiSlice = createSlice({
   name: "ui",
   initialState: {
-    theme: "patientTheme",
+    theme: currentTheme,
     notification: null,
   },
   reducers: {
