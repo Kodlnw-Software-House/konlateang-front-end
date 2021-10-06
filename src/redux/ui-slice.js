@@ -2,7 +2,10 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const uiSlice = createSlice({
   name: "ui",
-  initialState: { theme: "patientTheme", notification: null },
+  initialState: {
+    theme: "patientTheme",
+    notification: null,
+  },
   reducers: {
     toggleTheme(state, action) {
       state.theme = action.payload.theme;
@@ -16,6 +19,12 @@ const uiSlice = createSlice({
     },
     clearNoti(state) {
       state.notification = null;
+    },
+    resetSlice(state) {
+      state = {
+        theme: "patientTheme",
+        notification: null,
+      };
     },
   },
 });

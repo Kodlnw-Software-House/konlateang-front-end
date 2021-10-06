@@ -50,10 +50,9 @@ const PatientLogin = () => {
         mounted = false;
       };
     }
-  }, [isError, isSuccess,dispatch]);
+  }, [isError, isSuccess, dispatch]);
 
   const formSubmitHandler = (data) => {
-    console.log("data", data);
     if (isValid) {
       dispatch(userLogin({ email: data.email, password: data.password }));
     }

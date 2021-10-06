@@ -13,7 +13,7 @@ const AuthRouter = (props) => {
   const [userData, setUserData] = useState(props.userData);
   const [userPic, setUserPic] = useState(props.userPic);
   let { path } = useRouteMatch();
-
+  console.log(userData);
   useEffect(() => {
     setUserData(props.userData);
   }, [props.userData]);

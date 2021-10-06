@@ -27,7 +27,7 @@ function App() {
       userService
         .fetchCurrentPatientProfile()
         .then((response) => {
-          const user = response.data.patient;
+          const user = { ...response.data.patient, role: "PATIENT" };
           dispatch(AuthAction.updateUser({ user }));
         })
         .catch((err) => {

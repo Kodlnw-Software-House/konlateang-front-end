@@ -25,7 +25,7 @@ const MainPage = () => {
   const [isolationData, setIsolationData] = useState([]);
   const [enteredSearch, setEnteredSearch] = useState("");
   const [page, setPage] = useState({ pagSize: 4, pageNo: 1, search: "" });
-  let items = [];  
+  let items = [];
   for (
     let i = 1;
     i <=
@@ -64,7 +64,7 @@ const MainPage = () => {
     setisFetchIsolation(true);
     IsolationService.getAllIsolation(page.pagSize, page.pageNo, page.search)
       .then((response) => {
-        console.log(response.data.result);
+        // console.log(response.data.result);
         setIsolationData(response.data.result);
       })
       .catch((error) => {
@@ -109,7 +109,9 @@ const MainPage = () => {
           <LoadingSpinner />
         ) : error ? (
           <div className="mx-auto">
-            <div className="w-10 h-10">ไม่สามารถโหลดข้อมูล covid-19 ได้</div>
+            <div className="text-gray-500">
+              *ไม่สามารถโหลดข้อมูล covid-19 ได้*
+            </div>
           </div>
         ) : (
           <CovidInfo

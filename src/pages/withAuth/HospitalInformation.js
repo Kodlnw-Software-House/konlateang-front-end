@@ -28,7 +28,6 @@ const HospitalInfo = (props) => {
     isolationService
       .getIsolationById(id, localStorage.getItem("user"))
       .then((response) => {
-        console.log(response.data.isolation);
         setHospitalDetail(response.data.isolation);
       })
       .catch((error) => {
@@ -72,11 +71,17 @@ const HospitalInfo = (props) => {
             title: "การจองเสร็จสิ้น",
           })
         );
-        modalHandler(false);
+        modalHandler();
         goToProfile();
       })
       .catch((error) => {
-        console.log(error.response.data);
+        modalHandler();
+        dispatch(
+          uiActions.actions.setNoti({
+            status: "error",
+            title: error.response.data.status,
+          })
+        );
       })
       .finally(setIsFetchBooking(false));
   };

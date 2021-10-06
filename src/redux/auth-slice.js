@@ -4,7 +4,35 @@ import http from "../components/functions/services/auth-header";
 const token = localStorage.getItem("user")
   ? localStorage.getItem("user")
   : null;
-let loggedIn = token ? true : false;
+const role = localStorage.getItem("role") ? localStorage.getItem("role") : null;
+
+let loggedIn = token && role ? true : false;
+
+export const hospitalLogin = createAsyncThunk(
+  "auth/hospitalLogin",
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const response = await http.post("/hospital/login", {
+        email,
+        password,
+      });
+      let data = await response.data;
+      if (response.status === 201) {
+        localStorage.setItem("user", data.token);
+        localStorage.setItem("role", "HOSPITAL");
+        return data;
+      } else {
+        console.log("else", data);
+        return thunkAPI.rejectWithValue(data.error);
+      }
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
 
 export const userLogin = createAsyncThunk(
   "auth/userLogin",
@@ -17,6 +45,7 @@ export const userLogin = createAsyncThunk(
       let data = await response.data;
       if (response.status === 201) {
         localStorage.setItem("user", data.token);
+        localStorage.setItem("role", "PATIENT");
         return data;
       } else {
         console.log("else", data);
@@ -65,6 +94,7 @@ export const userRegister = createAsyncThunk(
       console.log(data);
       if (response.status === 201) {
         localStorage.setItem("user", data.token);
+        localStorage.setItem("role", "PATIENT");
         return data;
       } else {
         console.log("else", data);
@@ -86,6 +116,7 @@ const AuthSlice = createSlice({
   initialState: {
     token: token,
     isLoggedIn: loggedIn,
+    role: role,
     user: null,
     userPic: null,
     isFetching: false,
@@ -102,6 +133,7 @@ const AuthSlice = createSlice({
       state.token = null;
       state.userPic = null;
       state.isLoggedIn = false;
+      state.role = null;
     },
     clearStatus(state) {
       state.isError = false;
@@ -113,9 +145,12 @@ const AuthSlice = createSlice({
     },
     userLogedOut(state) {
       localStorage.removeItem("user");
+      localStorage.removeItem("role");
       state.token = null;
-      state.isLoggedIn = false;
       state.user = null;
+      state.role = null;
+      state.userPic = null;
+      state.isLoggedIn = false;
     },
     updateUser(state, action) {
       state.user = action.payload.user;
@@ -132,6 +167,7 @@ const AuthSlice = createSlice({
     [userLogin.fulfilled]: (state, { payload }) => {
       state.token = payload.token;
       state.user = payload.patient;
+      state.role = "PATIENT";
       state.userPic = `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${payload.patient.patient_id}`;
       state.isFetching = false;
       state.isSuccess = true;
@@ -144,9 +180,25 @@ const AuthSlice = createSlice({
     [userLogin.pending]: (state) => {
       state.isFetching = true;
     },
+    [hospitalLogin.fulfilled]: (state, { payload }) => {
+      state.token = payload.token;
+      state.user = payload.hospital;
+      state.role = "HOSPITAL";
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [hospitalLogin.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.error;
+    },
+    [hospitalLogin.pending]: (state) => {
+      state.isFetching = true;
+    },
     [userRegister.fulfilled]: (state, { payload }) => {
       state.token = payload.token;
       state.user = payload.patient;
+      state.role = "PATIENT";
       state.userPic = `${process.env.REACT_APP_BACKEND_MAIN_URL}patient/avatar/${payload.patient.patient_id}`;
       state.isFetching = false;
       state.isSuccess = true;
