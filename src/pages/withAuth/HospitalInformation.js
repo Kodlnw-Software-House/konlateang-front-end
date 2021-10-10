@@ -9,6 +9,7 @@ import { useEffect, useState } from "react";
 import isolationService from "../../components/functions/services/isolation-service";
 import { useDispatch } from "react-redux";
 import uiActions from "../../redux/ui-slice";
+import { AuthAction } from "../../redux/auth-slice";
 const onTop = () => {
   window.scrollTo(0, 0);
 };
@@ -32,6 +33,10 @@ const HospitalInfo = (props) => {
       })
       .catch((error) => {
         console.log(error.response.data);
+        if (error.response.status === 401) {
+          dispatch(AuthAction.userLogedOut());
+          return;
+        }
       })
       .finally(() => {
         setIsFetchData(false);
@@ -79,9 +84,13 @@ const HospitalInfo = (props) => {
         dispatch(
           uiActions.actions.setNoti({
             status: "error",
-            title: error.response.data.status,
+            title: error.message,
           })
         );
+        if (error.response.status === 401) {
+          dispatch(AuthAction.userLogedOut());
+          return;
+        }
       })
       .finally(setIsFetchBooking(false));
   };

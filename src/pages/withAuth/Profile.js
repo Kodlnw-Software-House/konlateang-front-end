@@ -33,13 +33,15 @@ const Profile = (props) => {
         setBookings(response.data.bookings);
       })
       .catch((error) => {
-        console.log(error.response.data);
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.response.data.error,
+            title: error.message,
           })
         );
+        if (error.response.status === 401) {
+          dispatch(AuthAction.userLogedOut());
+        }
       })
       .finally(setIsLoadBookings(false));
   }, [dispatch]);
@@ -121,12 +123,16 @@ const Profile = (props) => {
         toggleModal();
       })
       .catch((error) => {
+        console.log(error);
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.response.data,
+            title: error.message,
           })
         );
+        if (error.response.status === 401) {
+          dispatch(AuthAction.userLogedOut());
+        }
       });
   };
   return (

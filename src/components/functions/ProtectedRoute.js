@@ -6,6 +6,7 @@ const ProtectedRoute = ({
   component: Component,
   userData,
   userPic,
+  role,
   ...rest
 }) => {
   const dispatch = useDispatch();
@@ -24,7 +25,12 @@ const ProtectedRoute = ({
       render={(props) => {
         if (isAuth) {
           return (
-            <Component isAuth={isAuth} userData={userData} userPic={userPic} />
+            <Component
+              isAuth={isAuth}
+              userData={userData}
+              userPic={userPic}
+              role={role}
+            />
           );
         } else {
           return (

@@ -10,6 +10,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { Switch, Route, Redirect } from "react-router-dom";
 import { AuthAction } from "./redux/auth-slice";
 import userService from "./components/functions/services/user-service";
+import hospitalService from "./components/functions/services/hospital-service";
 import "./index.css";
 import { uiActions } from "./redux/ui-slice";
 import Health from "./pages/health";
@@ -26,30 +27,55 @@ function App() {
   useEffect(() => {
     if (!currentUser && isLoggedIn) {
       if (role === "PATIENT") {
+        console.log("fetch patient data");
         userService
           .fetchCurrentPatientProfile()
           .then((response) => {
-            const user = { ...response.data.patient, role: "PATIENT" };
+            const user = { ...response.data.patient };
             dispatch(AuthAction.updateUser({ user }));
             dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
           })
-          .catch(() => {
+          .catch((error) => {
             dispatch(
               uiActions.setNoti({
                 status: "error",
-                title: "ไม่สามารถเรียกข้อมูลผู้ใช่ได้",
+                title: error.message,
               })
             );
-            dispatch(AuthAction.userLogedOut());
+            if (error.response.status === 401) {
+              dispatch(AuthAction.userLogedOut());
+              return;
+            }
           });
       } else if (role === "HOSPITAL") {
-        dispatch(uiActions.toggleTheme({ theme: "hospitalTheme" }));
-        console.log("fetching hospital account data");
+        console.log("fetch hospital data");
+        hospitalService
+          .fetchCurrentProfile()
+          .then((response) => {
+            const user = { ...response.data.hospital };
+            dispatch(AuthAction.updateUser({ user }));
+            dispatch(uiActions.toggleTheme({ theme: "hospitalTheme" }));
+          })
+          .catch((error) => {
+            dispatch(
+              uiActions.setNoti({
+                status: "error",
+                title: error.message,
+              })
+            );
+            if (error.response.status === 401) {
+              dispatch(AuthAction.userLogedOut());
+              return;
+            }
+          });
+      } else if (role === "ADMIN") {
+        console.log("ยินดีต้อนรับ superadmin");
       } else {
-        console.log("fetching superadmin data");
+        dispatch(AuthAction.userLogedOut());
       }
     }
   }, []);
+
   return (
     <div data-theme={theme}>
       {notification && (
@@ -81,7 +107,7 @@ function App() {
             <Redirect to="/" />
           </Route>
         </Switch>
-      ) : role === "PATIENT" ? (
+      ) : (
         <Switch>
           <Route path="/" exact>
             <Redirect to="/kon-la-tieng" />
@@ -91,18 +117,13 @@ function App() {
             component={AuthRouter}
             isAuth={isLoggedIn}
             userData={currentUser}
+            role={role}
             userPic={currentPic}
           />
           <Route path="*">
             <Redirect to="/kon-la-tieng" />
           </Route>
         </Switch>
-      ) : role === "HOSPITAL" ? (
-        <div>
-          <button className="btn btn-wide btn-primary">Hospital</button>
-        </div>
-      ) : (
-        <div>SuperAdmin</div>
       )}
     </div>
   );
