@@ -8,8 +8,10 @@ class userService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
-  fetchCurrentPatientProfile() {
-    return http.get("/patient/me");
+  fetchCurrentPatientProfile(token = userToken) {
+    return http.get("/patient/me", {
+      headers: { Authorization: `Bearer ${token}` },
+    });
   }
   uploadNewPicture(data, token = userToken) {
     return http.post("/patient/upload", data, {
