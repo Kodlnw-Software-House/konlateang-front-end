@@ -7,7 +7,6 @@ import default_profile from "../../assets/default_profile.png";
 
 const Navbar = (props) => {
   const [showMenu, setMenu] = useState(false);
-
   const { path } = useRouteMatch();
 
   const toggleMenu = () => {
@@ -18,7 +17,7 @@ const Navbar = (props) => {
     <header className="navbar justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50">
       {showMenu && (
         <Modal type="DECISION" closeModal={toggleMenu}>
-          <NavBarMenu toggleMenu={toggleMenu} />
+          <NavBarMenu role={props.role} toggleMenu={toggleMenu} />
         </Modal>
       )}
 
@@ -34,7 +33,14 @@ const Navbar = (props) => {
 
       <div className="space-x-1">
         <div className="text-right leading-5">
-          <p className="text-lg">สวัสดี, {props.userData?.fname}</p>
+          <p className="text-lg">
+            สวัสดี,{" "}
+            {props.role === "PATIENT"
+              ? props.userData?.fname
+              : props.role === "HOSPITAL"
+              ? props.userData?.hospital_name
+              : "ยินดีต้อนรับ"}
+          </p>
           {/* <p>{props.userData?.email}</p> */}
         </div>
         <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
