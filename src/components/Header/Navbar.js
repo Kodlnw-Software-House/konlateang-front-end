@@ -33,28 +33,30 @@ const Navbar = (props) => {
 
       <div className="space-x-1">
         <div className="text-right leading-5">
-          <p className="text-lg">
+          <Link to={`${path}`} className="text-lg">
             สวัสดี,{" "}
             {props.role === "PATIENT"
               ? props.userData?.fname
               : props.role === "HOSPITAL"
               ? props.userData?.hospital_name
               : "ยินดีต้อนรับ"}
-          </p>
+          </Link>
           {/* <p>{props.userData?.email}</p> */}
         </div>
-        <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
-          <div className="rounded-full w-14 h-14 m-1 ">
-            <img
-              src={props.userPic ? props.userPic : default_profile}
-              alt="profile_pic"
-              onError={(e) => {
-                e.target.onerror = null;
-                e.target.src = default_profile;
-              }}
-            />
-          </div>
-        </Link>
+        {props.role === "PATIENT" && (
+          <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
+            <div className="rounded-full w-14 h-14 m-1 ">
+              <img
+                src={props.userPic ? props.userPic : default_profile}
+                alt="profile_pic"
+                onError={(e) => {
+                  e.target.onerror = null;
+                  e.target.src = default_profile;
+                }}
+              />
+            </div>
+          </Link>
+        )}
       </div>
     </header>
   );

@@ -1,23 +1,42 @@
 import { Link, useRouteMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AuthAction } from "../../redux/auth-slice";
+import { uiActions } from "../../redux/ui-slice";
 import userService from "../functions/services/user-service";
+import HospitalService from "../functions/services/hospital-service";
 const NavBarMenu = (props) => {
   const distpatch = useDispatch();
   const { path, url } = useRouteMatch();
 
   const logoutHandler = () => {
     props.toggleMenu();
+
     let token = localStorage.getItem("user");
-    userService
-      .user_logout(token)
-      .then(() => {
-        distpatch(AuthAction.userLogedOut());
-      })
-      .catch((e) => {
-        console.console.log(e.message);
-      });
+
+    if (props.role === "PATIENT") {
+      userService
+        .user_logout(token)
+        .then(() => {
+          distpatch(AuthAction.userLogedOut());
+          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+        })
+        .catch((e) => {
+          console.console.log(e.message);
+        });
+    }
+
+    if (props.role === "HOSPITAL") {
+      HospitalService.logout(token)
+        .then(() => {
+          distpatch(AuthAction.userLogedOut());
+          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+        })
+        .catch((e) => {
+          console.console.log(e.message);
+        });
+    }
   };
+
   if (props.role === "PATIENT") {
     return (
       <div className="flex flex-col justify-center text-center space-y-2">
@@ -48,6 +67,7 @@ const NavBarMenu = (props) => {
       </div>
     );
   }
+
   if (props.role === "HOSPITAL") {
     return (
       <div className="flex flex-col justify-center text-center space-y-2">
@@ -71,6 +91,7 @@ const NavBarMenu = (props) => {
       </div>
     );
   }
+
   if (props.role === "ADMIN") {
     return (
       <div className="flex flex-col justify-center text-center space-y-2">

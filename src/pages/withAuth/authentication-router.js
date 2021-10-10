@@ -79,6 +79,12 @@ const AuthRouter = (props) => {
               exact
             />
             <ProtectedRoute
+              path={`${path}/about-us`}
+              component={AboutUs}
+              isAuth={props.isAuth}
+              exact
+            />
+            <ProtectedRoute
               path={`${path}/not-found`}
               component={NotFound}
               isAuth={props.isAuth}
