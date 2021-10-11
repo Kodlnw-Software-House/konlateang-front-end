@@ -1,7 +1,5 @@
 import { useLocation, useHistory, useParams } from "react-router";
 import ItemCard from "../../components/ui/ItemCard";
-import { HomeIcon } from "@heroicons/react/solid";
-import default_image from "../../assets/bg_hospital.jpg";
 import Modal from "../../components/ui/Modal";
 import LoadingSpinner from "../../components/ui/LoadingSpinner";
 import userService from "../../components/functions/services/user-service";
@@ -10,6 +8,7 @@ import isolationService from "../../components/functions/services/isolation-serv
 import { useDispatch } from "react-redux";
 import uiActions from "../../redux/ui-slice";
 import { AuthAction } from "../../redux/auth-slice";
+import HospitalInformationCard from "../../components/MainPage/HospitalInformationCard";
 const onTop = () => {
   window.scrollTo(0, 0);
 };
@@ -29,6 +28,7 @@ const HospitalInfo = (props) => {
     isolationService
       .getIsolationById(id, localStorage.getItem("user"))
       .then((response) => {
+        console.log(response.data.isolation);
         setHospitalDetail(response.data.isolation);
       })
       .catch((error) => {
@@ -41,13 +41,11 @@ const HospitalInfo = (props) => {
       .finally(() => {
         setIsFetchData(false);
       });
-  }, [id]);
+  }, [id, dispatch]);
 
   useEffect(() => {
     onTop();
   }, [location]);
-
-  const currentPath = location.pathname;
 
   const openModal = () => {
     toggleModal(true);
@@ -133,82 +131,13 @@ const HospitalInfo = (props) => {
         {isFetchData ? (
           <LoadingSpinner />
         ) : hospitalDetail ? (
-          <div className="mx-auto overflow-hidden bg-white rounded-lg">
-            <div className="w-full carousel">
-              <div id="item1" className="w-full carousel-item">
-                <img
-                  alt="picture_1"
-                  src={default_image}
-                  className="object-cover object-center w-full h-64"
-                />
-              </div>
-              <div id="item2" className="w-full carousel-item">
-                <img
-                  alt="picture_2"
-                  src={default_image}
-                  className="object-cover object-center w-full h-64"
-                />
-              </div>
-              <div id="item3" className="w-full carousel-item">
-                <img
-                  alt="picture_3"
-                  src={default_image}
-                  className="object-cover object-center w-full h-64"
-                />
-              </div>
-            </div>
-            <div className="flex justify-center w-full space-x-2 py-2">
-              <a
-                href={`${currentPath}#item1`}
-                className="btn btn-sm btn-circle"
-              >
-                1
-              </a>
-              <a
-                href={`${currentPath}#item2`}
-                className="btn btn-sm btn-circle"
-              >
-                2
-              </a>
-              <a
-                href={`${currentPath}#item3`}
-                className="btn btn-sm btn-circle"
-              >
-                3
-              </a>
-            </div>
-
-            {/* Hospital Info */}
-            <div className="flex items-center px-6 py-3 bg-gray-900">
-              <HomeIcon
-                className="w-6 h-6 text-white fill-current"
-                xmlns="http://www.w3.org/2000/svg"
-              />
-              <h1 className="mx-3 text-lg text-white">
-                {hospitalDetail?.community_isolation_name} <br />{" "}
-                {hospitalDetail?.Hospital.hospital_name}
-              </h1>
-            </div>
-
-            <div className="px-6 py-4">
-              <h1 className="text-xl font-semibold text-gray-800">
-                จำนวนเตียงคงเหลือ{" "}
-                <span className="badge badge-outline badge-info badge-lg text-xl">
-                  {hospitalDetail?.available_bed} เตียง
-                </span>
-              </h1>
-
-              <p className="py-2 text-gray-700 ">{hospitalDetail?.address}</p>
-            </div>
-            <div className="px-6 py-2">
-              <button
-                className="btn btn-success btn-block text-base"
-                onClick={openModal}
-              >
-                จองเตียงศูนย์พักคอย/โรงพยาบาลนี้
-              </button>
-            </div>
-          </div>
+          <HospitalInformationCard
+            openModal={openModal}
+            community_isolation_name={hospitalDetail.community_isolation_name}
+            hospital_name={hospitalDetail.Hospital.hospital_name}
+            available_bed={hospitalDetail.available_bed}
+            address={hospitalDetail.address}
+          />
         ) : (
           <div>ไม่พบข้อมูลศูนย์พักคอยที่ท่านต้องการ</div>
         )}

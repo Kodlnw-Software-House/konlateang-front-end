@@ -1,0 +1,79 @@
+import { HomeIcon } from "@heroicons/react/solid";
+import default_image from "../../assets/bg_hospital.jpg";
+import { useLocation } from "react-router";
+const HospitalInformationCard = (props) => {
+  const location = useLocation();
+  const currentPath = location.pathname;
+  return (
+    <div className="mx-auto overflow-hidden bg-white rounded-lg">
+      {/* Picture */}
+      <div className="w-full carousel">
+        <div id="item1" className="w-full carousel-item">
+          <img
+            alt="picture_1"
+            src={default_image}
+            className="object-cover object-center w-full h-64"
+          />
+        </div>
+        <div id="item2" className="w-full carousel-item">
+          <img
+            alt="picture_2"
+            src={default_image}
+            className="object-cover object-center w-full h-64"
+          />
+        </div>
+        <div id="item3" className="w-full carousel-item">
+          <img
+            alt="picture_3"
+            src={default_image}
+            className="object-cover object-center w-full h-64"
+          />
+        </div>
+      </div>
+      <div className="flex justify-center w-full space-x-2 py-2">
+        <a href={`${currentPath}#item1`} className="btn btn-sm btn-circle">
+          1
+        </a>
+        <a href={`${currentPath}#item2`} className="btn btn-sm btn-circle">
+          2
+        </a>
+        <a href={`${currentPath}#item3`} className="btn btn-sm btn-circle">
+          3
+        </a>
+      </div>
+
+      {/* Hospital Info */}
+      <div className="flex items-center px-6 py-3 bg-gray-900">
+        <HomeIcon
+          className="w-6 h-6 text-white fill-current"
+          xmlns="http://www.w3.org/2000/svg"
+        />
+        <h1 className="mx-3 text-md text-white">
+          {props?.community_isolation_name} <br /> {props?.hospital_name}
+        </h1>
+      </div>
+
+      <div className="px-6 py-4">
+        <h1 className="text-lg font-semibold text-gray-800">
+          จำนวนเตียงคงเหลือ{" "}
+          <span className="badge badge-outline badge-info badge-lg text-xl">
+            {props?.available_bed} เตียง
+          </span>
+        </h1>
+
+        <p className="py-2 text-gray-700 ">{props?.address}</p>
+      </div>
+      {localStorage.getItem("role") === "PATIENT" && (
+        <div>
+          <button
+            className="btn btn-success btn-block text-base"
+            onClick={props.openModal}
+          >
+            จองเตียงศูนย์พักคอย/โรงพยาบาลนี้
+          </button>
+        </div>
+      )}
+    </div>
+  );
+};
+export default HospitalInformationCard;

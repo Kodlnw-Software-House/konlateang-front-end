@@ -10,9 +10,13 @@ import { useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../../redux/ui-slice";
 import { AuthAction } from "../../../redux/auth-slice";
+import { useHistory, useLocation } from "react-router-dom";
 
 const HospitalAdminMainPage = (props) => {
   const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+  const currentPath = location.pathname;
   const [isFetchIsolation, setisFetchIsolation] = useState(false);
   const [isolationData, setIsolationData] = useState([]);
 
@@ -37,7 +41,14 @@ const HospitalAdminMainPage = (props) => {
       .finally(() => {
         setisFetchIsolation(false);
       });
-  }, []);
+  }, [dispatch]);
+
+  const goPath = (id) => {
+    history.push(`${currentPath}/community-isolation/id/${id}`);
+  };
+  const goCreate = () => {
+    history.push(`${currentPath}/community-isolation/create`);
+  };
 
   return (
     <div>
@@ -51,8 +62,10 @@ const HospitalAdminMainPage = (props) => {
           return (
             <HospitalAdminActiveHospital
               key={key}
+              id={item.community_isolation_id}
               hospitalName={item.community_isolation_name}
               totalActiveBed={item.available_bed}
+              goPath={goPath}
             />
           );
         })
@@ -64,11 +77,14 @@ const HospitalAdminMainPage = (props) => {
           </div>
         </ItemCard>
       )}
-      <div className="card border-dashed border-4 border-gray-400 shadow-md m-4">
+      <div
+        onClick={() => goCreate()}
+        className="card border-dashed border-4 border-gray-400 shadow-md m-4 text-gray-400 hover:border-gray-500 hover:text-gray-500"
+      >
         <div className="card-body p-4 flex space-x-2 overflow-hidden items-center mx-auto">
-          <div className="flex flex-col justify-center items-center text-gray-400 space-y-1">
+          <div className="flex flex-col justify-center items-center  space-y-1">
             <PlusIcon className="w-14 h-auto" />
-            <p className="text-xl">เพิ่มศูนย์พักพิง</p>
+            <p className="text-xl">ลงทะเบียนศูนย์พักคอย</p>
           </div>
         </div>
       </div>

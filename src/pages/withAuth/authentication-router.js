@@ -9,6 +9,8 @@ import Profile from "./Profile";
 import AboutUs from "./AboutUs";
 import MainPage from "./MainPage/MainPage";
 import HospitalAdminMainPage from "./HospitalAdmininstrator/HospitalAdminMainPage";
+import IsolationMainPage from "./HospitalAdmininstrator/IsolationMainPage";
+import CreateEditIsolation from "./HospitalAdmininstrator/CreateNewIsolation";
 import { Route, Redirect, useRouteMatch } from "react-router";
 const AuthRouter = (props) => {
   const [userData, setUserData] = useState(props.userData);
@@ -79,6 +81,18 @@ const AuthRouter = (props) => {
               exact
             />
             <ProtectedRoute
+              path={`${path}/community-isolation/id/:id`}
+              component={IsolationMainPage}
+              isAuth={props.isAuth}
+              exact
+            />
+            <ProtectedRoute
+              path={`${path}/community-isolation/create`}
+              component={CreateEditIsolation}
+              isAuth={props.isAuth}
+              exact
+            />
+            <ProtectedRoute
               path={`${path}/about-us`}
               component={AboutUs}
               isAuth={props.isAuth}
@@ -91,7 +105,7 @@ const AuthRouter = (props) => {
               exact
             />
             <Route path="*">
-              <Redirect to={`${path}/not-found`} />
+              <Redirect to={`${path}`} />
             </Route>
           </Switch>
         ) : (
