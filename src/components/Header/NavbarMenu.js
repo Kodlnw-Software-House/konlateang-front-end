@@ -17,8 +17,8 @@ const NavBarMenu = (props) => {
       userService
         .user_logout(token)
         .then(() => {
-          distpatch(AuthAction.userLogedOut());
           distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          distpatch(AuthAction.userLogedOut());
         })
         .catch((e) => {
           console.console.log(e.message);
@@ -28,8 +28,8 @@ const NavBarMenu = (props) => {
     if (props.role === "HOSPITAL") {
       HospitalService.logout(token)
         .then(() => {
-          distpatch(AuthAction.userLogedOut());
           distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          distpatch(AuthAction.userLogedOut());
         })
         .catch((e) => {
           console.console.log(e.message);
