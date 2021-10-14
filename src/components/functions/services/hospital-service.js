@@ -18,5 +18,15 @@ class HospitalService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
+  getIsolationById(id, token = userToken) {
+    return http.get(`/hospital/getIsolation/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+  updateIsolationData(id, data, token = userToken) {
+    return http.put(`/hospital/edit/${id}`, data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }
 export default new HospitalService();

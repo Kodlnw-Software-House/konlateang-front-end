@@ -84,7 +84,6 @@ const AuthRouter = (props) => {
               path={`${path}/community-isolation/id/:id`}
               component={IsolationMainPage}
               isAuth={props.isAuth}
-              exact
             />
             <ProtectedRoute
               path={`${path}/community-isolation/create`}

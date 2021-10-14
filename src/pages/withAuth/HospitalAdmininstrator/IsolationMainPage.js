@@ -1,79 +1,122 @@
-import { useParams } from "react-router";
+import { Route, Switch, useParams } from "react-router";
 import ItemCard from "../../../components/ui/ItemCard";
 import HospitalInformationCard from "../../../components/MainPage/HospitalInformationCard";
 import { useEffect, useState } from "react";
-import isolationService from "../../../components/functions/services/isolation-service";
+import hospitalService from "../../../components/functions/services/hospital-service";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import Card from "../../../components/ui/Card";
 import { Fragment } from "react";
 import { UserGroupIcon, PencilAltIcon } from "@heroicons/react/outline";
+import { Link, useRouteMatch } from "react-router-dom";
+import CreateEditIsolation from "./CreateNewIsolation";
+import PatientOfIsolation from "./PatientOfIsolation";
+import NotFound from "../../../pages/withAuth/not-found";
 
 const IsolationMainPage = () => {
   const [isolationData, setIsolationData] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const { id } = useParams();
+  let { path, url } = useRouteMatch();
 
   useEffect(() => {
     setIsloading(true);
-    isolationService
+    hospitalService
       .getIsolationById(id, localStorage.getItem("user"))
       .then((response) => {
-        console.log(response.data.isolation);
         setIsolationData(response.data.isolation);
+        setIsloading(false);
       })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
+      .catch(() => {
         setIsloading(false);
       });
-  }, []);
-
+  }, [id]);
+  const updateIsolationData = (data) => {
+    hospitalService
+      .updateIsolationData(id, data, localStorage.getItem("user"))
+      .then((response) => {
+        console.log(response.data);
+      })
+      .catch((error) => {
+        console.log(error.message);
+      });
+  };
   return (
     <Fragment>
-      <ItemCard>
-        {isLoading ? (
-          <LoadingSpinner />
-        ) : (
-          <Fragment>
-            <Card>
-              <h1 className="text-center text-3xl font-bold">
-                ศูนย์พักคอยของท่าน
-              </h1>
-            </Card>
-            <HospitalInformationCard
-              community_isolation_name={isolationData?.community_isolation_name}
-              hospital_name={isolationData?.Hospital?.hospital_name}
-              available_bed={isolationData?.available_bed}
-              address={isolationData?.address}
-            />
-          </Fragment>
-        )}
-      </ItemCard>
-      <Card>
-        <div className="flex flex-row justify-center space-x-2">
-          <div className="bg-primary w-1/2 p-2 card shadow-lg compact">
-            <div className="card-body text-white text-center items-center">
-              <UserGroupIcon className="w-36 h-auto" />
-              <p className="text-xl">
-                ตรวจสอบ
-                <br />
-                รายชื่อผู้ป่วย
-              </p>
-            </div>
-          </div>
-          <div className="bg-primary w-1/2 p-2 card shadow-lg compact">
-            <div className="card-body text-white text-center items-center">
-              <PencilAltIcon className="w-36 h-auto" />
-              <p className="text-xl">
-                อัพเดตข้อมูล
-                <br />
-                ศูนย์พักคอย
-              </p>
-            </div>
-          </div>
-        </div>
-      </Card>
+      {isLoading ? (
+        <LoadingSpinner />
+      ) : (
+        <Switch>
+          <Route exact path={path}>
+            {isLoading ? (
+              <LoadingSpinner />
+            ) : Object.keys(isolationData).length !== 0 ? (
+              <ItemCard>
+                <Card>
+                  <h1 className="text-center text-2xl font-bold">
+                    {isolationData.community_isolation_name}
+                  </h1>
+                </Card>
+                <HospitalInformationCard
+                  community_isolation_name={
+                    isolationData?.community_isolation_name
+                  }
+                  hospital_name={isolationData?.Hospital?.hospital_name}
+                  available_bed={isolationData?.available_bed}
+                  address={isolationData?.address}
+                />
+              </ItemCard>
+            ) : (
+              <NotFound />
+            )}
+            {Object.keys(isolationData).length !== 0 && (
+              <Card>
+                <div className="flex flex-row justify-center space-x-2">
+                  <Link
+                    to={`${url}/patient-list`}
+                    className="bg-primary w-1/2 p-2 card shadow-lg compact"
+                  >
+                    <div className="card-body text-white text-center items-center">
+                      <UserGroupIcon className="w-36 h-auto" />
+                      <p className="text-xl">
+                        ตรวจสอบ
+                        <br />
+                        รายชื่อผู้ป่วย
+                      </p>
+                    </div>
+                  </Link>
+                  <Link
+                    to={`${url}/update`}
+                    className="bg-primary w-1/2 p-2 card shadow-lg compact"
+                  >
+                    <div className="card-body text-white text-center items-center">
+                      <PencilAltIcon className="w-36 h-auto" />
+                      <p className="text-xl">
+                        อัพเดตข้อมูล
+                        <br />
+                        ศูนย์พักคอย
+                      </p>
+                    </div>
+                  </Link>
+                </div>
+              </Card>
+            )}
+          </Route>
+          <Route path={`${url}/update`}>
+            {Object.keys(isolationData).length !== 0 ? (
+              <CreateEditIsolation
+                isolationData={isolationData}
+                edit={true}
+                updateIsolationData={updateIsolationData}
+              />
+            ) : (
+              <NotFound />
+            )}
+          </Route>
+          <Route path={`${url}/patient-list`}>
+            <PatientOfIsolation />
+          </Route>
+        </Switch>
+      )}
     </Fragment>
   );
 };
