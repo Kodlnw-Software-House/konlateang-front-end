@@ -1,41 +1,6 @@
 import { Link, useRouteMatch } from "react-router-dom";
-import { useDispatch } from "react-redux";
-import { AuthAction } from "../../redux/auth-slice";
-import { uiActions } from "../../redux/ui-slice";
-import userService from "../functions/services/user-service";
-import HospitalService from "../functions/services/hospital-service";
 const NavBarMenu = (props) => {
-  const distpatch = useDispatch();
   const { path, url } = useRouteMatch();
-
-  const logoutHandler = () => {
-    props.toggleMenu();
-
-    let token = localStorage.getItem("user");
-
-    if (props.role === "PATIENT") {
-      userService
-        .user_logout(token)
-        .then(() => {
-          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
-          distpatch(AuthAction.userLogedOut());
-        })
-        .catch((e) => {
-          console.console.log(e.message);
-        });
-    }
-
-    if (props.role === "HOSPITAL") {
-      HospitalService.logout(token)
-        .then(() => {
-          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
-          distpatch(AuthAction.userLogedOut());
-        })
-        .catch((e) => {
-          console.console.log(e.message);
-        });
-    }
-  };
 
   if (props.role === "PATIENT") {
     return (
@@ -61,7 +26,7 @@ const NavBarMenu = (props) => {
         >
           <span className="text-2xl leading-relaxed">เกี่ยวกับเรา</span>
         </Link>
-        <div className="cursor-pointer" onClick={logoutHandler}>
+        <div className="cursor-pointer" onClick={props.logoutHandler}>
           <span className="text-2xl leading-relaxed">ออกจากระบบ</span>
         </div>
       </div>
@@ -85,7 +50,7 @@ const NavBarMenu = (props) => {
         >
           <span className="text-2xl leading-relaxed">เกี่ยวกับเรา</span>
         </Link>
-        <div className="cursor-pointer" onClick={logoutHandler}>
+        <div className="cursor-pointer" onClick={props.logoutHandler}>
           <span className="text-2xl leading-relaxed">ออกจากระบบ</span>
         </div>
       </div>
@@ -102,7 +67,7 @@ const NavBarMenu = (props) => {
         >
           <span className="text-2xl leading-relaxed">หน้าแรก</span>
         </Link>
-        <div className="cursor-pointer" onClick={logoutHandler}>
+        <div className="cursor-pointer" onClick={props.logoutHandler}>
           <span className="text-2xl leading-relaxed">ออกจากระบบ</span>
         </div>
       </div>

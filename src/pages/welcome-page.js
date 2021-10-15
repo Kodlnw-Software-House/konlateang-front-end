@@ -3,10 +3,11 @@ import bed from "../assets/bed.png";
 import Modal from "../components/ui/Modal";
 import { useState } from "react";
 import WelcomePagePopup from "../components/login/welcome-page-popup";
-import { Link } from "react-router-dom";
+import { Link, useHistory } from "react-router-dom";
 
 const WelcomePage = () => {
   const [isModal, toggleModal] = useState(false);
+  const history = useHistory();
 
   const openModal = () => {
     toggleModal(true);
@@ -15,11 +16,23 @@ const WelcomePage = () => {
   const modalHandler = () => {
     toggleModal(false);
   };
+
+  const goPatientLogin = () => {
+    history.push("/patient-login");
+  };
+
+  const goHospitalLogin = () => {
+    history.push("/hospital-login");
+  };
+
   return (
     <div className="bg-gradient-to-b from-blue-400 via-blue-200 to-blue-100 flex flex-col justify-around items-center min-h-screen">
       {isModal && (
         <Modal type="DECISION" closeModal={modalHandler}>
-          <WelcomePagePopup />
+          <WelcomePagePopup
+            goHospitalLogin={goHospitalLogin}
+            goPatientLogin={goPatientLogin}
+          />
         </Modal>
       )}
       <Card>

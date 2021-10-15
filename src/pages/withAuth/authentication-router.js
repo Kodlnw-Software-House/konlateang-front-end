@@ -4,14 +4,15 @@ import Navbar from "../../components/Header/Navbar";
 import Footer from "../../components/ui/Footer";
 import ProtectedRoute from "../../components/functions/ProtectedRoute";
 import NotFound from "./not-found";
-import HospitalInfo from "./HospitalInformation";
-import Profile from "./Profile";
+import HospitalInfo from "./Patient/HospitalInformation";
+import Profile from "./Patient/Profile";
 import AboutUs from "./AboutUs";
-import MainPage from "./MainPage/MainPage";
+import MainPage from "./Patient/MainPage";
 import HospitalAdminMainPage from "./HospitalAdmininstrator/HospitalAdminMainPage";
 import IsolationMainPage from "./HospitalAdmininstrator/IsolationMainPage";
 import CreateEditIsolation from "./HospitalAdmininstrator/CreateNewIsolation";
 import { Route, Redirect, useRouteMatch } from "react-router";
+
 const AuthRouter = (props) => {
   const [userData, setUserData] = useState(props.userData);
   const [userPic, setUserPic] = useState(props.userPic);

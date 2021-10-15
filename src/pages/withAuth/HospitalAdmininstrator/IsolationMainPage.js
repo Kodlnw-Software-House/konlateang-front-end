@@ -1,4 +1,4 @@
-import { Route, Switch, useParams } from "react-router";
+import { Route, Switch, useParams, useHistory } from "react-router";
 import ItemCard from "../../../components/ui/ItemCard";
 import HospitalInformationCard from "../../../components/MainPage/HospitalInformationCard";
 import { useEffect, useState } from "react";
@@ -11,8 +11,11 @@ import { Link, useRouteMatch } from "react-router-dom";
 import CreateEditIsolation from "./CreateNewIsolation";
 import PatientOfIsolation from "./PatientOfIsolation";
 import NotFound from "../../../pages/withAuth/not-found";
-
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../../redux/ui-slice";
 const IsolationMainPage = () => {
+  const history = useHistory();
+  const dispatch = useDispatch();
   const [isolationData, setIsolationData] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const { id } = useParams();
@@ -26,20 +29,39 @@ const IsolationMainPage = () => {
         setIsolationData(response.data.isolation);
         setIsloading(false);
       })
-      .catch(() => {
+      .catch((error) => {
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: error.message,
+          })
+        );
         setIsloading(false);
       });
   }, [id]);
+
   const updateIsolationData = (data) => {
     hospitalService
       .updateIsolationData(id, data, localStorage.getItem("user"))
-      .then((response) => {
-        console.log(response.data);
+      .then(() => {
+        dispatch(
+          uiActions.setNoti({
+            status: "success",
+            title: "อัพเดทข้อมูลสำเร็จ",
+          })
+        );
+        history.push("/");
       })
       .catch((error) => {
-        console.log(error.message);
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: error.message,
+          })
+        );
       });
   };
+
   return (
     <Fragment>
       {isLoading ? (

@@ -1,23 +1,59 @@
 import { MenuIcon } from "@heroicons/react/outline";
 import { useState } from "react";
 import { Link, useRouteMatch } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { AuthAction } from "../../redux/auth-slice";
+import { uiActions } from "../../redux/ui-slice";
+import userService from "../functions/services/user-service";
+import HospitalService from "../functions/services/hospital-service";
 import Modal from "../ui/Modal";
 import NavBarMenu from "./NavbarMenu";
 import default_profile from "../../assets/default_profile.png";
 
 const Navbar = (props) => {
+  const distpatch = useDispatch();
   const [showMenu, setMenu] = useState(false);
   const { path } = useRouteMatch();
 
   const toggleMenu = () => {
     setMenu((prev) => !prev);
   };
+  const logoutHandler = () => {
+    toggleMenu();
+    let token = localStorage.getItem("user");
+    if (props.role === "PATIENT") {
+      userService
+        .user_logout(token)
+        .then(() => {
+          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          distpatch(AuthAction.userLogedOut());
+        })
+        .catch((e) => {
+          console.console.log(e.message);
+        });
+    }
+
+    if (props.role === "HOSPITAL") {
+      HospitalService.logout(token)
+        .then(() => {
+          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          distpatch(AuthAction.userLogedOut());
+        })
+        .catch((e) => {
+          console.console.log(e.message);
+        });
+    }
+  };
 
   return (
     <header className="navbar justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50">
       {showMenu && (
         <Modal type="DECISION" closeModal={toggleMenu}>
-          <NavBarMenu role={props.role} toggleMenu={toggleMenu} />
+          <NavBarMenu
+            role={props.role}
+            toggleMenu={toggleMenu}
+            logoutHandler={logoutHandler}
+          />
         </Modal>
       )}
 

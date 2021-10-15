@@ -5,6 +5,7 @@ function addZero(i) {
   }
   return i;
 }
+
 const BookingHistory = (props) => {
   const date = new Date(props.bookingDate);
   const [month, day, year] = [
@@ -36,7 +37,9 @@ const BookingHistory = (props) => {
     "การรักษาเสร็จสิ้น!",
     "กำลังรักษาอยู่",
   ][props.bookingStatus - 1];
+
   let statusClasses;
+
   switch (props.bookingStatus) {
     case 1:
       statusClasses = "badge-error badge-md rounded-badge";

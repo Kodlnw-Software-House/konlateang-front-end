@@ -1,18 +1,18 @@
 import { withRouter } from "react-router";
 import { useHistory } from "react-router";
-import ItemCard from "../../components/ui/ItemCard";
-import Modal from "../../components/ui/Modal";
+import ItemCard from "../../../components/ui/ItemCard";
+import Modal from "../../../components/ui/Modal";
 import { useEffect, useState } from "react";
-import BookingHistory from "../../components/ProfilePage/BookingHistory";
-import default_profile from "../../assets/default_profile.png";
-import userService from "../../components/functions/services/user-service";
+import BookingHistory from "../../../components/ProfilePage/BookingHistory";
+import default_profile from "../../../assets/default_profile.png";
+import userService from "../../../components/functions/services/user-service";
 import { useDispatch } from "react-redux";
-import { uiActions } from "../../redux/ui-slice";
-import UploadImage from "../../components/ProfilePage/UploadImage";
+import { uiActions } from "../../../redux/ui-slice";
+import UploadImage from "../../../components/ProfilePage/UploadImage";
 import { PhotographIcon } from "@heroicons/react/outline";
-import EditPersonalData from "../../components/ProfilePage/EditPersonalData";
-import LoadingSpinner from "../../components/ui/LoadingSpinner";
-import { AuthAction } from "../../redux/auth-slice";
+import EditPersonalData from "../../../components/ProfilePage/EditPersonalData";
+import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+import { AuthAction } from "../../../redux/auth-slice";
 
 const Profile = (props) => {
   const dispatch = useDispatch();

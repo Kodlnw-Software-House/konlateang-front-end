@@ -1,14 +1,15 @@
 import { useLocation, useHistory, useParams } from "react-router";
-import ItemCard from "../../components/ui/ItemCard";
-import Modal from "../../components/ui/Modal";
-import LoadingSpinner from "../../components/ui/LoadingSpinner";
-import userService from "../../components/functions/services/user-service";
+import ItemCard from "../../../components/ui/ItemCard";
+import Modal from "../../../components/ui/Modal";
+import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+import userService from "../../../components/functions/services/user-service";
 import { useEffect, useState } from "react";
-import isolationService from "../../components/functions/services/isolation-service";
+import isolationService from "../../../components/functions/services/isolation-service";
 import { useDispatch } from "react-redux";
-import uiActions from "../../redux/ui-slice";
-import { AuthAction } from "../../redux/auth-slice";
-import HospitalInformationCard from "../../components/MainPage/HospitalInformationCard";
+import uiActions from "../../../redux/ui-slice";
+import { AuthAction } from "../../../redux/auth-slice";
+import HospitalInformationCard from "../../../components/MainPage/HospitalInformationCard";
+import NotFound from "../not-found";
 const onTop = () => {
   window.scrollTo(0, 0);
 };
@@ -92,6 +93,7 @@ const HospitalInfo = (props) => {
       })
       .finally(setIsFetchBooking(false));
   };
+
   return (
     <div>
       {isModal && (
@@ -130,7 +132,7 @@ const HospitalInfo = (props) => {
       <ItemCard>
         {isFetchData ? (
           <LoadingSpinner />
-        ) : hospitalDetail ? (
+        ) : Object.keys(hospitalDetail).length !== 0 ? (
           <HospitalInformationCard
             openModal={openModal}
             community_isolation_name={hospitalDetail.community_isolation_name}
@@ -139,7 +141,7 @@ const HospitalInfo = (props) => {
             address={hospitalDetail.address}
           />
         ) : (
-          <div>ไม่พบข้อมูลศูนย์พักคอยที่ท่านต้องการ</div>
+          <NotFound></NotFound>
         )}
       </ItemCard>
     </div>

@@ -27,7 +27,6 @@ function App() {
   useEffect(() => {
     if (!currentUser && isLoggedIn) {
       if (role === "PATIENT") {
-        console.log("fetch patient data");
         userService
           .fetchCurrentPatientProfile()
           .then((response) => {
@@ -48,7 +47,6 @@ function App() {
             }
           });
       } else if (role === "HOSPITAL") {
-        console.log("fetch hospital data");
         hospitalService
           .fetchCurrentProfile()
           .then((response) => {
