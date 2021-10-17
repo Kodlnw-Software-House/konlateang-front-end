@@ -27,6 +27,7 @@ const HospitalAdminMainPage = (props) => {
         setIsolationData(response.data.isolation);
       })
       .catch((error) => {
+        console.log(error.response.status)
         dispatch(
           uiActions.setNoti({
             status: "error",

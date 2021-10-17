@@ -28,5 +28,10 @@ class HospitalService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
+  createNewIsolation(data, token = userToken) {
+    return http.post("/hospital/createIsolation", data, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }
 export default new HospitalService();
