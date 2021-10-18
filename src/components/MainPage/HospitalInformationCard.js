@@ -56,13 +56,19 @@ const HospitalInformationCard = (props) => {
       <div className="px-6 py-4">
         <h1 className="text-lg font-semibold text-gray-800">
           จำนวนเตียงคงเหลือ{" "}
-          <span className="badge badge-outline badge-info badge-lg text-xl">
+          <span className="badge badge-primary badge-lg text-xl">
+            {props?.bed_left} เตียง
+          </span>
+        </h1>
+        <h1 className="text-base font-semibold text-gray-800">
+          จากทั้งหมด{" "}
+          <span className="badge badge-primary badge-outline badge-md text-base">
             {props?.available_bed} เตียง
           </span>
         </h1>
-
         <p className="py-2 text-gray-700 ">{props?.address}</p>
       </div>
+
       {localStorage.getItem("role") === "PATIENT" && (
         <div>
           <button

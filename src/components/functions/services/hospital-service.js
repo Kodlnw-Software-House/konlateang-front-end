@@ -33,5 +33,10 @@ class HospitalService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
+  getBookings(id, token = userToken) {
+    return http.get(`/hospital/getBooking/${id}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }
 export default new HospitalService();

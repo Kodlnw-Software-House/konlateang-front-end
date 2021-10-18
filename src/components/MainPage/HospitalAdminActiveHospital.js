@@ -15,12 +15,18 @@ const HospitalAdminActiveHospital = (props) => {
           />
         </div>
         <div className="w-4/6">
-          <div>
+          <div className="space-y-1">
             <p className="text-xl font-bold">{props.hospitalName}</p>
             <p>
-              จำนวนเตียงคงเหลือ:
-              <span className="badge badge-lg badge-info mx-1">
-                {props.totalActiveBed}
+              จำนวนเตียง:
+              <span className="badge badge-lg badge-primary mx-1">
+                {props.allBed} เตียง
+              </span>
+            </p>
+            <p>
+              คงเหลือ:
+              <span className="badge badge-lg badge-outline badge-primary  mx-1">
+                {props.activeBed} เตียง
               </span>
             </p>
           </div>

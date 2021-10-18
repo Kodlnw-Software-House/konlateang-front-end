@@ -37,7 +37,7 @@ const IsolationMainPage = () => {
         );
         setIsloading(false);
       });
-  }, [id]);
+  }, []);
 
   return (
     <Fragment>
@@ -62,6 +62,7 @@ const IsolationMainPage = () => {
                   hospital_name={isolationData?.Hospital?.hospital_name}
                   available_bed={isolationData?.available_bed}
                   address={isolationData?.address}
+                  bed_left={isolationData?.bed_left}
                 />
               </ItemCard>
             ) : (
@@ -112,7 +113,10 @@ const IsolationMainPage = () => {
             )}
           </Route>
           <Route path={`${url}/patient-list`}>
-            <PatientOfIsolation />
+            <PatientOfIsolation
+              id={id}
+              header={isolationData.community_isolation_name}
+            />
           </Route>
         </Switch>
       )}

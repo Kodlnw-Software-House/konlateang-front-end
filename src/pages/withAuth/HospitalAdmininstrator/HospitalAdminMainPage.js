@@ -27,7 +27,7 @@ const HospitalAdminMainPage = (props) => {
         setIsolationData(response.data.isolation);
       })
       .catch((error) => {
-        console.log(error.response.status)
+        console.log(error.response.status);
         dispatch(
           uiActions.setNoti({
             status: "error",
@@ -65,7 +65,8 @@ const HospitalAdminMainPage = (props) => {
               key={key}
               id={item.community_isolation_id}
               hospitalName={item.community_isolation_name}
-              totalActiveBed={item.available_bed}
+              allBed={item.available_bed}
+              activeBed={item.bed_left}
               goPath={goPath}
             />
           );
