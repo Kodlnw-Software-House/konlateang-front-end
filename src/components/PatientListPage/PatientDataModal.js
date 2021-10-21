@@ -30,23 +30,65 @@ const PatientData = (props) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ][month];
+  const rowClass =
+    "flex flex-col sm:flex-row justify-between items-center sm:items-start py-2 border-t border-gray-300 last:border-none";
+  const leftClass =
+    "w-full sm:w-1/3 font-medium text-primary text-center sm:text-left";
+  const rightClass = "flex-1 text-center sm:text-left";
   return (
-    <div>
-      <div className="text-center">
-        <p className="text-lg">รหัสการจองเตียงที่ {data.booking_id}</p>
-        <p>{`${day} ${realMonth} ${year} เวลา ${hour}:${minutes} นาที`}</p>
+    <div
+      data-theme="hospitalTheme"
+      className="w-full max-h-96 md:max-h-full overflow-y-scroll"
+    >
+      <div className="flex flex-col text-center md:flex-row md:items-baseline md:space-x-2">
+        <h3 className="text-2xl font-semibold text-primary-focus">
+          รหัสการจองที่ {data.booking_id}
+        </h3>
+        <h6 className="text-base font-medium">{`${day} ${realMonth} ${year} เวลา ${hour}:${minutes} นาที`}</h6>
       </div>
       <div className="mt-4">
-        <p>{`รหัสประจำตัวผู้ป่วย ${data.patient.patient_id}`}</p>
-        <p>{`ชื่อ-นามสกุล ${data.patient.fname} ${data.patient.lname}`}</p>
-        <p>{`เลขประจำตัวประชาชน ${data.patient.citizen_id}`}</p>
-        <p>{`วันเดือนปีเกิด ${data.patient.dob}`}</p>
-        <p>{`เพศ ${
-          data.patient.gender === "M" ? "ชาย" : "F" ? "หญิง" : "ไม่ระบุ"
-        } อายุ ${data.patient.age} ปี `}</p>
-        <p>{`ที่อยู่ปัจจุบัน ${data.patient.address}`}</p>
-        <p>{`เบอร์โทรศัพท์ ${data.patient.tel}`}</p>
-        <p>{`อีเมล ${data.patient.email}`}</p>
+        <div className={rowClass}>
+          <span className={leftClass}>รหัสประจำตัวผู้ป่วย</span>
+          <span className={rightClass}>{data.patient.patient_id}</span>
+        </div>
+        <div className={rowClass}>
+          <span className={leftClass}>เพศ</span>
+          <span className={rightClass}>
+            {data.patient.gender === "M" ? "ชาย" : "F" ? "หญิง" : "ไม่ระบุ"}
+          </span>
+        </div>
+        <div className={rowClass}>
+          <span className={leftClass}>ชื่อ-นามสกุล</span>
+          <span
+            className={rightClass}
+          >{`${data.patient.fname} ${data.patient.lname}`}</span>
+        </div>
+        <div className={rowClass}>
+          <span className={leftClass}>รหัสประจำตัวประชาชน</span>
+          <span className={rightClass}>{data.patient.citizen_id}</span>
+        </div>
+        <div className={rowClass}>
+          <span className={leftClass}>วันเดือนปีเกิด / อายุ</span>
+          <span
+            className={rightClass}
+          >{`${data.patient.dob} / ${data.patient.age} ปี`}</span>
+        </div>
+        <div className={rowClass}>
+          <span className={leftClass}>เบอร์โทรศัพท์</span>
+          <span className={rightClass}>{data.patient.tel}</span>
+        </div>
+        <div className={rowClass}>
+          <span className={leftClass}>อีเมล</span>
+          <span className={rightClass}>{data.patient.email}</span>
+        </div>
+        <div className={rowClass}>
+          <span className={leftClass}>ที่อยู่ปัจจุบัน</span>
+          <span className={rightClass}>{data.patient.address}</span>
+        </div>
+        <div className={rowClass}>
+          <span className={leftClass}>สถานะการจอง</span>
+          <span className={rightClass}>{data.status.status_name}</span>
+        </div>
       </div>
     </div>
   );
