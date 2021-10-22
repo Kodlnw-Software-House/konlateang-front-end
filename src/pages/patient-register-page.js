@@ -112,7 +112,7 @@ const PatientRegister = () => {
   let finalStepClass = step >= 4 ? "step step-accent" : "step";
 
   return (
-    <div className="bg-gradient-to-b from-blue-400 via-blue-200 to-blue-100 flex flex-col justify-center space-y-3 min-h-screen">
+    <div className="bg-gradient-to-b from-blue-400 via-blue-200 to-blue-100 flex flex-col justify-center space-y-3 min-h-screen py-8">
       <Card>
         <div className="text-center my-4 mx-auto border-b-4 border-primary w-3/4">
           <p className="text-2xl">ลงทะเบียนผู้ป่วย คนละเตียง</p>

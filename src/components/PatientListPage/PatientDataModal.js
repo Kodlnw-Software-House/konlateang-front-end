@@ -1,11 +1,27 @@
+import { PencilAltIcon, CheckIcon, XIcon } from "@heroicons/react/outline";
+import { Fragment, useState } from "react";
+
 function addZero(i) {
   if (i < 10) {
     i = "0" + i;
   }
   return i;
 }
+
+const status = [
+  { label: "Booking failed.", value: 1 },
+  { label: "Booking successful! In progress.", value: 2 },
+  { label: "Done!", value: 3 },
+  { label: "In treatment.", value: 4 },
+];
+
 const PatientData = (props) => {
   const data = props.modalData;
+  const [isEdit, setIsEdit] = useState(false);
+  const [patientStatus, setPatientStatus] = useState({
+    value: props.modalData.status.status_id,
+    label: props.modalData.status.status_name,
+  });
   const date = new Date(data.create_at);
   const [month, day, year] = [
     date.getMonth(),
@@ -30,11 +46,39 @@ const PatientData = (props) => {
     "พฤศจิกายน",
     "ธันวาคม",
   ][month];
+
+  const toggleEdit = () => {
+    setIsEdit((prev) => !prev);
+  };
+  const handleChange = (e) => {
+    setPatientStatus({
+      value: e.target.value,
+      label: status[e.target.value - 1],
+    });
+  };
+  const calcelEdit = () => {
+    setPatientStatus({
+      value: props.modalData.status.status_id,
+      label: props.modalData.status.status_name,
+    });
+    toggleEdit();
+  };
+  const confirmUpdate = () => {
+    if (parseInt(patientStatus.value) === props.modalData.status.status_id) {
+      toggleEdit();
+      return;
+    } else {
+      toggleEdit();
+      props.updatePatientStatus(data.booking_id, patientStatus.value);
+    }
+  };
   const rowClass =
     "flex flex-col sm:flex-row justify-between items-center sm:items-start py-2 border-t border-gray-300 last:border-none";
   const leftClass =
     "w-full sm:w-1/3 font-medium text-primary text-center sm:text-left";
   const rightClass = "flex-1 text-center sm:text-left";
+  const isConfirmBtn =
+    patientStatus.value === props.modalData.status.status_id ? false : true;
   return (
     <div
       data-theme="hospitalTheme"
@@ -87,7 +131,41 @@ const PatientData = (props) => {
         </div>
         <div className={rowClass}>
           <span className={leftClass}>สถานะการจอง</span>
-          <span className={rightClass}>{data.status.status_name}</span>
+          <select
+            disabled={!isEdit}
+            value={patientStatus.value}
+            onChange={handleChange}
+            className="flex-1 text-center sm:text-left select-bordered"
+          >
+            {status.map((status) => (
+              <option key={status.value} value={status.value}>
+                {status.label}
+              </option>
+            ))}
+          </select>
+          <div className="space-x-1">
+            {isEdit ? (
+              <Fragment>
+                <button
+                  disabled={!isConfirmBtn}
+                  onClick={confirmUpdate}
+                  className="btn btn-xs btn-primary"
+                >
+                  <CheckIcon className="w-6" />
+                </button>
+                <button
+                  className="btn btn-xs btn-secondary"
+                  onClick={calcelEdit}
+                >
+                  <XIcon className="w-6" />
+                </button>
+              </Fragment>
+            ) : (
+              <button className="btn btn-xs btn-ghost" onClick={toggleEdit}>
+                <PencilAltIcon className="w-6" />
+              </button>
+            )}
+          </div>
         </div>
       </div>
     </div>

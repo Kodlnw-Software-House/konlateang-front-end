@@ -5,9 +5,16 @@ import { useEffect } from "react";
 import hospitalService from "../../../components/functions/services/hospital-service";
 import { useState } from "react";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
-import { PencilAltIcon } from "@heroicons/react/solid";
+import { InformationCircleIcon } from "@heroicons/react/solid";
 import Modal from "../../../components/ui/Modal";
 import PatientData from "../../../components/PatientListPage/PatientDataModal";
+const status = [
+  { label: "Booking failed.", value: 1 },
+  { label: "Booking successful! In progress.", value: 2 },
+  { label: "Done!", value: 3 },
+  { label: "In treatment.", value: 4 },
+];
+
 const PatientOfIsolation = (props) => {
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -32,17 +39,25 @@ const PatientOfIsolation = (props) => {
     setIsModal((prev) => !prev);
   };
   const togglePatientEditModal = (id) => {
-    let bookingFromId;
-    bookingFromId = bookings.find((e) => e.booking_id === id);
+    let bookingFromId = bookings.find((e) => e.booking_id === id);
     setModalData(bookingFromId);
     modalHandler();
   };
-
+  const updatePatientStatus = (b_id, status_id) => {
+    props.updatePatientStatus(b_id, status_id);
+    let bookingFromId = bookings.find((e) => e.booking_id === b_id);
+    bookingFromId.status.status_id = status_id;
+    bookingFromId.status.status_name = status[status_id - 1].label;
+    modalHandler();
+  };
   return (
     <Fragment>
       {isModal && (
         <Modal type="DECISION" closeModal={modalHandler}>
-          <PatientData modalData={modalData} />
+          <PatientData
+            modalData={modalData}
+            updatePatientStatus={updatePatientStatus}
+          />
         </Modal>
       )}
       <Card>
@@ -80,7 +95,7 @@ const PatientOfIsolation = (props) => {
                       </th>
                       <td>{booking.status.status_name}</td>
                       <td>
-                        <PencilAltIcon
+                        <InformationCircleIcon
                           className="w-6"
                           onClick={() => {
                             togglePatientEditModal(booking.booking_id);

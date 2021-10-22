@@ -38,5 +38,10 @@ class HospitalService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
+  updatePatientStatus(h_id, b_id, status, token = userToken) {
+    return http.put(`/hospital/editStatus/${h_id}/${b_id}?statusId=${status}`, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
 }
 export default new HospitalService();

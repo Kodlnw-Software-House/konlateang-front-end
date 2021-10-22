@@ -39,6 +39,27 @@ const IsolationMainPage = () => {
       });
   }, []);
 
+  const updatePatientStatus = (b_id, status_id) => {
+    hospitalService
+      .updatePatientStatus(id, b_id, status_id, localStorage.getItem("user"))
+      .then((response) => {
+        dispatch(
+          uiActions.setNoti({
+            status: "success",
+            title: response.data.status,
+          })
+        );
+      })
+      .catch((error) => {
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: error.message,
+          })
+        );
+      });
+  };
+  
   return (
     <Fragment>
       {isLoading ? (
@@ -116,6 +137,7 @@ const IsolationMainPage = () => {
             <PatientOfIsolation
               id={id}
               header={isolationData.community_isolation_name}
+              updatePatientStatus={updatePatientStatus}
             />
           </Route>
         </Switch>
