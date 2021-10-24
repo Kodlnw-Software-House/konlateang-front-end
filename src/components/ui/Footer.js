@@ -3,7 +3,7 @@ const Footer = () => {
   return (
     <footer className="flex flex-col items-center justify-between px-6 py-4 bg-primary-content sm:flex-row lg:opacity-40 lg:hover:opacity-100 transition-opacity">
       <Link
-        to="/"
+        to="/kon-la-tieng"
         className="text-xl font-bold text-gray-800 dark:text-white hover:text-gray-700"
       >
         คนละเตียง

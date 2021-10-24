@@ -1,6 +1,6 @@
 import { MenuIcon } from "@heroicons/react/outline";
-import { useState } from "react";
-import { Link, useRouteMatch } from "react-router-dom";
+import { Fragment, useState } from "react";
+import { Link, NavLink, useRouteMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { AuthAction } from "../../redux/auth-slice";
 import { uiActions } from "../../redux/ui-slice";
@@ -57,19 +57,98 @@ const Navbar = (props) => {
         </Modal>
       )}
 
-      <div className="flex">
+      <div className="flex visible md:hidden">
         <button className="btn btn-square btn-ghost" onClick={toggleMenu}>
           <MenuIcon />
         </button>
       </div>
 
-      <div className="hidden px-2 mx-2 md:flex md:flex-1">
-        <span className="text-2xl font-bold">คนละเตียง</span>
+      <div className="hidden px-2 mx-2 md:flex md:flex-1 items-baseline space-x-6">
+        <Link to={path} className="text-2xl font-bold">
+          คนละเตียง
+        </Link>
+        <div className="text-xl space-x-3">
+          {props.role === "PATIENT" ? (
+            <Fragment>
+              <NavLink
+                exact
+                to={path}
+                className="border-transparent border-b-4 hover:border-white"
+                activeClassName="border-b-4 border-white "
+              >
+                หน้าแรก
+              </NavLink>
+              <NavLink
+                exact
+                to={`${path}/my-profile`}
+                className="border-transparent border-b-4 hover:border-white"
+                activeClassName="border-b-4 border-white "
+              >
+                ข้อมูลส่วนตัว
+              </NavLink>
+              <NavLink
+                exact
+                to={`${path}/about-us`}
+                className="border-transparent border-b-4 hover:border-white"
+                activeClassName="border-b-4 border-white"
+              >
+                เกี่ยวกับเรา
+              </NavLink>
+            </Fragment>
+          ) : props.role === "HOSPITAL" ? (
+            <Fragment>
+              <NavLink
+                exact
+                to={path}
+                className="border-transparent border-b-4 hover:border-white"
+                activeClassName="border-b-4 border-white "
+              >
+                ศูนย์พักคอยของฉัน
+              </NavLink>
+              <NavLink
+                exact
+                to={`${path}/about-us`}
+                className="border-transparent border-b-4 hover:border-white"
+                activeClassName="border-b-4 border-white"
+              >
+                เกี่ยวกับเรา
+              </NavLink>
+            </Fragment>
+          ) : (
+            <Fragment>
+              <NavLink
+                exact
+                to={path}
+                className="border-transparent border-b-4 hover:border-white"
+                activeClassName="border-b-4 border-white "
+              >
+                ศูนย์พักคอยของฉัน
+              </NavLink>
+              <NavLink
+                exact
+                to={path + "/about-us"}
+                className="border-transparent border-b-4 hover:border-white"
+                activeClassName="border-b-4 border-white"
+              >
+                เกี่ยวกับเรา
+              </NavLink>
+            </Fragment>
+          )}
+          <button
+            className="font-thin text-neutral hover:text-primary-content"
+            onClick={logoutHandler}
+          >
+            ออกจากระบบ
+          </button>
+        </div>
       </div>
 
       <div className="space-x-1">
         <div className="text-right leading-5">
-          <Link to={`${path}`} className="text-lg">
+          <Link
+            to={props.role === "PATIENT" ? `${path}/my-profile` : path}
+            className="text-lg font-semibold"
+          >
             สวัสดี,{" "}
             {props.role === "PATIENT"
               ? props.userData?.fname
@@ -77,7 +156,6 @@ const Navbar = (props) => {
               ? props.userData?.hospital_name
               : "ยินดีต้อนรับ"}
           </Link>
-          {/* <p>{props.userData?.email}</p> */}
         </div>
         {props.role === "PATIENT" && (
           <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
