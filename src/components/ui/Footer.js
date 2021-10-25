@@ -1,15 +1,15 @@
 import { Link } from "react-router-dom";
 const Footer = () => {
   return (
-    <footer className="flex flex-col items-center justify-between px-6 py-4 bg-primary-content sm:flex-row lg:opacity-40 lg:hover:opacity-100 transition-opacity">
+    <footer className="flex flex-col items-center justify-between px-6 py-4 bg-primary-content sm:flex-row lg:opacity-40 lg:hover:opacity-100 transition-opacity lg:py-10">
       <Link
         to="/kon-la-tieng"
-        className="text-xl font-bold text-gray-800 dark:text-white hover:text-gray-700"
+        className="text-xl font-bold text-gray-800 dark:text-white hover:text-gray-700 lg:text-2xl"
       >
         คนละเตียง
       </Link>
 
-      <p className="py-2 text-gray-800 sm:py-0">
+      <p className="py-2 text-gray-800 sm:py-0 lg:text-xl">
         © คนละเตียง 2021 - INT222 Intregated Project II
       </p>
 
@@ -22,7 +22,7 @@ const Footer = () => {
           aria-label="Github"
         >
           <svg
-            className="w-5 h-5 fill-current"
+            className="w-5 h-5 lg:w-10 lg:h-10 fill-current"
             viewBox="0 0 24 24"
             fill="none"
             xmlns="http://www.w3.org/2000/svg"

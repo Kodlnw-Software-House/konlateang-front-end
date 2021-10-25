@@ -59,7 +59,7 @@ const IsolationMainPage = () => {
         );
       });
   };
-  
+
   return (
     <Fragment>
       {isLoading ? (
@@ -70,58 +70,61 @@ const IsolationMainPage = () => {
             {isLoading ? (
               <LoadingSpinner />
             ) : Object.keys(isolationData).length !== 0 ? (
-              <ItemCard>
-                <Card>
-                  <h1 className="text-center text-2xl font-bold">
-                    {isolationData.community_isolation_name}
-                  </h1>
-                </Card>
-                <HospitalInformationCard
-                  community_isolation_name={
-                    isolationData?.community_isolation_name
-                  }
-                  hospital_name={isolationData?.Hospital?.hospital_name}
-                  available_bed={isolationData?.available_bed}
-                  address={isolationData?.address}
-                  bed_left={isolationData?.bed_left}
-                />
-              </ItemCard>
+              <div className="xl:flex xl:flex-wrap xl:overflow-hidden xl:pt-20">
+                <div className="xl:w-2/3 xl:flex-grow">
+                  <ItemCard>
+                    <h1 className="text-center text-2xl font-bold mb-2 lg:text-3xl">
+                      {isolationData.community_isolation_name}
+                    </h1>
+                    <HospitalInformationCard
+                      community_isolation_name={
+                        isolationData?.community_isolation_name
+                      }
+                      hospital_name={isolationData?.Hospital?.hospital_name}
+                      available_bed={isolationData?.available_bed}
+                      address={isolationData?.address}
+                      bed_left={isolationData?.bed_left}
+                    />
+                  </ItemCard>
+                </div>
+                <div className="xl:w-1/3 xl:flex-none">
+                  <Card>
+                    <div className="flex flex-row justify-center space-x-2  xl:space-x-2">
+                      <Link
+                        to={`${url}/patient-list`}
+                        className="bg-primary w-1/2 p-2 card shadow-lg compact"
+                      >
+                        <div className="card-body text-white text-center items-center">
+                          <UserGroupIcon className="w-36 h-auto" />
+                          <p className="text-xl">
+                            ตรวจสอบ
+                            <br />
+                            รายชื่อผู้ป่วย
+                          </p>
+                        </div>
+                      </Link>
+                      <Link
+                        to={`${url}/update`}
+                        className="bg-primary w-1/2 p-2 card shadow-lg compact"
+                      >
+                        <div className="card-body text-white text-center items-center">
+                          <PencilAltIcon className="w-36 h-auto" />
+                          <p className="text-xl">
+                            อัพเดตข้อมูล
+                            <br />
+                            ศูนย์พักคอย
+                          </p>
+                        </div>
+                      </Link>
+                    </div>
+                  </Card>
+                </div>
+              </div>
             ) : (
               <NotFound />
             )}
-            {Object.keys(isolationData).length !== 0 && (
-              <Card>
-                <div className="flex flex-row justify-center space-x-2">
-                  <Link
-                    to={`${url}/patient-list`}
-                    className="bg-primary w-1/2 p-2 card shadow-lg compact"
-                  >
-                    <div className="card-body text-white text-center items-center">
-                      <UserGroupIcon className="w-36 h-auto" />
-                      <p className="text-xl">
-                        ตรวจสอบ
-                        <br />
-                        รายชื่อผู้ป่วย
-                      </p>
-                    </div>
-                  </Link>
-                  <Link
-                    to={`${url}/update`}
-                    className="bg-primary w-1/2 p-2 card shadow-lg compact"
-                  >
-                    <div className="card-body text-white text-center items-center">
-                      <PencilAltIcon className="w-36 h-auto" />
-                      <p className="text-xl">
-                        อัพเดตข้อมูล
-                        <br />
-                        ศูนย์พักคอย
-                      </p>
-                    </div>
-                  </Link>
-                </div>
-              </Card>
-            )}
           </Route>
+
           <Route path={`${url}/update`}>
             {Object.keys(isolationData).length !== 0 ? (
               <CreateEditIsolation

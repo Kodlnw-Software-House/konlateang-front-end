@@ -46,7 +46,7 @@ const Navbar = (props) => {
   };
 
   return (
-    <header className="navbar justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50">
+    <header className="navbar justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50 md:h-10 lg:h-20">
       {showMenu && (
         <Modal type="DECISION" closeModal={toggleMenu}>
           <NavBarMenu

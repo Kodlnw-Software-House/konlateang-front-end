@@ -54,23 +54,38 @@ const HospitalAdminMainPage = (props) => {
   return (
     <div>
       <Card>
-        <h1 className="text-center text-3xl font-bold">ศูนย์พักคอยของท่าน</h1>
+        <h1 className="text-center text-3xl font-bold md:text-4xl lg:text-5xl">
+          ศูนย์พักคอยของท่าน
+        </h1>
       </Card>
       {isFetchIsolation ? (
         <LoadingSpinner />
       ) : isolationData.length !== 0 ? (
-        isolationData.map((item, key) => {
-          return (
-            <HospitalAdminActiveHospital
-              key={key}
-              id={item.community_isolation_id}
-              hospitalName={item.community_isolation_name}
-              allBed={item.available_bed}
-              activeBed={item.bed_left}
-              goPath={goPath}
-            />
-          );
-        })
+        <div className="grid grid-cols-1 md:grid-rows-2 items-stretch justify-items-stretch">
+          {isolationData.map((item, key) => {
+            return (
+              <HospitalAdminActiveHospital
+                key={key}
+                id={item.community_isolation_id}
+                hospitalName={item.community_isolation_name}
+                allBed={item.available_bed}
+                activeBed={item.bed_left}
+                goPath={goPath}
+              />
+            );
+          })}
+          <div
+            onClick={() => goCreate()}
+            className="card border-dashed border-4 border-gray-400 shadow-md m-4 text-gray-400 md:mx-10 lg:mx-20 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-gray-500"
+          >
+            <div className="card-body p-4 flex space-x-2 overflow-hidden items-center mx-auto">
+              <div className="flex flex-col justify-center items-center space-y-1">
+                <PlusIcon className="w-14 h-auto" />
+                <p className="text-xl">ลงทะเบียนศูนย์พักคอย</p>
+              </div>
+            </div>
+          </div>
+        </div>
       ) : (
         <ItemCard>
           <div className="flex flex-col justify-center space-y-2">
@@ -79,17 +94,6 @@ const HospitalAdminMainPage = (props) => {
           </div>
         </ItemCard>
       )}
-      <div
-        onClick={() => goCreate()}
-        className="card border-dashed border-4 border-gray-400 shadow-md m-4 text-gray-400 hover:border-gray-500 hover:text-gray-500"
-      >
-        <div className="card-body p-4 flex space-x-2 overflow-hidden items-center mx-auto">
-          <div className="flex flex-col justify-center items-center  space-y-1">
-            <PlusIcon className="w-14 h-auto" />
-            <p className="text-xl">ลงทะเบียนศูนย์พักคอย</p>
-          </div>
-        </div>
-      </div>
     </div>
   );
 };
