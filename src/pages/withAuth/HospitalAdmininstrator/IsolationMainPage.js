@@ -38,7 +38,10 @@ const IsolationMainPage = () => {
         setIsloading(false);
       });
   }, []);
-
+  useEffect(() => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
+  }, []);
   const updatePatientStatus = (b_id, status_id) => {
     hospitalService
       .updatePatientStatus(id, b_id, status_id, localStorage.getItem("user"))
@@ -71,8 +74,8 @@ const IsolationMainPage = () => {
               <LoadingSpinner />
             ) : Object.keys(isolationData).length !== 0 ? (
               <div className="xl:flex xl:flex-wrap xl:overflow-hidden xl:pt-20">
-                <div className="xl:w-2/3 xl:flex-grow">
-                  <ItemCard>
+                <div className="xl:w-3/4 xl:flex-grow">
+                  <ItemCard type="isolation-main-page">
                     <h1 className="text-center text-2xl font-bold mb-2 lg:text-3xl">
                       {isolationData.community_isolation_name}
                     </h1>
@@ -87,12 +90,12 @@ const IsolationMainPage = () => {
                     />
                   </ItemCard>
                 </div>
-                <div className="xl:w-1/3 xl:flex-none">
+                <div className="xl:w-1/4 xl:flex-none">
                   <Card>
-                    <div className="flex flex-row justify-center space-x-2  xl:space-x-2">
+                    <div className="flex flex-row justify-center space-x-2  xl:flex-col xl:space-x-0 xl:space-y-1">
                       <Link
                         to={`${url}/patient-list`}
-                        className="bg-primary w-1/2 p-2 card shadow-lg compact"
+                        className="bg-primary w-1/2 p-2 card shadow-lg compact lg:p-0 lg:w-full"
                       >
                         <div className="card-body text-white text-center items-center">
                           <UserGroupIcon className="w-36 h-auto" />
@@ -105,7 +108,7 @@ const IsolationMainPage = () => {
                       </Link>
                       <Link
                         to={`${url}/update`}
-                        className="bg-primary w-1/2 p-2 card shadow-lg compact"
+                        className="bg-primary w-1/2 p-2 card shadow-lg compact lg:p-0 lg:w-full"
                       >
                         <div className="card-body text-white text-center items-center">
                           <PencilAltIcon className="w-36 h-auto" />

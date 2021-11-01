@@ -1,4 +1,10 @@
-import { MenuIcon } from "@heroicons/react/outline";
+import {
+  MenuIcon,
+  LogoutIcon,
+  HomeIcon,
+  IdentificationIcon,
+  QuestionMarkCircleIcon,
+} from "@heroicons/react/outline";
 import { Fragment, useState } from "react";
 import { Link, NavLink, useRouteMatch } from "react-router-dom";
 import { useDispatch } from "react-redux";
@@ -46,7 +52,7 @@ const Navbar = (props) => {
   };
 
   return (
-    <header className="navbar justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50 md:h-10 lg:h-20">
+    <header className="navbar justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50 py-4 px-4 md:h-10 lg:h-14">
       {showMenu && (
         <Modal type="DECISION" closeModal={toggleMenu}>
           <NavBarMenu
@@ -56,43 +62,39 @@ const Navbar = (props) => {
           />
         </Modal>
       )}
-
-      <div className="flex visible md:hidden">
-        <button className="btn btn-square btn-ghost" onClick={toggleMenu}>
-          <MenuIcon />
-        </button>
-      </div>
-
-      <div className="hidden px-2 mx-2 md:flex md:flex-1 items-baseline space-x-6">
+      <div>
         <Link to={path} className="text-2xl font-bold">
           คนละเตียง
         </Link>
-        <div className="text-xl space-x-3">
+      </div>
+
+      <div class="hidden sm:flex sm:items-center">
+        <div className="text-xl space-x-10 lg:space-x-20 flex flex-row">
           {props.role === "PATIENT" ? (
             <Fragment>
               <NavLink
                 exact
                 to={path}
-                className="border-transparent border-b-4 hover:border-white"
-                activeClassName="border-b-4 border-white "
+                className="text-gray-400 hover:text-primary-content"
+                activeClassName="border-b-4 border-primary-content text-primary-content"
               >
-                หน้าแรก
+                <HomeIcon className="w-10 py-1" />
               </NavLink>
               <NavLink
                 exact
                 to={`${path}/my-profile`}
-                className="border-transparent border-b-4 hover:border-white"
-                activeClassName="border-b-4 border-white "
+                className="text-gray-400 hover:text-primary-content"
+                activeClassName="border-b-4 border-primary-content text-primary-content"
               >
-                ข้อมูลส่วนตัว
+                <IdentificationIcon className="w-10 py-1" />
               </NavLink>
               <NavLink
                 exact
                 to={`${path}/about-us`}
-                className="border-transparent border-b-4 hover:border-white"
-                activeClassName="border-b-4 border-white"
+                className="text-gray-400 hover:text-primary-content"
+                activeClassName="border-b-4 border-primary-content text-primary-content"
               >
-                เกี่ยวกับเรา
+                <QuestionMarkCircleIcon className="w-10 py-1" />
               </NavLink>
             </Fragment>
           ) : props.role === "HOSPITAL" ? (
@@ -100,18 +102,18 @@ const Navbar = (props) => {
               <NavLink
                 exact
                 to={path}
-                className="border-transparent border-b-4 hover:border-white"
-                activeClassName="border-b-4 border-white "
+                className="text-gray-400 hover:text-primary-content"
+                activeClassName="border-b-4 border-primary-content text-primary-content"
               >
-                ศูนย์พักคอยของฉัน
+                <HomeIcon className="w-10 py-1" />
               </NavLink>
               <NavLink
                 exact
                 to={`${path}/about-us`}
-                className="border-transparent border-b-4 hover:border-white"
-                activeClassName="border-b-4 border-white"
+                className="text-gray-400 hover:text-primary-content"
+                activeClassName="border-b-4 border-primary-content text-primary-content"
               >
-                เกี่ยวกับเรา
+                <QuestionMarkCircleIcon className="w-10 py-1" />
               </NavLink>
             </Fragment>
           ) : (
@@ -119,47 +121,42 @@ const Navbar = (props) => {
               <NavLink
                 exact
                 to={path}
-                className="border-transparent border-b-4 hover:border-white"
-                activeClassName="border-b-4 border-white "
+                className="text-gray-400 hover:text-primary-content"
+                activeClassName="border-b-4 border-primary-content text-primary-content"
               >
-                ศูนย์พักคอยของฉัน
+                <HomeIcon className="w-10 py-1" />
               </NavLink>
               <NavLink
                 exact
                 to={path + "/about-us"}
-                className="border-transparent border-b-4 hover:border-white"
-                activeClassName="border-b-4 border-white"
+                className="text-gray-400 hover:text-primary-content"
+                activeClassName="border-b-4 border-primary-content text-primary-content"
               >
-                เกี่ยวกับเรา
+                <QuestionMarkCircleIcon className="w-10 py-1" />
               </NavLink>
             </Fragment>
           )}
-          <button
-            className="font-thin text-neutral hover:text-primary-content"
-            onClick={logoutHandler}
-          >
-            ออกจากระบบ
-          </button>
         </div>
       </div>
 
-      <div className="space-x-1">
-        <div className="text-right leading-5">
-          <Link
-            to={props.role === "PATIENT" ? `${path}/my-profile` : path}
-            className="text-lg font-semibold"
-          >
-            สวัสดี,{" "}
-            {props.role === "PATIENT"
-              ? props.userData?.fname
-              : props.role === "HOSPITAL"
-              ? props.userData?.hospital_name
-              : "ยินดีต้อนรับ"}
-          </Link>
-        </div>
+      <div class="hidden sm:flex sm:items-center">
+        <Link
+          to={props.role === "PATIENT" ? `${path}/my-profile` : path}
+          className="text-lg font-semibold px-1"
+        >
+          สวัสดี,{" "}
+          {props.role === "PATIENT"
+            ? props.userData?.fname
+            : props.role === "HOSPITAL"
+            ? props.userData?.hospital_name
+            : "ยินดีต้อนรับ"}
+        </Link>
         {props.role === "PATIENT" && (
-          <Link to={`${path}/my-profile`} className="avatar cursor-pointer">
-            <div className="rounded-full w-14 h-14 m-1 ">
+          <Link
+            to={`${path}/my-profile`}
+            className="avatar cursor-pointer hidden lg:block"
+          >
+            <div className=" rounded-full w-14 h-14 m-1 ">
               <img
                 src={props.userPic ? props.userPic : default_profile}
                 alt="profile_pic"
@@ -171,6 +168,20 @@ const Navbar = (props) => {
             </div>
           </Link>
         )}
+        <div className="hidden md:flex invisible md:visible">
+          <button
+            className="w-7 font-thin text-primary-focus hover:text-primary-content"
+            onClick={logoutHandler}
+          >
+            <LogoutIcon />
+          </button>
+        </div>
+      </div>
+
+      <div class="sm:hidden cursor-pointer">
+        <button className="btn btn-square btn-ghost" onClick={toggleMenu}>
+          <MenuIcon />
+        </button>
       </div>
     </header>
   );

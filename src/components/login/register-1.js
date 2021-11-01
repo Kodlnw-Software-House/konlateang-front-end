@@ -2,20 +2,23 @@ import Card from "../ui/Card";
 
 const RegisterOne = (props) => {
   const emailInputClasses = props.emailError
-    ? "input input-sm input-error text-warning"
-    : "input input-sm input-info";
+    ? "input input-sm input-error text-warning md:h-12"
+    : "input input-sm input-info md:h-12";
   const passInputClasses = props.passwordError
-    ? "input input-sm input-error text-warning"
-    : "input input-sm input-info";
+    ? "input input-sm input-error text-warning md:h-12"
+    : "input input-sm input-info md:h-12";
+  const passRepeatInputClasses = props.repeatPassError
+    ? "input input-sm input-error text-warning md:h-12"
+    : "input input-sm input-info md:h-12";
   return (
     <Card>
       <div className="form-control">
         <label htmlFor="email" className="label">
-          <span className="label-text">Email</span>
+          <span className="label-text text-xl">อีเมล</span>
         </label>
         <input
           type="email"
-          placeholder="Email"
+          placeholder="โปรดระบุอีเมล"
           className={emailInputClasses}
           {...props.register("Email", {
             required: true,
@@ -33,11 +36,11 @@ const RegisterOne = (props) => {
           </label>
         )}
         <label htmlFor="password" className="label">
-          <span className="label-text">Password</span>
+          <span className="label-text text-xl">รหัสผ่าน</span>
         </label>
         <input
           type="text"
-          placeholder="ระบุรหัสผ่าน"
+          placeholder="รหัสผ่านต้องมีความยาว 7-14 ตัวอักษร"
           className={passInputClasses}
           {...props.register("Password", {
             required: true,
@@ -53,6 +56,34 @@ const RegisterOne = (props) => {
                 : props.passwordError.type === "minLength"
                 ? "รหัสผ่านต้องมีความยาวอย่างน้อย 7 ตัวอักษร"
                 : "รหัสผ่านต้องมีความยาวไม่เกิน 14 ตัวอักษร"}
+            </span>
+          </label>
+        )}
+        <label htmlFor="password" className="label">
+          <span className="label-text text-xl">รหัสผ่าน (อีกครั้ง)</span>
+        </label>
+        <input
+          type="text"
+          placeholder="รหัสผ่านต้องเหมือนกับด้านบน"
+          className={passRepeatInputClasses}
+          {...props.register("Password_Repeat", {
+            required: "กรุณาระบุรหัสผ่านที่ตรงกัน",
+            validate: {
+              matchesPreviousPassword: (value) => {
+                const { Password } = props.getValues();
+                return (
+                  Password === value || "รหัสผ่านไม่ตรงกัน โปรดตรวจสอบอีกครั้ง"
+                );
+              },
+            },
+          })}
+        />
+        {props.repeatPassError && (
+          <label className="label">
+            <span className="label-text text-error">
+              {props.repeatPassError.type === "required"
+                ? "โปรดระบุรหัสผ่าน"
+                : "รหัสผ่านไม่ตรงกัน โปรดตรวจสอบอีกครั้ง"}
             </span>
           </label>
         )}

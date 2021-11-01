@@ -111,12 +111,15 @@ const HospitalInfo = (props) => {
               </div>
               <div className="text-center space-x-4 pt-2">
                 <button
-                  className="btn btn-warning text-lg"
+                  className="btn btn-warning text-lg md:btn-lg"
                   onClick={modalHandler}
                 >
                   ยกเลิก
                 </button>
-                <button className="btn btn-success text-lg" onClick={booking}>
+                <button
+                  className="btn btn-success text-lg md:btn-lg"
+                  onClick={booking}
+                >
                   ยืนยัน
                 </button>
               </div>
@@ -124,11 +127,6 @@ const HospitalInfo = (props) => {
           )}
         </Modal>
       )}
-      <div className="mt-1">
-        <button onClick={getBack} className="btn text-lg btn-ghost">
-          &#8617; กลับสู่หน้าหลัก
-        </button>
-      </div>
       <ItemCard>
         {isFetchData ? (
           <LoadingSpinner />
@@ -144,6 +142,11 @@ const HospitalInfo = (props) => {
           <NotFound></NotFound>
         )}
       </ItemCard>
+      <div className="mt-1 text-center mx-auto">
+        <button onClick={getBack} className="btn text-lg btn-ghost">
+          &#8617; กลับสู่หน้าหลัก
+        </button>
+      </div>
     </div>
   );
 };

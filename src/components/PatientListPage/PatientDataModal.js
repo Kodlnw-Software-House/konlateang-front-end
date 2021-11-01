@@ -82,7 +82,7 @@ const PatientData = (props) => {
   return (
     <div
       data-theme="hospitalTheme"
-      className="w-full max-h-96 md:max-h-full overflow-y-scroll"
+      className="w-full max-h-96 overflow-y-scroll md:max-h-full md:overflow-y-auto"
     >
       <div className="flex flex-col text-center md:flex-row md:items-baseline md:space-x-2">
         <h3 className="text-2xl font-semibold text-primary-focus">
@@ -135,7 +135,7 @@ const PatientData = (props) => {
             disabled={!isEdit}
             value={patientStatus.value}
             onChange={handleChange}
-            className="flex-1 text-center sm:text-left select-bordered"
+            className="flex-1 text-center sm:text-left select-bordered my-2 sm:my-0"
           >
             {status.map((status) => (
               <option key={status.value} value={status.value}>

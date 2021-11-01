@@ -9,11 +9,7 @@ const Backdrop = (props) => {
 
 const ModalOverlay = (props) => {
   const ModalClasses = props.type ? classes.modal : classes.noti_modal;
-  return (
-    <div className={ModalClasses}>
-      <div className={classes.content}>{props.children}</div>
-    </div>
-  );
+  return <div className={ModalClasses}>{props.children}</div>;
 };
 
 const Modal = (props) => {

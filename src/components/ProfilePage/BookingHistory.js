@@ -42,36 +42,40 @@ const BookingHistory = (props) => {
 
   switch (props.bookingStatus) {
     case 1:
-      statusClasses = "badge-error badge-md rounded-badge";
+      statusClasses = "text-lg badge-error badge-md rounded-badge";
       break;
     case 2:
-      statusClasses = "badge-info badge-md rounded-badge";
+      statusClasses = "text-lg badge-info badge-md rounded-badge";
       break;
     case 3:
-      statusClasses = "badge-success badge-md rounded-badge";
+      statusClasses = "text-lg badge-success badge-md rounded-badge";
       break;
     case 4:
-      statusClasses = "badge-info badge-md rounded-badge";
+      statusClasses = "text-lg badge-info badge-md rounded-badge";
       break;
     default:
       break;
   }
   return (
     <ItemCard>
-      <div className="flex space-x-2 overflow-hidden items-center">
-        <div className="avatar w-1/3 h-28">
+      <div className="flex flex-row md:space-x-1 items-center md:justify-center">
+        <div className="hidden md:block w-24 h-24 mx-auto md:w-36 md:h-36 xl:w-52 xl:h-52">
           <img
-            className="object-cover max-w-full max-h-full block rounded-box"
+            className="rounded-full h-auto w-full"
             src={props.pic}
-            alt="hospital_pic"
+            alt="profile_pic"
+            // onError={(e) => {
+            //   e.target.onerror = null;
+            //   e.target.src = default_profile;
+            // }}
           />
         </div>
-        <div className="w-2/3 leading-7">
-          <p className="text-xl">{props.hospitalName}</p>
-          <p>{`จองเมื่อ วันที่ ${day} ${realMonth} พ.ศ. ${year + 543}`}</p>
-          <p>{`เวลา ${hour}:${minutes} นาที`}</p>
-          <p className="text-sm mt-2">
-            สถานะ: <span className={statusClasses}>{status}</span>
+        <div className="border-l-8 pl-4 border-sky-500 w-2/3 leading-7">
+          <p className="text-xl md:text-2xl">{props.hospitalName}</p>
+          <p className="text-lg">{`จองเมื่อ วันที่ ${day} ${realMonth} พ.ศ. ${year + 543}`}</p>
+          <p className="text-lg">{`เวลา ${hour}:${minutes} นาที`}</p>
+          <p className="mt-2">
+            <span className={statusClasses}>{status}</span>
           </p>
         </div>
       </div>

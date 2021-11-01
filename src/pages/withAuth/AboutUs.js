@@ -4,33 +4,35 @@ import leng from "../../assets/leng.jpg";
 import gun from "../../assets/gun.jpg";
 const TeamMember = (props) => {
   return (
-    <div className="flex-col hero-content my-2 lg:flex-row lg:justify-around">
-      <img
-        src={props.img}
-        className="max-w-xs max-h-80 rounded-3xl"
-        alt="pic"
-      />
-      <div className="text-center md:text-left">
-        <h1 className="mb-2 text-3xl font-bold">{props.fname}</h1>
-        <p className="text-xl mb-5">{props.task}</p>
-        <div className="space-x-2">
-          <a
-            href={props.fb}
-            target="_blank"
-            rel="noreferrer nofollow"
-            className="btn btn-md btn-primary"
-          >
-            Facebook
-          </a>
-          <a
-            href={props.gh}
-            target="_blank"
-            rel="noreferrer nofollow"
-            className="btn btn-md btn-secondary"
-          >
-            Github
-          </a>
-        </div>
+    <div class="w-full bg-gray-50 rounded-lg shadow-lg overflow-hidden flex flex-col justify-center items-center">
+      <div>
+        <img
+          class="object-center object-cover h-96 w-full"
+          src={props.img}
+          alt="photo"
+        />
+      </div>
+      <div class="text-center pt-8 pb-4 sm:pt-6">
+        <p class="text-xl text-gray-700 font-bold mb-2">{props.fname}</p>
+        <p class="text-base text-gray-400 font-normal">{props.task}</p>
+      </div>
+      <div className="space-x-2 mb-5">
+        <a
+          href={props.fb}
+          target="_blank"
+          rel="noreferrer nofollow"
+          className="btn btn-md btn-primary"
+        >
+          Facebook
+        </a>
+        <a
+          href={props.gh}
+          target="_blank"
+          rel="noreferrer nofollow"
+          className="btn btn-md btn-secondary"
+        >
+          Github
+        </a>
       </div>
     </div>
   );
@@ -63,50 +65,54 @@ const AboutUs = () => {
   return (
     <div>
       <div
-        className="bg-cover bg-clip-content "
-        style={{ backgroundImage: `url(${bg_hospital})` }}
+        id="who-are-we"
+        className="hero min-h-screen bg-cover"
+        style={{
+          backgroundImage: `url(https://source.unsplash.com/1600x900/?teamwork,coding)`,
+        }}
       >
-        <div className="mx-4 p-2">
-          <div className="text-left m-4">
-            <p className="text-4xl font-bold p-2">
-              "คนละเตียง <br />
-              คือสื่อกลางระหว่าง
-              <br />
-              ผู้ป่วยและศูนย์พักคอย
-              <br />
-              อย่างแท้จริง."
+        <div className="hero-overlay bg-opacity-95"></div>
+        <div className="text-center hero-content text-neutral-content">
+          <div className="max-w-xl lg:text-left md:max-w-2xl lg:max-w-4xl">
+            <h1 className="mb-5 text-5xl font-bold text-sky-400 lg:text-7xl lg:mb-10">
+              คนละเตียง
+            </h1>
+            <p className="text-xl lg:text-3xl">
+              {" "}
+              เว็บแอพพลิเคชั่น สำหรับช่วยเหลือผู้ป่วยติดเชื้อ Covid-19
+              ในการลงทะเบียนจองเตียงจากศูนย์พักคอยที่เปิดรับ
+              เพื่อให้ผู้ป่วยที่รักษาตนเองอยู่ที่บ้าน
+              ลดความเสี่ยงในการแพร่กระจายเชื้อ
+              และช่วยบรรเทาอาการผู้ป่วยที่รุนแรงให้ถึงมือแพทย์ไวที่สุด
             </p>
-          </div>
-          <div className="pt-36 pb-3 ">
-            <p className="text-lg break-words text-black shadow-2xl p-2 hover:bg-black hover:bg-opacity-50 hover:text-primary-content">
-              <span className="text-2xl p-2">เว็บแอพพลิเคชั่น</span>
-              สำหรับช่วยเหลือ ผู้ป่วยติดเชื้อ Covid-19 ในการลงทะเบียนจองเตียง
-              จากศูนย์พักคอยต่างๆรวมไปถึงโรงพยาบาลที่เปิดรับ
-              เพื่อให้ผู้ป่วยที่รักษาตนเองอยู่ที่บ้านลดความเสี่ยงในการแพร่กระจายเชื้อ
-              โดยการจัดหาเตียง
-              และช่วยบรรเทาอาการผู้ป่วยที่รุนแรงให้ถึงมือแพทย์ให้ได้ไวที่สุด
+            <p className="my-2 text-4xl lg:my-10 text-center lg:hidden">⚬</p>
+            <p className="mb-5 text-lg lg:text-right lg:text-xl">
+              " สื่อกลางระหว่างผู้ป่วยและศูนย์พักคอย <br /> อย่างแท้จริง. "
             </p>
+            <p className="hidden text-2xl lg:my-10 text-center lg:block">⚬</p>
           </div>
         </div>
       </div>
 
-      <div className="min-h-screen">
+      <div>
         <div className="bg-primary p-4">
           <p className="text-4xl text-center text-primary-content">
             MEET THE TEAM
           </p>
         </div>
-        <div className="bg-blue-50">
-          {team.map((item) => (
-            <TeamMember
-              key={item.fname}
-              fname={item.fname}
-              task={item.task}
-              img={item.img}
-              fb={item.fb}
-              gh={item.gh}
-            />
-          ))}
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-4 py-12">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {team.map((item) => (
+              <TeamMember
+                key={item.fname}
+                fname={item.fname}
+                task={item.task}
+                img={item.img}
+                fb={item.fb}
+                gh={item.gh}
+              />
+            ))}
+          </div>
         </div>
       </div>
     </div>

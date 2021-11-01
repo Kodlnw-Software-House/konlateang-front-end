@@ -76,7 +76,7 @@ const HospitalAdminMainPage = (props) => {
           })}
           <div
             onClick={() => goCreate()}
-            className="card border-dashed border-4 border-gray-400 shadow-md m-4 text-gray-400 md:mx-10 lg:mx-20 lg:py-2 cursor-pointer hover:border-gray-500 hover:text-gray-500"
+            className="card border-dashed border-4 border-gray-400 shadow-md m-4 text-gray-400 md:mx-10 lg:mx-20 lg:py-2 xl:mx-80 cursor-pointer hover:border-gray-500 hover:text-gray-500"
           >
             <div className="card-body p-4 flex space-x-2 overflow-hidden items-center mx-auto">
               <div className="flex flex-col justify-center items-center space-y-1">

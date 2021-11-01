@@ -98,6 +98,7 @@ const CreateEditIsolation = (props) => {
         available_bed: data.available_bed,
       };
       if (compareObj(oldData, newData)) {
+        history.goBack();
         return;
       }
       if (
@@ -128,30 +129,36 @@ const CreateEditIsolation = (props) => {
     return;
   };
 
+  document.body.scrollTop = 0;
+  document.documentElement.scrollTop = 0;
+
   const nameInputClasses = errors.name
-    ? "input input-sm input-error text-warning"
-    : "input input-sm input-primary";
+    ? "input input-sm input-error text-warning lg:h-12"
+    : "input input-sm input-primary lg:h-12";
   const bedInputClasses = errors.available_bed
-    ? "input input-sm input-error text-warning"
-    : "input input-sm input-primary";
+    ? "input input-sm input-error text-warning lg:h-12"
+    : "input input-sm input-primary lg:h-12";
   const addressInputClasses = errors.address
-    ? "textarea h-24 textarea-bordered textarea-error input-error text-warning"
-    : "textarea h-24 textarea-bordered textarea-primary";
+    ? "textarea h-24 textarea-bordered textarea-error input-error text-warning lg:h-28"
+    : "textarea h-24 textarea-bordered textarea-primary lg:h-28";
 
   return (
     <Fragment>
       <Card>
-        <h1 className="text-center text-2xl font-bold">
+        <h1 className="text-center text-2xl font-bold lg:text-3xl">
           {props.isolationData?.community_isolation_name
             ? props.isolationData?.community_isolation_name
             : "ลงทะเบียนศูนย์พักคอย"}
         </h1>
       </Card>
       <ItemCard>
-        <form onSubmit={handleSubmit(sumbitForm)}>
+        <form
+          onSubmit={handleSubmit(sumbitForm)}
+          className="xl:w-3/5 xl:mx-auto"
+        >
           <div className="form-control">
-            <label htmlFor="name" className="label">
-              <span className="label-text">ชื่อศูนย์พักคอย</span>
+            <label htmlFor="name" className="label ">
+              <span className="label-text text-xl">ชื่อศูนย์พักคอย</span>
             </label>
             <input
               type="text"
@@ -163,7 +170,7 @@ const CreateEditIsolation = (props) => {
             />
             {errors.name && (
               <label className="label">
-                <span className="label-text text-error">
+                <span className="label-text text-error text-lg">
                   {errors.name.type === "required"
                     ? "โปรดระบุชื่อของศูนย์พักคอย"
                     : "ชื่อต้องมีความยาวไม่เกิน 45 ตัวอักษร"}
@@ -171,7 +178,7 @@ const CreateEditIsolation = (props) => {
               </label>
             )}
             <label htmlFor="address" className="label">
-              <span className="label-text">ที่อยู่ปัจจุบัน</span>
+              <span className="label-text text-xl">ที่อยู่ปัจจุบัน</span>
             </label>
             <textarea
               className={addressInputClasses}
@@ -182,7 +189,7 @@ const CreateEditIsolation = (props) => {
             />
             {errors.address && (
               <label className="label">
-                <span className="label-text text-error">
+                <span className="label-text text-error text-lg">
                   {errors.address.type === "required"
                     ? "โปรดระบุที่อยู่ศูนย์พักคอย"
                     : "ที่อยู่ต้องมีความยาวไม่เกิน 500 ตัวอักษร"}
@@ -190,7 +197,7 @@ const CreateEditIsolation = (props) => {
               </label>
             )}
             <label htmlFor="available_bed" className="label">
-              <span className="label-text">จำนวนเตียงที่เปิดรับ</span>
+              <span className="label-text text-xl">จำนวนเตียงที่เปิดรับ</span>
             </label>
             <input
               type="number"
@@ -201,16 +208,20 @@ const CreateEditIsolation = (props) => {
             />
             {errors.available_bed && (
               <label className="label">
-                <span className="label-text text-error">
+                <span className="label-text text-error text-lg">
                   {errors.available_bed.type === "required" &&
                     "โปรดระบุจำนวนเตียงที่จะเปิดรับผู้ป่วย"}
                 </span>
               </label>
             )}
           </div>
-          <div className="flex flex-row justify-end space-x-3 pt-4">
+          <div className="flex justify-end pt-4">
             <button
-              className={props.edit ? "btn btn-accent" : "btn btn-primary"}
+              className={
+                props.edit
+                  ? "btn btn-accent  md:btn-block md:btn-lg"
+                  : "btn btn-primary md:btn-block md:btn-lg"
+              }
               type="submit"
               disabled={!isValid}
             >

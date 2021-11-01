@@ -8,6 +8,7 @@ import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import { InformationCircleIcon } from "@heroicons/react/solid";
 import Modal from "../../../components/ui/Modal";
 import PatientData from "../../../components/PatientListPage/PatientDataModal";
+
 const status = [
   { label: "Booking failed.", value: 1 },
   { label: "Booking successful! In progress.", value: 2 },
@@ -21,9 +22,10 @@ const PatientOfIsolation = (props) => {
   const [isModal, setIsModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   useEffect(() => {
+    let token = localStorage.getItem("user");
     setIsLoading(true);
     hospitalService
-      .getBookings(props.id, localStorage.getItem("user"))
+      .getBookings(props.id, token)
       .then((response) => {
         setBookings(response.data.booking);
       })
@@ -33,6 +35,11 @@ const PatientOfIsolation = (props) => {
       .finally(() => {
         setIsLoading(false);
       });
+  }, []);
+
+  useEffect(() => {
+    document.body.scrollTop = 0;
+    document.documentElement.scrollTop = 0;
   }, []);
 
   const modalHandler = () => {
@@ -63,7 +70,7 @@ const PatientOfIsolation = (props) => {
       <Card>
         <h1 className="text-center text-2xl font-bold">{props.header}</h1>
       </Card>
-      <ItemCard>
+      <ItemCard type="isolation-main-page">
         {isLoading ? (
           <LoadingSpinner />
         ) : bookings.length !== 0 ? (

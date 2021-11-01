@@ -34,11 +34,28 @@
 @media (min-width: 768px) {
   .modal {
     width: 40rem;
+    top: calc(50% - 15rem);
     left: calc(50% - 20rem);
+    max-height: 32rem;
+    overflow-y: auto;
   }
   .noti_modal {
     width: 40rem;
     left: calc(50% - 20rem);
+  }
+}
+
+@media (min-width: 1280px) {
+  .modal {
+    width: 60rem;
+    top: calc(50% - 16rem);
+    left: calc(50% - 30rem);
+    max-height: 36rem;
+    overflow-y: auto;
+  }
+  .noti_modal {
+    width: 1300px;
+    left: calc(50% - 650px);
   }
 }
 

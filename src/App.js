@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import WelcomePage from "./pages/welcome-page";
-import PatientLogin from "./pages/patient-login-page";
-import HospitalLogin from "./pages/hospital-login-page";
+import Login from "./pages/Login";
 import PatientRegister from "./pages/patient-register-page";
 import Notification from "./components/ui/notification-modal";
 import ProtectedRoute from "./components/functions/ProtectedRoute";
@@ -90,10 +89,10 @@ function App() {
             <WelcomePage />
           </Route>
           <Route path="/patient-login" exact>
-            <PatientLogin />
+            <Login type="PATIENT" />
           </Route>
           <Route path="/hospital-login" exact>
-            <HospitalLogin />
+            <Login type="HOSPITAL" />
           </Route>
           <Route path="/registration" exact>
             <PatientRegister />

@@ -9,7 +9,13 @@ import userService from "../../../components/functions/services/user-service";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../../redux/ui-slice";
 import UploadImage from "../../../components/ProfilePage/UploadImage";
-import { PhotographIcon } from "@heroicons/react/outline";
+import {
+  PhotographIcon,
+  IdentificationIcon,
+  MailIcon,
+  PhoneIcon,
+  CalendarIcon,
+} from "@heroicons/react/outline";
 import EditPersonalData from "../../../components/ProfilePage/EditPersonalData";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import { AuthAction } from "../../../redux/auth-slice";
@@ -158,11 +164,11 @@ const Profile = (props) => {
       )}
       {/* user information */}
       <ItemCard>
-        <div className="flex flex-row justify-start space-x-3 min-h-16">
-          <div>
-            <div className="w-24 h-24">
+        <div className="flex flex-col justify-center md:flex-row md:space-x-10">
+          <div className="self-center">
+            <div className="w-24 h-24 mx-auto md:w-36 md:h-36 xl:w-52 xl:h-52">
               <img
-                className="rounded-full"
+                className="rounded-full h-auto w-full"
                 src={props.userPic ? props.userPic : default_profile}
                 alt="profile_pic"
                 onError={(e) => {
@@ -172,49 +178,54 @@ const Profile = (props) => {
               />
             </div>
             <button
-              className="btn btn-sm btn-ghost btn-block text-secondary-focus"
+              className="btn btn-md btn-ghost btn-block text-secondary-focus"
               onClick={toggleEditPicture}
             >
               <PhotographIcon className="h-6 w-6 inline-block " /> แก้ไข
             </button>
           </div>
-          <div className="flex-1">
-            <div
-              tabIndex="0"
-              className="collapse collapse-arrow w-full hover:bg-gray-200 mb-2"
-            >
-              <input type="checkbox" />
-              <div className="collapse-title text-xl font-medium">
-                ข้อมูลส่วนตัว
-              </div>
-              <div className="collapse-content space-y-1">
-                <p>{`อีเมล: ${userData?.email}`}</p>
-                <p>{`ชื่อจริง-นามสกุล: ${userData?.fname} ${userData?.lname}`}</p>
-                <p>{`อายุ: ${userData?.age} ปี`}</p>
-                <p>{`เพศ: ${
+          <div className="max-w-4xl overflow-hidden">
+            <div className="flex items-center px-6 py-3 bg-primary">
+              <IdentificationIcon className="w-10 text-primary-content" />
+              <h1 className="mx-2 text-primary-content font-semibold text-lg md:text-2xl">
+                {`${
                   userData?.gender === "M"
-                    ? "ชาย"
+                    ? "นาย"
                     : userData?.gender === "F"
-                    ? "หญิง"
-                    : "ไม่ระบุ"
-                }`}</p>
-                <p>{`เลขประจำตัวประชาชน: ${userData?.citizen_id}`}</p>
-                <p>{`วันเดือนปีเกิด: ${userData?.dob}`}</p>
-                <p>{`เบอร์โทรศัพท์: ${userData?.tel}`}</p>
-                <p>{`ที่อยู่ปัจจุบัน: ${userData?.address}`}</p>
+                    ? "นางสาว"
+                    : ""
+                } ${userData?.fname} ${userData?.lname}`}
+              </h1>
+            </div>
+            <div className="py-4 px-6">
+              <h1 className="text-xl font-semibold text-gray-800">
+                {`เลขประจำตัวประชาชน ${userData?.citizen_id}`}
+              </h1>
+              <p className="py-2 text-lg text-gray-700">{`${userData?.address}`}</p>
+              <div className="flex items-center mt-4 text-gray-700">
+                <CalendarIcon className="w-7" />
+                <h1 className="px-2 md:text-lg">{`${userData?.dob} (${userData?.age} ปี)`}</h1>
+              </div>
+              <div className="flex items-center mt-4 text-gray-700">
+                <PhoneIcon className="w-7" />
+                <h1 className="px-2 md:text-lg">{`${userData?.tel}`}</h1>
+              </div>
+              <div className="flex items-center mt-4 text-gray-700">
+                <MailIcon className="w-7" />
+                <h1 className="px-2 md:text-lg">{`${userData?.email}`}</h1>
+              </div>
+              <div className="flex justify-end items-center mt-2">
+                <button onClick={openModal} className="btn btn-primary btn-md">
+                  แก้ไขข้อมูลส่วนตัว
+                </button>
               </div>
             </div>
           </div>
         </div>
-        <div className="flex justify-end">
-          <button onClick={openModal} className="btn btn-primary btn-sm">
-            แก้ไขข้อมูลส่วนตัว
-          </button>
-        </div>
       </ItemCard>
-      <div className="m-4 p-1">
-        <p className="text-xl">ประวัติการจองเตียง :</p>
-      </div>
+      <ItemCard>
+        <p className="text-xl text-center">ประวัติการจองเตียง</p>
+      </ItemCard>
       {isLoadBookings ? (
         <LoadingSpinner />
       ) : bookings.length === 0 ? (
