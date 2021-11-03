@@ -6,15 +6,16 @@ import Notification from "./components/ui/notification-modal";
 import ProtectedRoute from "./components/functions/ProtectedRoute";
 import AuthRouter from "./pages/withAuth/authentication-router";
 import { useSelector, useDispatch } from "react-redux";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { AuthAction } from "./redux/auth-slice";
 import userService from "./components/functions/services/user-service";
 import hospitalService from "./components/functions/services/hospital-service";
 import "./index.css";
 import { uiActions } from "./redux/ui-slice";
 import Health from "./pages/health";
-
+import { AnimatePresence } from "framer-motion";
 function App() {
+  const location = useLocation();
   const dispatch = useDispatch();
   const theme = useSelector((state) => state.ui.theme);
   const isLoggedIn = useSelector((state) => state.auth.isLoggedIn);
@@ -84,43 +85,47 @@ function App() {
       )}
       {/* if not Authenticaton, cannot go to Authentication Page */}
       {!isLoggedIn ? (
-        <Switch>
-          <Route path="/" exact>
-            <WelcomePage />
-          </Route>
-          <Route path="/patient-login" exact>
-            <Login type="PATIENT" />
-          </Route>
-          <Route path="/hospital-login" exact>
-            <Login type="HOSPITAL" />
-          </Route>
-          <Route path="/registration" exact>
-            <PatientRegister />
-          </Route>
-          <Route path="/health" exact>
-            <Health />
-          </Route>
-          <Route path="*">
-            <Redirect to="/" />
-          </Route>
-        </Switch>
+        <AnimatePresence exitBeforeEnter initial={false}>
+          <Switch location={location} key={location.key}>
+            <Route path="/" exact>
+              <WelcomePage />
+            </Route>
+            <Route path="/patient-login" exact>
+              <Login type="PATIENT" />
+            </Route>
+            <Route path="/hospital-login" exact>
+              <Login type="HOSPITAL" />
+            </Route>
+            <Route path="/registration" exact>
+              <PatientRegister />
+            </Route>
+            <Route path="/health" exact>
+              <Health />
+            </Route>
+            <Route path="*">
+              <Redirect to="/" />
+            </Route>
+          </Switch>
+        </AnimatePresence>
       ) : (
-        <Switch>
-          <Route path="/" exact>
-            <Redirect to="/kon-la-tieng" />
-          </Route>
-          <ProtectedRoute
-            path="/kon-la-tieng"
-            component={AuthRouter}
-            isAuth={isLoggedIn}
-            userData={currentUser}
-            role={role}
-            userPic={currentPic}
-          />
-          <Route path="*">
-            <Redirect to="/kon-la-tieng" />
-          </Route>
-        </Switch>
+        <AnimatePresence exitBeforeEnter initial={false}>
+          <Switch location={location} key={location.key}>
+            <Route path="/" exact>
+              <Redirect to="/kon-la-tieng" />
+            </Route>
+            <ProtectedRoute
+              path="/kon-la-tieng"
+              component={AuthRouter}
+              isAuth={isLoggedIn}
+              userData={currentUser}
+              role={role}
+              userPic={currentPic}
+            />
+            <Route path="*">
+              <Redirect to="/kon-la-tieng" />
+            </Route>
+          </Switch>
+        </AnimatePresence>
       )}
     </div>
   );

@@ -10,6 +10,11 @@ import uiActions from "../../../redux/ui-slice";
 import { AuthAction } from "../../../redux/auth-slice";
 import HospitalInformationCard from "../../../components/MainPage/HospitalInformationCard";
 import NotFound from "../not-found";
+import { motion } from "framer-motion";
+import {
+  transition,
+  animationOne,
+} from "../../../components/animations/animation";
 const onTop = () => {
   window.scrollTo(0, 0);
 };
@@ -131,13 +136,20 @@ const HospitalInfo = (props) => {
         {isFetchData ? (
           <LoadingSpinner />
         ) : Object.keys(hospitalDetail).length !== 0 ? (
-          <HospitalInformationCard
-            openModal={openModal}
-            community_isolation_name={hospitalDetail.community_isolation_name}
-            hospital_name={hospitalDetail.Hospital.hospital_name}
-            available_bed={hospitalDetail.available_bed}
-            address={hospitalDetail.address}
-          />
+          <motion.div
+            initial="out"
+            animate="in"
+            variants={animationOne}
+            transition={transition}
+          >
+            <HospitalInformationCard
+              openModal={openModal}
+              community_isolation_name={hospitalDetail.community_isolation_name}
+              hospital_name={hospitalDetail.Hospital.hospital_name}
+              available_bed={hospitalDetail.available_bed}
+              address={hospitalDetail.address}
+            />
+          </motion.div>
         ) : (
           <NotFound></NotFound>
         )}

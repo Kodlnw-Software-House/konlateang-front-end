@@ -68,14 +68,14 @@ const Navbar = (props) => {
         </Link>
       </div>
 
-      <div class="hidden sm:flex sm:items-center">
+      <div className="hidden sm:flex sm:items-center">
         <div className="text-xl space-x-10 lg:space-x-20 flex flex-row">
           {props.role === "PATIENT" ? (
             <Fragment>
               <NavLink
                 exact
                 to={path}
-                className="text-gray-400 hover:text-primary-content"
+                className="text-primary-content hover:text-gray-400 "
                 activeClassName="border-b-4 border-primary-content text-primary-content"
               >
                 <HomeIcon className="w-10 py-1" />
@@ -83,7 +83,7 @@ const Navbar = (props) => {
               <NavLink
                 exact
                 to={`${path}/my-profile`}
-                className="text-gray-400 hover:text-primary-content"
+                className="text-primary-content hover:text-gray-400 "
                 activeClassName="border-b-4 border-primary-content text-primary-content"
               >
                 <IdentificationIcon className="w-10 py-1" />
@@ -91,7 +91,7 @@ const Navbar = (props) => {
               <NavLink
                 exact
                 to={`${path}/about-us`}
-                className="text-gray-400 hover:text-primary-content"
+                className="text-primary-content hover:text-gray-400 "
                 activeClassName="border-b-4 border-primary-content text-primary-content"
               >
                 <QuestionMarkCircleIcon className="w-10 py-1" />
@@ -102,7 +102,7 @@ const Navbar = (props) => {
               <NavLink
                 exact
                 to={path}
-                className="text-gray-400 hover:text-primary-content"
+                className="text-primary-content hover:text-gray-400 "
                 activeClassName="border-b-4 border-primary-content text-primary-content"
               >
                 <HomeIcon className="w-10 py-1" />
@@ -110,7 +110,7 @@ const Navbar = (props) => {
               <NavLink
                 exact
                 to={`${path}/about-us`}
-                className="text-gray-400 hover:text-primary-content"
+                className="text-primary-content hover:text-gray-400 "
                 activeClassName="border-b-4 border-primary-content text-primary-content"
               >
                 <QuestionMarkCircleIcon className="w-10 py-1" />
@@ -121,7 +121,7 @@ const Navbar = (props) => {
               <NavLink
                 exact
                 to={path}
-                className="text-gray-400 hover:text-primary-content"
+                className="text-primary-content hover:text-gray-400 "
                 activeClassName="border-b-4 border-primary-content text-primary-content"
               >
                 <HomeIcon className="w-10 py-1" />
@@ -129,7 +129,7 @@ const Navbar = (props) => {
               <NavLink
                 exact
                 to={path + "/about-us"}
-                className="text-gray-400 hover:text-primary-content"
+                className="text-primary-content hover:text-gray-400 "
                 activeClassName="border-b-4 border-primary-content text-primary-content"
               >
                 <QuestionMarkCircleIcon className="w-10 py-1" />
@@ -139,7 +139,7 @@ const Navbar = (props) => {
         </div>
       </div>
 
-      <div class="hidden sm:flex sm:items-center">
+      <div className="hidden sm:flex sm:items-center">
         <Link
           to={props.role === "PATIENT" ? `${path}/my-profile` : path}
           className="text-lg font-semibold px-1"
@@ -170,7 +170,7 @@ const Navbar = (props) => {
         )}
         <div className="hidden md:flex invisible md:visible">
           <button
-            className="w-7 font-thin text-primary-focus hover:text-primary-content"
+            className="w-7 font-thin text-primary-content  hover:text-primary-focus"
             onClick={logoutHandler}
           >
             <LogoutIcon />
@@ -178,7 +178,7 @@ const Navbar = (props) => {
         </div>
       </div>
 
-      <div class="sm:hidden cursor-pointer">
+      <div className="sm:hidden cursor-pointer">
         <button className="btn btn-square btn-ghost" onClick={toggleMenu}>
           <MenuIcon />
         </button>

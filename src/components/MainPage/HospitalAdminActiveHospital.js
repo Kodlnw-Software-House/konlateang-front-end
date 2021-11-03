@@ -1,10 +1,10 @@
-import ItemCard from "../ui/ItemCard";
 import bghospital from "../../assets/bg_hospital.jpg";
+import Card from "../ui/Card";
 const HospitalAdminActiveHospital = (props) => {
   return (
-    <ItemCard>
+    <Card>
       <div
-        className="flex flex-col overflow-hidden items-center text-left space-y-2 md:flex-row md:space-x-4 md:items-start lg:justify-center"
+        className="bg-green-50 cursor-pointer rounded-box p-4 flex flex-col overflow-hidden items-center text-left space-y-2 md:flex-row md:space-x-4 md:items-start lg:justify-center hover:bg-green-100"
         onClick={() => props.goPath(props.id)}
       >
         <div className="avatar w-full h-60 md:w-1/2 lg:w-1/3">
@@ -34,7 +34,7 @@ const HospitalAdminActiveHospital = (props) => {
           </div>
         </div>
       </div>
-    </ItemCard>
+    </Card>
   );
 };
 export default HospitalAdminActiveHospital;

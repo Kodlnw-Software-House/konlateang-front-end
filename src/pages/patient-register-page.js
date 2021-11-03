@@ -10,7 +10,14 @@ import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../redux/ui-slice";
 import { AuthSelecter, AuthAction, userRegister } from "../redux/auth-slice";
-import { RefreshIcon } from "@heroicons/react/outline";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
+import { motion } from "framer-motion";
+import {
+  animationOne,
+  animationThree,
+  animationTwo,
+  transition,
+} from "../components/animations/animation";
 
 const calculateDate = (date) => {
   let birthDate = new Date(date);
@@ -112,79 +119,81 @@ const PatientRegister = () => {
   let finalStepClass = step >= 4 ? "step step-accent" : "step";
 
   return (
-    <div class="hero flex flex-col justify-center space-y-3 min-h-screen px-6 bg-primary">
-      <div class="hero-content w-full flex-col lg:space-y-4">
-        <div class="hidden text-center text-sky-50 md:block">
-          <h1 class="mb-5 text-4xl font-bold border-b-4 border-primary-content py-4">
-            ลงทะเบียนผู้ป่วยคนละเตียง
-          </h1>
-        </div>
-        <div class="flex-shrink-0 w-full max-w-xl shadow-2xl bg-base-100">
-          <Card>
-            <ul className="w-full steps">
-              <li className="step step-accent">บัญชี</li>
-              <li className={secondStepClass}>ข้อมูลส่วนตัว</li>
-              <li className={thirdStepClass}>ที่อยู่</li>
-              <li className={finalStepClass}>ตรวจสอบ</li>
-            </ul>
-          </Card>
-          <form className="m-1" onSubmit={handleSubmit(collectData)}>
-            {(() => {
-              switch (step) {
-                case 1:
-                  return (
-                    <RegisterOne
-                      goToLogin={goToLogin}
-                      emailError={errors.Email}
-                      passwordError={errors.Password}
-                      repeatPassError={errors.Password_Repeat}
-                      register={register}
-                      getValues={getValues}
-                    />
-                  );
-                case 2:
-                  return (
-                    <RegisterTwo
-                      register={register}
-                      citizenIdError={errors.citizenId}
-                      fNameError={errors.fName}
-                      lNameError={errors.lName}
-                      dobError={errors.dob}
-                      ageError={errors.age}
-                    />
-                  );
-                case 3:
-                  return (
-                    <RegisterThree
-                      register={register}
-                      addressError={errors.address}
-                      telNoError={errors.telNo}
-                      genderError={errors.gender}
-                    />
-                  );
-                case 4:
-                  return <RegisterFour formData={formData} />;
-                default:
-              }
-            })()}
-            {isFetching ? (
-              <div className="mx-auto">
-                <RefreshIcon className="w-10 h-10 animate-spin" />
-              </div>
-            ) : (
-              <RenderButton
-                nextStep={nextStep}
-                prevStep={prevStep}
-                step={step}
-                goToLogin={goToLogin}
-                isValid={isValid}
-                submitForm={submitForm}
-              />
-            )}
-          </form>
+    <motion.div initial="out" animate="end" variants={animationThree}>
+      <div className="hero flex flex-col justify-center space-y-3 min-h-screen px-6 bg-primary">
+        <div className="hero-content w-full flex-col lg:space-y-4">
+          <div className="hidden text-center text-sky-50 md:block">
+            <h1 className="mb-5 text-4xl font-bold border-b-4 border-primary-content py-4">
+              ลงทะเบียนผู้ป่วยคนละเตียง
+            </h1>
+          </div>
+          <div className="flex-shrink-0 w-full max-w-xl shadow-2xl bg-base-100">
+            <Card>
+              <ul className="w-full steps">
+                <li className="step step-accent">บัญชี</li>
+                <li className={secondStepClass}>ข้อมูลส่วนตัว</li>
+                <li className={thirdStepClass}>ที่อยู่</li>
+                <li className={finalStepClass}>ตรวจสอบ</li>
+              </ul>
+            </Card>
+            <form className="m-1" onSubmit={handleSubmit(collectData)}>
+                {(() => {
+                  switch (step) {
+                    case 1:
+                      return (
+                        <RegisterOne
+                          goToLogin={goToLogin}
+                          emailError={errors.Email}
+                          passwordError={errors.Password}
+                          repeatPassError={errors.Password_Repeat}
+                          register={register}
+                          getValues={getValues}
+                        />
+                      );
+                    case 2:
+                      return (
+                        <RegisterTwo
+                          register={register}
+                          citizenIdError={errors.citizenId}
+                          fNameError={errors.fName}
+                          lNameError={errors.lName}
+                          dobError={errors.dob}
+                          ageError={errors.age}
+                        />
+                      );
+                    case 3:
+                      return (
+                        <RegisterThree
+                          register={register}
+                          addressError={errors.address}
+                          telNoError={errors.telNo}
+                          genderError={errors.gender}
+                        />
+                      );
+                    case 4:
+                      return <RegisterFour formData={formData} />;
+                    default:
+                  }
+                })()}
+              {isFetching ? (
+                <div className="mx-auto">
+                  <LoadingSpinner />
+                </div>
+              ) : (
+                <RenderButton
+                  nextStep={nextStep}
+                  prevStep={prevStep}
+                  step={step}
+                  goToLogin={goToLogin}
+                  isValid={isValid}
+                  submitForm={submitForm}
+                />
+              )}
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

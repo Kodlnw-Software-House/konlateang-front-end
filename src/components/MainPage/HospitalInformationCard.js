@@ -1,5 +1,4 @@
 import { HomeIcon } from "@heroicons/react/solid";
-import default_image from "../../assets/bg_hospital.jpg";
 import { useLocation } from "react-router";
 const HospitalInformationCard = (props) => {
   const location = useLocation();
@@ -14,6 +13,7 @@ const HospitalInformationCard = (props) => {
         <div className="w-full carousel">
           <div id="slide1" className="relative w-full carousel-item">
             <img
+              alt="pic1"
               src="https://source.unsplash.com/800x400/?hospital"
               className="object-cover object-center w-full h-64"
             />
@@ -28,6 +28,7 @@ const HospitalInformationCard = (props) => {
           </div>
           <div id="slide2" className="relative w-full carousel-item">
             <img
+              alt="pic2"
               src="https://source.unsplash.com/800x400/?hospital"
               className="w-full"
             />
@@ -42,6 +43,7 @@ const HospitalInformationCard = (props) => {
           </div>
           <div id="slide3" className="relative w-full carousel-item">
             <img
+              alt="pic3"
               src="https://source.unsplash.com/800x400/?hospital"
               className="w-full"
             />
@@ -58,7 +60,7 @@ const HospitalInformationCard = (props) => {
       </div>
       {/* Hospital Info */}
       <div className="xl:justify-self-start xl:w-full">
-        <div className="flex items-center px-6 py-3 bg-sky-600">
+        <div className="flex items-center px-6 py-3 bg-primary">
           <HomeIcon
             className="w-6 h-6 text-primary-content fill-current"
             xmlns="http://www.w3.org/2000/svg"

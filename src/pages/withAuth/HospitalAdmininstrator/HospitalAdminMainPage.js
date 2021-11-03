@@ -11,6 +11,11 @@ import { useDispatch } from "react-redux";
 import { uiActions } from "../../../redux/ui-slice";
 import { AuthAction } from "../../../redux/auth-slice";
 import { useHistory, useLocation } from "react-router-dom";
+import { motion } from "framer-motion";
+import {
+  animationOne,
+  transition,
+} from "../../../components/animations/animation";
 
 const HospitalAdminMainPage = (props) => {
   const dispatch = useDispatch();
@@ -61,31 +66,40 @@ const HospitalAdminMainPage = (props) => {
       {isFetchIsolation ? (
         <LoadingSpinner />
       ) : isolationData.length !== 0 ? (
-        <div className="grid grid-cols-1 md:grid-rows-2 items-stretch justify-items-stretch">
-          {isolationData.map((item, key) => {
-            return (
-              <HospitalAdminActiveHospital
-                key={key}
-                id={item.community_isolation_id}
-                hospitalName={item.community_isolation_name}
-                allBed={item.available_bed}
-                activeBed={item.bed_left}
-                goPath={goPath}
-              />
-            );
-          })}
-          <div
-            onClick={() => goCreate()}
-            className="card border-dashed border-4 border-gray-400 shadow-md m-4 text-gray-400 md:mx-10 lg:mx-20 lg:py-2 xl:mx-80 cursor-pointer hover:border-gray-500 hover:text-gray-500"
+        <ItemCard>
+          <motion.div
+            initial="out"
+            animate="in"
+            variants={animationOne}
+            transition={transition}
           >
-            <div className="card-body p-4 flex space-x-2 overflow-hidden items-center mx-auto">
-              <div className="flex flex-col justify-center items-center space-y-1">
-                <PlusIcon className="w-14 h-auto" />
-                <p className="text-xl">ลงทะเบียนศูนย์พักคอย</p>
+            <div className="grid grid-cols-1 md:grid-rows-2 items-stretch justify-items-stretch">
+              {isolationData.map((item, key) => {
+                return (
+                  <HospitalAdminActiveHospital
+                    key={key}
+                    id={item.community_isolation_id}
+                    hospitalName={item.community_isolation_name}
+                    allBed={item.available_bed}
+                    activeBed={item.bed_left}
+                    goPath={goPath}
+                  />
+                );
+              })}
+              <div
+                onClick={() => goCreate()}
+                className="card border-dashed border-4 border-gray-400 shadow-md m-4 text-gray-400 md:mx-10 lg:py-2  cursor-pointer hover:border-gray-500 hover:text-gray-500"
+              >
+                <div className="card-body p-4 flex space-x-2 overflow-hidden items-center mx-auto">
+                  <div className="flex flex-col justify-center items-center space-y-1">
+                    <PlusIcon className="w-14 h-auto" />
+                    <p className="text-xl">ลงทะเบียนศูนย์พักคอย</p>
+                  </div>
+                </div>
               </div>
             </div>
-          </div>
-        </div>
+          </motion.div>
+        </ItemCard>
       ) : (
         <ItemCard>
           <div className="flex flex-col justify-center space-y-2">

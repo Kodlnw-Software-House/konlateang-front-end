@@ -1,4 +1,6 @@
 import Card from "../components/ui/Card";
+import { animationOne, transition } from "../components/animations/animation";
+import { motion } from "framer-motion";
 import { EyeIcon, EyeOffIcon } from "@heroicons/react/solid";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
@@ -82,129 +84,146 @@ const Login = (props) => {
     : "w-full input input-sm input-primary md:h-12";
   const passwordVisible = isVisible ? "text" : "password";
   return (
-    <div
-      data-theme={theme}
-      class="hero flex flex-col justify-center space-y-3 min-h-screen px-6 bg-primary"
+    <motion.div
+      initial="out"
+      animate="in"
+      exit="out"
+      variants={animationOne}
+      transition={transition}
     >
-      <div class="hero-content w-full flex-col lg:flex-row lg:space-x-16">
-        <div class="hidden text-center text-sky-50 lg:block lg:text-left">
-          <h1 class="mb-5 text-5xl font-bold">คนละเตียง</h1>
-          <p class="lg:text-2xl">ยินดีต้อนให้บริการคุณเสมอ</p>
-        </div>
-        <div class="flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
-          <Card>
-            {/* Header */}
-            <div className="border-b-4 border-primary leading-10 ">
-              <span className="text-xl font-extrabold text-center w-full">
-                เข้าสู่ระบบ คนละเตียง{" "}
-                {isPatient ? "(สำหรับผู้ป่วย)" : "(สำหรับแอดมินศูนย์ฯ)"}
-              </span>
+      <div
+        data-theme={theme}
+        className="hero flex flex-col justify-center space-y-3 min-h-screen px-6 bg-primary"
+      >
+        <div className="hero-content w-full flex-col lg:flex-row lg:space-x-16">
+          <motion.div
+            initial={{ opacity: 0, x: -300 }}
+            animate={{ opacity: 1, x: 0 }}
+            transition={{ duration: 1.2 }}
+          >
+            <div className="hidden text-center text-sky-50 lg:block lg:text-left">
+              <h1 className="mb-5 text-5xl font-bold">คนละเตียง</h1>
+              <p className="lg:text-2xl">ยินดีต้อนให้บริการคุณเสมอ</p>
             </div>
-            {/* Form */}
-            <form onSubmit={handleSubmit(formSubmitHandler)}>
-              <div className="form-control">
-                <label className="label">
-                  <span className="label-text text-lg">อีเมล</span>
-                </label>
-                <input
-                  type="email"
-                  name="email"
-                  id="email"
-                  required
-                  {...register("email", {
-                    required: true,
-                    pattern: /^\S+@\S+$/i,
-                  })}
-                  placeholder="username หรือ email"
-                  className={emailInputClass}
-                />
-                {errors.email && (
+          </motion.div>
+          <div className="flex-shrink-0 w-full max-w-lg shadow-2xl bg-base-100">
+            <Card>
+              {/* Header */}
+              <div className="border-b-4 border-primary leading-10 ">
+                <span className="text-xl font-extrabold text-center w-full">
+                  เข้าสู่ระบบ คนละเตียง{" "}
+                  {isPatient ? "(สำหรับผู้ป่วย)" : "(สำหรับแอดมินศูนย์ฯ)"}
+                </span>
+              </div>
+              {/* Form */}
+              <form onSubmit={handleSubmit(formSubmitHandler)}>
+                <div className="form-control">
                   <label className="label">
-                    <span className="label-text text-error">
-                      {errors.email.type === "required"
-                        ? "โปรดระบุอีเมล"
-                        : "โปรดระบุอีเมลให้ถูกต้อง"}
-                    </span>
+                    <span className="label-text text-lg">อีเมล</span>
                   </label>
-                )}
-                <label className="label">
-                  <span className="label-text text-lg">รหัสผ่าน</span>
-                </label>
-                <div className="relative">
                   <input
-                    type={passwordVisible}
-                    name="password"
-                    id="password"
-                    {...register("password", { required: true })}
+                    type="email"
+                    name="email"
+                    id="email"
                     required
-                    placeholder="password"
-                    className={passInputClass}
+                    {...register("email", {
+                      required: true,
+                      pattern: /^\S+@\S+$/i,
+                    })}
+                    placeholder="username หรือ email"
+                    className={emailInputClass}
                   />
-                  <div
-                    className="absolute top-0 right-0 cursor-pointer"
-                    onClick={toggleVisible}
-                  >
-                    {!isVisible ? (
-                      <EyeOffIcon className="btn-sm btn-ghost w-10 rounded-l-none md:h-12" />
-                    ) : (
-                      <EyeIcon className="btn-sm btn-ghost w-10 rounded-l-none md:h-12" />
-                    )}
-                  </div>
-                </div>
-                {errors.password && (
+                  {errors.email && (
+                    <label className="label">
+                      <span className="label-text text-error">
+                        {errors.email.type === "required"
+                          ? "โปรดระบุอีเมล"
+                          : "โปรดระบุอีเมลให้ถูกต้อง"}
+                      </span>
+                    </label>
+                  )}
                   <label className="label">
-                    <span className="label-text text-error">
-                      โปรดตรวจสอบรหัสผ่าน
-                    </span>
+                    <span className="label-text text-lg">รหัสผ่าน</span>
                   </label>
-                )}
-              </div>
+                  <div className="relative">
+                    <input
+                      type={passwordVisible}
+                      name="password"
+                      id="password"
+                      {...register("password", { required: true })}
+                      required
+                      placeholder="password"
+                      className={passInputClass}
+                    />
+                    <div
+                      className="absolute top-0 right-0 cursor-pointer"
+                      onClick={toggleVisible}
+                    >
+                      {!isVisible ? (
+                        <EyeOffIcon className="btn-sm btn-ghost w-10 rounded-l-none md:h-12" />
+                      ) : (
+                        <EyeIcon className="btn-sm btn-ghost w-10 rounded-l-none md:h-12" />
+                      )}
+                    </div>
+                  </div>
+                  {errors.password && (
+                    <label className="label">
+                      <span className="label-text text-error">
+                        โปรดตรวจสอบรหัสผ่าน
+                      </span>
+                    </label>
+                  )}
+                </div>
 
-              {/* submit button */}
-              <div className="pt-3">
-                <button
-                  disabled={!isValid}
-                  type="submit"
-                  className="btn btn-primary btn-sm btn-block text-lg md:btn-lg md:text-xl"
+                {/* submit button */}
+                <div className="pt-3">
+                  <button
+                    disabled={!isValid}
+                    type="submit"
+                    className="btn btn-primary btn-sm btn-block text-lg md:btn-lg md:text-xl"
+                  >
+                    เข้าสู่ระบบ
+                  </button>
+                </div>
+                {isPatient ? (
+                  <div className="border-2 border-primary-focus rounded-lg mt-3 p-2 lg:text-md">
+                    <p className="text-center">
+                      ยังไม่มีบัญชี?{" "}
+                      <Link
+                        className="text-primary font-semibold hover:text-accent-focus hover:underline"
+                        to="/registration"
+                      >
+                        ลงทะเบียน
+                      </Link>
+                    </p>
+                  </div>
+                ) : (
+                  <div className="border-2 border-primary-focus rounded-lg mt-3 p-2 lg:text-md">
+                    <p className="text-center">
+                      ท่านเป็นผู้ป่วย?{" "}
+                      <Link
+                        className="text-primary font-semibold hover:text-accent-focus hover:underline"
+                        to="/patient-login"
+                      >
+                        เข้าสู่ระบบผู้ป่วย
+                      </Link>
+                    </p>
+                  </div>
+                )}
+              </form>
+              <div className="pt-4 text-center text-xl lg:text-right">
+                <Link
+                  className="hover:text-accent-focus hover:underline"
+                  to="/"
                 >
-                  เข้าสู่ระบบ
-                </button>
+                  กลับสู่หน้าแรก
+                </Link>
               </div>
-              {isPatient ? (
-                <div className="border-2 border-primary-focus rounded-lg mt-3 p-2 lg:text-md">
-                  <p className="text-center">
-                    ยังไม่มีบัญชี?{" "}
-                    <Link
-                      className="text-primary font-semibold hover:text-accent-focus hover:underline"
-                      to="/registration"
-                    >
-                      ลงทะเบียน
-                    </Link>
-                  </p>
-                </div>
-              ) : (
-                <div className="border-2 border-primary-focus rounded-lg mt-3 p-2 lg:text-md">
-                  <p className="text-center">
-                    ท่านเป็นผู้ป่วย?{" "}
-                    <Link
-                      className="text-primary font-semibold hover:text-accent-focus hover:underline"
-                      to="/patient-login"
-                    >
-                      เข้าสู่ระบบผู้ป่วย
-                    </Link>
-                  </p>
-                </div>
-              )}
-            </form>
-            <div className="pt-4 text-center text-xl lg:text-right">
-              <Link className="hover:text-accent-focus hover:underline" to="/">
-                กลับสู่หน้าแรก
-              </Link>
-            </div>
-          </Card>
+            </Card>
+          </div>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 

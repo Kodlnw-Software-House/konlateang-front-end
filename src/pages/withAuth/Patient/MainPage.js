@@ -2,7 +2,6 @@ import ItemCard from "../../../components/ui/ItemCard";
 import { useFetch } from "../../../hooks/use-fetch";
 import CovidInfo from "../../../components/MainPage/Covid19Info";
 import ActiveHospital from "../../../components/MainPage/ActiveHospital";
-import Card from "../../../components/ui/Card";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import IsolationService from "../../../components/functions/services/isolation-service";
 import {
@@ -11,6 +10,11 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import {
+  animationOne,
+  transition,
+} from "../../../components/animations/animation";
 const scrollTop = () => {
   return document.getElementById("isolation_list_title").scrollIntoView({
     behavior: "smooth",
@@ -113,7 +117,12 @@ const MainPage = () => {
   };
   return (
     // Covid19 Todays
-    <div>
+    <motion.div
+      initial="out"
+      animate="in"
+      variants={animationOne}
+      transition={transition}
+    >
       <ItemCard>
         {loading ? (
           <LoadingSpinner />
@@ -169,22 +178,29 @@ const MainPage = () => {
       {isFetchIsolation ? (
         <LoadingSpinner />
       ) : isolationData.rows && isolationData.rows.length !== 0 ? (
-        <div className=" lg:mx-20 xl:mx-60">
-          <div className="grid  grid-rows-4 justify-items-center gap-y-6 place-items-stretch md:grid-rows-none md:grid-cols-2 md:gap-y-4 lg:grid-cols-3 lg:gap-x-4">
-            {isolationData.rows.map((item, key) => {
-              return (
-                <ActiveHospital
-                  key={key}
-                  hospitalId={item.community_isolation_id}
-                  hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-                  hospitalName={item.community_isolation_name}
-                  totalActiveBed={item.available_bed}
-                  hospitalAddress={item.address}
-                />
-              );
-            })}
+        <motion.div
+          initial="out"
+          animate="in"
+          variants={animationOne}
+          transition={{ duration: 0.2 }}
+        >
+          <div className=" lg:mx-20 xl:mx-60">
+            <div className="grid  grid-rows-4 justify-items-center gap-y-6 place-items-stretch md:grid-rows-none md:grid-cols-2 md:gap-y-4 lg:grid-cols-3 lg:gap-x-4">
+              {isolationData.rows.map((item, key) => {
+                return (
+                  <ActiveHospital
+                    key={key}
+                    hospitalId={item.community_isolation_id}
+                    hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
+                    hospitalName={item.community_isolation_name}
+                    totalActiveBed={item.available_bed}
+                    hospitalAddress={item.address}
+                  />
+                );
+              })}
+            </div>
           </div>
-        </div>
+        </motion.div>
       ) : (
         <ItemCard>
           <div className="flex flex-col justify-center space-y-2">
@@ -217,7 +233,7 @@ const MainPage = () => {
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default MainPage;

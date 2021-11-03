@@ -36,7 +36,7 @@ const PatientOfIsolation = (props) => {
         setIsLoading(false);
       });
   }, []);
-
+  console.log(bookings);
   useEffect(() => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
@@ -80,30 +80,35 @@ const PatientOfIsolation = (props) => {
                 <tr>
                   <th></th>
                   <th>รหัสการจอง</th>
+                  <th>รหัสผู้ป่วย</th>
                   <th>ชื่อ-นามสกุล</th>
                   <th>เพศ</th>
+                  <th>จองเมื่อ</th>
                   <th>สถานะ</th>
                   <th></th>
                 </tr>
               </thead>
               <tbody>
                 {bookings.map((booking, index) => {
+                  const date = new Date(Date.parse(booking.create_at));
                   return (
                     <tr key={index}>
-                      <th>{(index += 1)}</th>
-                      <th>{booking.booking_id}</th>
+                      <td>{(index += 1)}</td>
+                      <td>{booking.booking_id}</td>
+                      <td>{booking.patient.patient_id}</td>
                       <td>{`${booking.patient.fname} ${booking.patient.lname}`}</td>
-                      <th>
+                      <td>
                         {booking.patient.gender === "M"
                           ? "ชาย"
                           : "F"
                           ? "หญิง"
                           : "ไม่ระบุ"}
-                      </th>
+                      </td>
+                      <td>{`${date.getUTCDate()}/${date.getUTCMonth()+1}/${date.getUTCFullYear()}`}</td>
                       <td>{booking.status.status_name}</td>
                       <td>
                         <InformationCircleIcon
-                          className="w-6"
+                          className="w-6 cursor-pointer"
                           onClick={() => {
                             togglePatientEditModal(booking.booking_id);
                           }}

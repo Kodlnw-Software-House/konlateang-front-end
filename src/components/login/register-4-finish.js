@@ -49,7 +49,7 @@ const registerFour = (props) => {
               </span>
             </p>
           </div>
-          <div className="divider md:text-2xl">ที่อยู่</div>
+          <div className="divider md:text-2xl">การติดต่อ</div>
           <div className="md:text-lg">
             <p>
               ที่อยู่ปัจจุบัน:{" "}
