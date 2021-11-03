@@ -2,7 +2,6 @@ import ItemCard from "../../../components/ui/ItemCard";
 import { useFetch } from "../../../hooks/use-fetch";
 import CovidInfo from "../../../components/MainPage/Covid19Info";
 import ActiveHospital from "../../../components/MainPage/ActiveHospital";
-import Card from "../../../components/ui/Card";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import IsolationService from "../../../components/functions/services/isolation-service";
 import {
@@ -11,6 +10,18 @@ import {
   InformationCircleIcon,
 } from "@heroicons/react/outline";
 import { useEffect, useState } from "react";
+import { motion } from "framer-motion";
+import {
+  animationOne,
+  transition,
+} from "../../../components/animations/animation";
+const scrollTop = () => {
+  return document.getElementById("isolation_list_title").scrollIntoView({
+    behavior: "smooth",
+    block: "start",
+    inline: "nearest",
+  });
+};
 const MainPage = () => {
   const {
     data: covidData,
@@ -24,8 +35,9 @@ const MainPage = () => {
   const [isFetchIsolation, setisFetchIsolation] = useState(false);
   const [isolationData, setIsolationData] = useState([]);
   const [enteredSearch, setEnteredSearch] = useState("");
-  const [page, setPage] = useState({ pagSize: 4, pageNo: 1, search: "" });
-  let items = [];  
+  const [page, setPage] = useState({ pagSize: 6, pageNo: 1, search: "" });
+  let items = [];
+  console.log(isolationData);
   for (
     let i = 1;
     i <=
@@ -41,8 +53,8 @@ const MainPage = () => {
         key={i}
         className={
           page.pageNo === i
-            ? "btn btn-sm btn-ghost btn-primary btn-active"
-            : "btn btn-sm btn-ghost btn-primary"
+            ? "btn btn-sm btn-ghost btn-primary btn-active md:btn-md"
+            : "btn btn-sm btn-ghost btn-primary md:btn-md"
         }
         onClick={() => {
           if (page.pageNo !== i) {
@@ -50,6 +62,7 @@ const MainPage = () => {
               ...prev,
               pageNo: i,
             }));
+            scrollTop();
           }
         }}
       >
@@ -64,7 +77,7 @@ const MainPage = () => {
     setisFetchIsolation(true);
     IsolationService.getAllIsolation(page.pagSize, page.pageNo, page.search)
       .then((response) => {
-        console.log(response.data.result);
+        // console.log(response.data.result);
         setIsolationData(response.data.result);
       })
       .catch((error) => {
@@ -81,6 +94,7 @@ const MainPage = () => {
         ...prev,
         pageNo: prev.pageNo + 1,
       }));
+      scrollTop();
     }
   };
   const prevPage = () => {
@@ -89,6 +103,7 @@ const MainPage = () => {
         ...prev,
         pageNo: prev.pageNo - 1,
       }));
+      scrollTop();
     }
   };
   const searchIsolation = (e) => {
@@ -98,18 +113,24 @@ const MainPage = () => {
       ...prev,
       search: enteredSearch,
     }));
-
-    document.getElementById("isolation_list_title").scrollIntoView();
+    scrollTop();
   };
   return (
     // Covid19 Todays
-    <div>
+    <motion.div
+      initial="out"
+      animate="in"
+      variants={animationOne}
+      transition={transition}
+    >
       <ItemCard>
         {loading ? (
           <LoadingSpinner />
         ) : error ? (
           <div className="mx-auto">
-            <div className="w-10 h-10">ไม่สามารถโหลดข้อมูล covid-19 ได้</div>
+            <div className="text-gray-500">
+              *ไม่สามารถโหลดข้อมูล covid-19 ได้*
+            </div>
           </div>
         ) : (
           <CovidInfo
@@ -123,21 +144,21 @@ const MainPage = () => {
         )}
       </ItemCard>
       {/* search input */}
-      <Card>
+      <div className="m-4 p-2 md:mx-8 lg:py-2 xl:mx-60 2xl:mx-80">
         <div className="form-control shadow-sm">
           <form className="relative" onSubmit={searchIsolation}>
             <input
               type="text"
-              placeholder="ค้นหาศูนย์พักคอย"
-              className="w-full pr-16 input input-sm rounded-box"
+              placeholder="ค้นหาศูนย์พักคอย เช่น Thonburi Hospital "
+              className="w-full pr-16 input input-sm rounded-box md:h-14 md:text-lg"
               value={enteredSearch}
               onChange={(e) => setEnteredSearch(e.target.value)}
             />
             <button
               type="submit"
-              className="absolute top-0 right-0 rounded-l-none btn btn-sm btn-ghost"
+              className="absolute top-0 right-0 rounded-l-none btn btn-sm btn-ghost md:h-14"
             >
-              <SearchCircleIcon className="w-7 h-auto" />
+              <SearchCircleIcon className="w-7 h-auto md:w-9 md:h-14" />
             </button>
           </form>
         </div>
@@ -145,63 +166,74 @@ const MainPage = () => {
           <AdjustmentsIcon className="w-7 h-auto" />
           <span className="text-xl">ตัวกรอง</span>
         </div>
-      </Card>
-      {/* active hospital list */}
-      <div>
-        <Card>
-          <div id="isolation_list_title" className="text-xl">
-            ศูนย์พักคอยที่เปิดรับ
-          </div>
-        </Card>
-        {isFetchIsolation ? (
-          <LoadingSpinner />
-        ) : isolationData.rows && isolationData.rows.length !== 0 ? (
-          isolationData.rows.map((item, key) => {
-            return (
-              <ActiveHospital
-                key={key}
-                hospitalId={item.community_isolation_id}
-                hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
-                hospitalName={item.community_isolation_name}
-                totalActiveBed={item.available_bed}
-                hospitalAddress={item.address}
-              />
-            );
-          })
-        ) : (
-          <ItemCard>
-            <div className="flex flex-col justify-center space-y-2">
-              <div>
-                <InformationCircleIcon className="w-10 h-10 mx-auto" />
-              </div>
-              {page.search ? (
-                <div className="text-center">ไม่พบข้อมูลที่ค้นหา</div>
-              ) : (
-                <div className="text-center">ไม่พบข้อมูลในระบบ</div>
-              )}
-            </div>
-          </ItemCard>
-        )}
+        <div
+          id="isolation_list_title"
+          className="mt-8 text-center text-xl md:text-2xl"
+        >
+          ศูนย์พักคอยที่เปิดรับ
+        </div>
       </div>
+      {/* active hospital list */}
+
+      {isFetchIsolation ? (
+        <LoadingSpinner />
+      ) : isolationData.rows && isolationData.rows.length !== 0 ? (
+        <motion.div
+          initial="out"
+          animate="in"
+          variants={animationOne}
+          transition={{ duration: 0.2 }}
+        >
+          <div className=" lg:mx-20 xl:mx-60">
+            <div className="grid  grid-rows-4 justify-items-center gap-y-6 place-items-stretch md:grid-rows-none md:grid-cols-2 md:gap-y-4 lg:grid-cols-3 lg:gap-x-4">
+              {isolationData.rows.map((item, key) => {
+                return (
+                  <ActiveHospital
+                    key={key}
+                    hospitalId={item.community_isolation_id}
+                    hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
+                    hospitalName={item.community_isolation_name}
+                    totalActiveBed={item.available_bed}
+                    hospitalAddress={item.address}
+                  />
+                );
+              })}
+            </div>
+          </div>
+        </motion.div>
+      ) : (
+        <ItemCard>
+          <div className="flex flex-col justify-center space-y-2">
+            <div>
+              <InformationCircleIcon className="w-10 h-10 mx-auto" />
+            </div>
+            {page.search ? (
+              <div className="text-center">ไม่พบข้อมูลที่ค้นหา</div>
+            ) : (
+              <div className="text-center">ไม่พบข้อมูลในระบบ</div>
+            )}
+          </div>
+        </ItemCard>
+      )}
       {/* Pagination */}
       <div className="my-4">
         <div className="btn-group justify-center">
           <button
-            className="btn btn-sm btn-outline btn-primary"
+            className="btn btn-sm btn-outline btn-primary md:btn-md"
             onClick={prevPage}
           >
             Prev
           </button>
           {items}
           <button
-            className="btn btn-sm btn-outline btn-primary"
+            className="btn btn-sm btn-outline btn-primary md:btn-md"
             onClick={nextPage}
           >
             Next
           </button>
         </div>
       </div>
-    </div>
+    </motion.div>
   );
 };
 export default MainPage;

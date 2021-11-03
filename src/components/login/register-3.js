@@ -1,14 +1,14 @@
 import Card from "../ui/Card";
 const registerThree = (props) => {
   const addressInputClasses = props.addressError
-    ? "textarea h-24 textarea-bordered textarea-error input-error text-warning"
+    ? "textarea h-24 textarea-bordered textarea-error input-error text-warning "
     : "textarea h-24 textarea-bordered textarea-primary";
   const telNoInputClasses = props.telNoError
-    ? "input input-sm input-error text-warning"
-    : "input input-sm input-info";
+    ? "input input-sm input-error text-warning md:h-12"
+    : "input input-sm input-info md:h-12";
   const genderSelectClasses = props.genderError
-    ? "select select-bordered select-error w-full max-w-xs font-normal"
-    : "select select-bordered select-primary w-full max-w-xs font-normal";
+    ? "select select-bordered select-error w-full  font-normal"
+    : "select select-bordered select-primary w-full  font-normal";
   return (
     <Card>
       <div className="form-control">

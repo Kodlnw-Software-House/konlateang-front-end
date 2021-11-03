@@ -1,16 +1,16 @@
 import Card from "../ui/Card";
 const registerTwo = (props) => {
   const cIdInputClasses = props.citizenIdError
-    ? "input input-sm input-error text-warning"
-    : "input input-sm input-info";
+    ? "input input-sm input-error text-warning md:h-12"
+    : "input input-sm input-info md:h-12";
   const fNameInputClasses = props.fNameError
-    ? "input input-sm input-error text-warning"
-    : "input input-sm input-info";
+    ? "input input-sm input-error text-warning md:h-12"
+    : "input input-sm input-info md:h-12";
   const lNameInputClasses = props.lNameError
-    ? "input input-sm input-error text-warning"
-    : "input input-sm input-info";
+    ? "input input-sm input-error text-warning md:h-12"
+    : "input input-sm input-info md:h-12";
   const dobInputClasses = props.dobError
-    ? "input input-sm input-error text-warning"
+    ? "input input-sm input-error text-warning md:h-12"
     : "input input-sm input-info";
   const ageInputClasses = props.ageError
     ? "input input-sm input-error text-warning"
@@ -19,7 +19,7 @@ const registerTwo = (props) => {
     <Card>
       <div className="form-control">
         <label htmlFor="citizen_id" className="label">
-          <span className="label-text">Cititen's ID (13 หลัก)</span>
+          <span className="label-text">รหัสประจำตัวประชาชน (13 หลัก)</span>
         </label>
         <input
           type="number"
@@ -39,7 +39,7 @@ const registerTwo = (props) => {
           </label>
         )}
         <label htmlFor="fName" className="label">
-          <span className="label-text">First Name</span>
+          <span className="label-text">ชื่อจริง</span>
         </label>
         <input
           type="text"
@@ -57,7 +57,7 @@ const registerTwo = (props) => {
           </label>
         )}
         <label htmlFor="lName" className="label">
-          <span className="label-text">Last Name</span>
+          <span className="label-text">นามสกุล</span>
         </label>
         <input
           type="text"
@@ -75,7 +75,7 @@ const registerTwo = (props) => {
           </label>
         )}
         <label htmlFor="dob" className="label">
-          <span className="label-text">Date of Birth</span>
+          <span className="label-text">วันเดือนปีเกิด</span>
         </label>
         <input
           type="date"
@@ -90,7 +90,7 @@ const registerTwo = (props) => {
           </label>
         )}
         <label htmlFor="age" className="label">
-          <span className="label-text">Age</span>
+          <span className="label-text">อายุ (ปี)</span>
         </label>
         <input
           disabled

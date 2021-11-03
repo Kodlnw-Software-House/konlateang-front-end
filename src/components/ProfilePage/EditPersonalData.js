@@ -54,7 +54,7 @@ const EditPersonalData = (props) => {
     if (oldData.tel !== newData.tel) {
       editData.tel = newData.tel;
     }
-    console.log("PUT data", editData);
+
     props.editUserData(editData);
   };
 
