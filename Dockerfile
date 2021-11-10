@@ -14,7 +14,7 @@ RUN npm install
 COPY . .
 
 ENV REACT_APP_BACKEND_MAIN_URL=https://dev.api.kodlnw-product.net/
-ENV PORT=5000
+ENV PORT=3000
 # RUN npm run build
 RUN npm run build
 
@@ -26,7 +26,7 @@ COPY --from=builder /usr/src/app/build build
 
 RUN npm install serve
 
-EXPOSE 5000
+EXPOSE 3000
 
 CMD ["npx", "serve", "build", "-l", "tcp://0.0.0.0", "-s"]
 # #pull the official nginx:1.19.0 base image
