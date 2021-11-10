@@ -22,7 +22,6 @@ export const hospitalLogin = createAsyncThunk(
         localStorage.setItem("role", "HOSPITAL");
         return data;
       } else {
-        console.log("else", data);
         return thunkAPI.rejectWithValue(data.error);
       }
     } catch (error) {
@@ -48,7 +47,6 @@ export const userLogin = createAsyncThunk(
         localStorage.setItem("role", "PATIENT");
         return data;
       } else {
-        console.log("else", data);
         return thunkAPI.rejectWithValue(data.error);
       }
     } catch (error) {
@@ -91,21 +89,17 @@ export const userRegister = createAsyncThunk(
         gender,
       });
       let data = await response.data;
-      console.log(data);
       if (response.status === 201) {
         localStorage.setItem("user", data.token);
         localStorage.setItem("role", "PATIENT");
         return data;
       } else {
-        console.log("else", data);
         return thunkAPI.rejectWithValue(data.error);
       }
     } catch (error) {
       if (!error.response) {
-        console.log("error", error);
         throw error;
       }
-      console.log(error.response.data);
       return thunkAPI.rejectWithValue(error.response.data);
     }
   }

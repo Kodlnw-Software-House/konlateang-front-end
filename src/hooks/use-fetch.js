@@ -11,8 +11,8 @@ export const useFetch = (axiosParams) => {
     try {
       const result = await http.request(params);
       setData(result.data);
-    } catch (error) {
-      setError(error);
+    } catch (er) {
+      setError(er);
     } finally {
       setLoading(false);
     }

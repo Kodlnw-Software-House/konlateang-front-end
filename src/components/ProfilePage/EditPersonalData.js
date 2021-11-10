@@ -59,17 +59,17 @@ const EditPersonalData = (props) => {
   };
 
   const addressInputClasses = errors.address
-    ? "textarea textarea-error h-36"
-    : "textarea textarea-info h-36";
+    ? "textarea textarea-error h-36 md:text-lg"
+    : "textarea textarea-info h-36  md:text-lg";
   const telInputClasses = errors.telNo
-    ? "input input-error mx-1 input-sm"
-    : "input input-info mx-1 input-sm";
+    ? "input input-error mx-1 input-sm  md:text-lg"
+    : "input input-info mx-1 input-sm  md:text-lg";
   return (
     <Fragment>
       <form onSubmit={handleSubmit(sumbitForm)}>
-        <div className="form-control max-h-72 overflow-scroll p-1">
+        <div className="form-control max-h-72 overflow-y-auto p-1">
           <label className="label">
-            <span className="label-text">ที่อยู่ปัจจุบัน</span>
+            <span className="label-text md:text-xl">ที่อยู่ปัจจุบัน</span>
           </label>
           <textarea
             {...register("address", { required: true, maxLength: 500 })}
@@ -77,7 +77,7 @@ const EditPersonalData = (props) => {
             placeholder="ระบุที่อยู่ ณ ปัจจุบัน"
           />
           <label className="label">
-            <span className="label-text">เบอร์โทรศัพท์</span>
+            <span className="label-text md:text-xl">เบอร์โทรศัพท์</span>
           </label>
           <input
             {...register("telNo", {

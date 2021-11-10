@@ -1,10 +1,10 @@
 import React, { useEffect } from "react";
 import WelcomePage from "./pages/welcome-page";
 import Login from "./pages/Login";
-import PatientRegister from "./pages/patient-register-page";
+import PatientRegister from "./pages/PatientRegister";
 import Notification from "./components/ui/notification-modal";
 import ProtectedRoute from "./components/functions/ProtectedRoute";
-import AuthRouter from "./pages/withAuth/authentication-router";
+import AuthRouter from "./pages/withAuth/AuthRouter";
 import { useSelector, useDispatch } from "react-redux";
 import { Switch, Route, Redirect, useLocation } from "react-router-dom";
 import { AuthAction } from "./redux/auth-slice";

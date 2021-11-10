@@ -1,13 +1,12 @@
 import http from "./auth-header";
 
-const userToken = localStorage.getItem("user");
 
 class IsolationService {
   getAllIsolation(
     pageSize = 4,
     pageNumber = 1,
     search = "",
-    token = userToken
+    token = localStorage.getItem("user")
   ) {
     return http.get(
       `/isolation/getAll?pageSize=${pageSize}&pageNumber=${pageNumber}&search=${search}`,
@@ -16,7 +15,7 @@ class IsolationService {
       }
     );
   }
-  getIsolationById(id, token = userToken) {
+  getIsolationById(id, token = localStorage.getItem("user")) {
     return http.get(`/isolation/get/${id}`, {
       headers: { Authorization: `Bearer ${token}` },
     });
