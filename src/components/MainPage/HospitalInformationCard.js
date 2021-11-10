@@ -1,8 +1,56 @@
 import { HomeIcon } from "@heroicons/react/solid";
 import { useLocation } from "react-router";
+import default_bg from "../../assets/bg_hospital.jpg";
+
 const HospitalInformationCard = (props) => {
   const location = useLocation();
   const currentPath = location.pathname;
+  const images = [];
+  for (let i = 0; i < props.image_index.length; i++) {
+    images.push(
+      <div
+        key={i}
+        id={`slide${i + 1}`}
+        className="relative w-full carousel-item"
+      >
+        <img
+          alt={`pic${i + 1}`}
+          src={`${process.env.REACT_APP_BACKEND_MAIN_URL}hospital/getImage/${props.id}/${props.image_index[i]}`}
+          className="object-contain object-center w-full h-80"
+        />
+
+        <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
+          <a
+            href={
+              props.imageCount === 1
+                ? `${currentPath}#slide1`
+                : props.imageCount === 2
+                ? `${currentPath}#slide2`
+                : `${currentPath}#slide3`
+            }
+            className="btn btn-circle"
+          >
+            ❮
+          </a>
+          <a href={`${currentPath}#slide2`} className="btn btn-circle">
+            ❯
+          </a>
+        </div>
+      </div>
+    );
+  }
+  if (props.image_index.length === 0) {
+    images.push(
+      <div id={`slide1`} className="relative w-full carousel-item">
+        <img
+          key="default_img"
+          alt={`pic1`}
+          src={default_bg}
+          className="object-contain object-center w-full h-80"
+        />
+      </div>
+    );
+  }
   return (
     <div
       className="mx-auto overflow-hidden bg-white rounded-lg lg:grid-flow-col lg:grid lg:grid-cols-2 lg:gap-x-4
@@ -10,53 +58,7 @@ const HospitalInformationCard = (props) => {
     >
       <div className="xl:justify-self-end xl:w-full">
         {/* Picture */}
-        <div className="w-full carousel">
-          <div id="slide1" className="relative w-full carousel-item">
-            <img
-              alt="pic1"
-              src="https://source.unsplash.com/800x400/?hospital"
-              className="object-cover object-center w-full h-64"
-            />
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href={`${currentPath}#slide3`} className="btn btn-circle">
-                ❮
-              </a>
-              <a href={`${currentPath}#slide2`} className="btn btn-circle">
-                ❯
-              </a>
-            </div>
-          </div>
-          <div id="slide2" className="relative w-full carousel-item">
-            <img
-              alt="pic2"
-              src="https://source.unsplash.com/800x400/?hospital"
-              className="w-full"
-            />
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href={`${currentPath}#slide1`} className="btn btn-circle">
-                ❮
-              </a>
-              <a href={`${currentPath}#slide3`} className="btn btn-circle">
-                ❯
-              </a>
-            </div>
-          </div>
-          <div id="slide3" className="relative w-full carousel-item">
-            <img
-              alt="pic3"
-              src="https://source.unsplash.com/800x400/?hospital"
-              className="w-full"
-            />
-            <div className="absolute flex justify-between transform -translate-y-1/2 left-5 right-5 top-1/2">
-              <a href={`${currentPath}#slide2`} className="btn btn-circle">
-                ❮
-              </a>
-              <a href={`${currentPath}#slide1`} className="btn btn-circle">
-                ❯
-              </a>
-            </div>
-          </div>
-        </div>
+        <div className="w-full carousel">{images}</div>
       </div>
       {/* Hospital Info */}
       <div className="xl:justify-self-start xl:w-full">

@@ -5,6 +5,7 @@ import { useEffect, useState } from "react";
 import hospitalService from "../../../components/functions/services/hospital-service";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import Card from "../../../components/ui/Card";
+import BackButton from "../../../components/ui/BackButton";
 import { Fragment } from "react";
 import { UserGroupIcon, PencilAltIcon } from "@heroicons/react/outline";
 import { Link, useRouteMatch } from "react-router-dom";
@@ -67,7 +68,14 @@ const IsolationMainPage = () => {
         );
       });
   };
-
+  const updateStatusError = (error) => {
+    dispatch(
+      uiActions.setNoti({
+        status: "error",
+        title: error,
+      })
+    );
+  };
   return (
     <Fragment>
       {isLoading ? (
@@ -87,10 +95,12 @@ const IsolationMainPage = () => {
                 <div className="xl:flex xl:flex-wrap xl:overflow-hidden xl:pt-20">
                   <div className="xl:w-3/4 xl:flex-grow">
                     <ItemCard type="isolation-main-page">
+                      <BackButton />
                       <h1 className="text-center text-2xl font-bold mb-2 lg:text-3xl">
                         {isolationData.community_isolation_name}
                       </h1>
                       <HospitalInformationCard
+                        id={isolationData?.community_isolation_id}
                         community_isolation_name={
                           isolationData?.community_isolation_name
                         }
@@ -98,10 +108,11 @@ const IsolationMainPage = () => {
                         available_bed={isolationData?.available_bed}
                         address={isolationData?.address}
                         bed_left={isolationData?.bed_left}
+                        image_index={isolationData?.image_index}
                       />
                     </ItemCard>
                   </div>
-                  <div className="xl:w-1/4 xl:flex-none">
+                  <div className=" xl:w-1/4 xl:flex-none">
                     <Card>
                       <div className="flex flex-row justify-center space-x-2  xl:flex-col xl:space-x-0 xl:space-y-1">
                         <Link
@@ -145,6 +156,7 @@ const IsolationMainPage = () => {
                 isolationData={isolationData}
                 edit={true}
                 id={id}
+                image_index={isolationData?.image_index}
               />
             ) : (
               <NotFound />
@@ -155,6 +167,7 @@ const IsolationMainPage = () => {
               id={id}
               header={isolationData.community_isolation_name}
               updatePatientStatus={updatePatientStatus}
+              updateStatusError={updateStatusError}
             />
           </Route>
         </Switch>

@@ -67,10 +67,13 @@ const Profile = (props) => {
     toggleModal(false);
   };
   const handleChange = (e) => {
-    setNewImg({
-      preview: URL.createObjectURL(e.target.files[0]),
-      raw: e.target.files[0],
-    });
+    if (e.target.files[0]) {
+      setNewImg({
+        preview: URL.createObjectURL(e.target.files[0]),
+        raw: e.target.files[0],
+      });
+    }
+    return;
   };
   const toggleEditPicture = () => {
     setIsEditPicture((prev) => !prev);
@@ -82,12 +85,15 @@ const Profile = (props) => {
     setTimeout(dispatchPicture, 2000);
   };
   const uploadNewImg = () => {
+    if (!newImg.raw) {
+      cancelUploadFile();
+      return;
+    }
     const data = new FormData();
     data.append("avatar", newImg.raw);
     userService
       .uploadNewPicture(data, localStorage.getItem("user"))
       .then((res) => {
-        console.log(res.data);
       })
       .then(() => {
         dispatch(
@@ -120,7 +126,7 @@ const Profile = (props) => {
     userService
       .editUserData(data, localStorage.getItem("user"))
       .then((response) => {
-        // console.log(response.data.editedPatient);
+
         dispatch(
           AuthAction.editUserData({ user: response.data.editedPatient })
         );

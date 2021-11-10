@@ -1,6 +1,6 @@
 import ItemCard from "../../../components/ui/ItemCard";
 import { useFetch } from "../../../hooks/use-fetch";
-import CovidInfo from "../../../components/MainPage/Covid19Info";
+import CovidInfo from "../../../components/MainPage/CovidInfo";
 import ActiveHospital from "../../../components/MainPage/ActiveHospital";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import IsolationService from "../../../components/functions/services/isolation-service";
@@ -15,6 +15,7 @@ import {
   animationOne,
   transition,
 } from "../../../components/animations/animation";
+import Pagination from "../../../components/ui/Pagination";
 const scrollTop = () => {
   return document.getElementById("isolation_list_title").scrollIntoView({
     behavior: "smooth",
@@ -37,7 +38,7 @@ const MainPage = () => {
   const [enteredSearch, setEnteredSearch] = useState("");
   const [page, setPage] = useState({ pagSize: 6, pageNo: 1, search: "" });
   let items = [];
-  console.log(isolationData);
+
   for (
     let i = 1;
     i <=
@@ -77,7 +78,6 @@ const MainPage = () => {
     setisFetchIsolation(true);
     IsolationService.getAllIsolation(page.pagSize, page.pageNo, page.search)
       .then((response) => {
-        // console.log(response.data.result);
         setIsolationData(response.data.result);
       })
       .catch((error) => {
@@ -87,7 +87,6 @@ const MainPage = () => {
         setisFetchIsolation(false);
       });
   }, [page.pagSize, page.pageNo, page.search]);
-
   const nextPage = () => {
     if (page.pageNo < isolationData.totalPage) {
       setPage((prev) => ({
@@ -185,16 +184,16 @@ const MainPage = () => {
           transition={{ duration: 0.2 }}
         >
           <div className=" lg:mx-20 xl:mx-60">
-            <div className="grid  grid-rows-4 justify-items-center gap-y-6 place-items-stretch md:grid-rows-none md:grid-cols-2 md:gap-y-4 lg:grid-cols-3 lg:gap-x-4">
+            <div className="grid justify-items-center gap-y-6 place-items-stretch md:grid-rows-none md:grid-cols-2 md:gap-y-4 lg:grid-cols-3 lg:gap-x-4">
               {isolationData.rows.map((item, key) => {
                 return (
                   <ActiveHospital
                     key={key}
                     hospitalId={item.community_isolation_id}
-                    hospitalPic="http://daisyui.com/tailwind-css-component-profile-1@94w.png"
                     hospitalName={item.community_isolation_name}
-                    totalActiveBed={item.available_bed}
+                    totalActiveBed={item.bed_left}
                     hospitalAddress={item.address}
+                    image_index={item.image_index}
                   />
                 );
               })}
@@ -217,21 +216,7 @@ const MainPage = () => {
       )}
       {/* Pagination */}
       <div className="my-4">
-        <div className="btn-group justify-center">
-          <button
-            className="btn btn-sm btn-outline btn-primary md:btn-md"
-            onClick={prevPage}
-          >
-            Prev
-          </button>
-          {items}
-          <button
-            className="btn btn-sm btn-outline btn-primary md:btn-md"
-            onClick={nextPage}
-          >
-            Next
-          </button>
-        </div>
+        <Pagination item={items} prevPage={prevPage} nextPage={nextPage} />
       </div>
     </motion.div>
   );

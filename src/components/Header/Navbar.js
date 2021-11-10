@@ -4,6 +4,8 @@ import {
   HomeIcon,
   IdentificationIcon,
   QuestionMarkCircleIcon,
+  ChevronDownIcon,
+  ChevronUpIcon,
 } from "@heroicons/react/outline";
 import { Fragment, useState } from "react";
 import { Link, NavLink, useRouteMatch } from "react-router-dom";
@@ -15,17 +17,19 @@ import HospitalService from "../functions/services/hospital-service";
 import Modal from "../ui/Modal";
 import NavBarMenu from "./NavbarMenu";
 import default_profile from "../../assets/default_profile.png";
+import { motion } from "framer-motion";
 
 const Navbar = (props) => {
   const distpatch = useDispatch();
   const [showMenu, setMenu] = useState(false);
+  const [dropbar, setDropbar] = useState(false);
   const { path } = useRouteMatch();
 
   const toggleMenu = () => {
     setMenu((prev) => !prev);
   };
   const logoutHandler = () => {
-    toggleMenu();
+    setDropbar((prev) => !prev);
     let token = localStorage.getItem("user");
     if (props.role === "PATIENT") {
       userService
@@ -35,7 +39,7 @@ const Navbar = (props) => {
           distpatch(AuthAction.userLogedOut());
         })
         .catch((e) => {
-          console.console.log(e.message);
+          console.log(e.message);
         });
     }
 
@@ -46,11 +50,20 @@ const Navbar = (props) => {
           distpatch(AuthAction.userLogedOut());
         })
         .catch((e) => {
-          console.console.log(e.message);
+          console.log(e.message);
         });
     }
   };
-
+  const toggleDropbar = () => {
+    setDropbar((prev) => !prev);
+  };
+  let dropbarClass = !dropbar
+    ? "hidden"
+    : "flex absolute right-2 top-16 py-2 w-56 text-lg bg-gray-50 rounded-md shadow-xl z-20 lg:right-6";
+  const variants = {
+    open: { opacity: 1, x: 20, y: -45 },
+    closed: { opacity: 0, x: "-100%" },
+  };
   return (
     <header className="navbar justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50 py-4 px-4 md:h-10 lg:h-14">
       {showMenu && (
@@ -140,20 +153,41 @@ const Navbar = (props) => {
       </div>
 
       <div className="hidden sm:flex sm:items-center">
-        <Link
-          to={props.role === "PATIENT" ? `${path}/my-profile` : path}
-          className="text-lg font-semibold px-1"
-        >
-          สวัสดี,{" "}
-          {props.role === "PATIENT"
-            ? props.userData?.fname
-            : props.role === "HOSPITAL"
-            ? props.userData?.hospital_name
-            : "ยินดีต้อนรับ"}
-        </Link>
+        <div className="flex flex-col justify-center">
+          <button
+            onClick={toggleDropbar}
+            className="text-lg font-semibold px-1 flex flex-row items-stretch hover:text-gray-200"
+          >
+            สวัสดี,{" "}
+            {props.role === "PATIENT"
+              ? props.userData?.fname
+              : props.role === "HOSPITAL"
+              ? props.userData?.hospital_name
+              : "ยินดีต้อนรับ"}
+            {dropbar ? (
+              <ChevronUpIcon className="w-5" />
+            ) : (
+              <ChevronDownIcon className="w-5" />
+            )}
+          </button>
+          <motion.div animate={dropbar ? "open" : "closed"} variants={variants}>
+            <div className={dropbarClass}>
+              <div className="hidden md:flex md:flex-row mx-auto">
+                <button
+                  className="w-full font-thin text-primary-focus flex flex-row justify-center items-center hover:text-gray-500"
+                  onClick={logoutHandler}
+                >
+                  <LogoutIcon className="w-8 px-1 block" />
+                  <p>ออกจากระบบ</p>
+                </button>
+              </div>
+            </div>
+          </motion.div>
+        </div>
+
         {props.role === "PATIENT" && (
-          <Link
-            to={`${path}/my-profile`}
+          <button
+            onClick={toggleDropbar}
             className="avatar cursor-pointer hidden lg:block"
           >
             <div className=" rounded-full w-14 h-14 m-1 ">
@@ -166,16 +200,8 @@ const Navbar = (props) => {
                 }}
               />
             </div>
-          </Link>
-        )}
-        <div className="hidden md:flex invisible md:visible">
-          <button
-            className="w-7 font-thin text-primary-content  hover:text-primary-focus"
-            onClick={logoutHandler}
-          >
-            <LogoutIcon />
           </button>
-        </div>
+        )}
       </div>
 
       <div className="sm:hidden cursor-pointer">

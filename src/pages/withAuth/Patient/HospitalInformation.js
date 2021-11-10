@@ -15,6 +15,8 @@ import {
   transition,
   animationOne,
 } from "../../../components/animations/animation";
+import BackButton from "../../../components/ui/BackButton";
+
 const onTop = () => {
   window.scrollTo(0, 0);
 };
@@ -34,11 +36,9 @@ const HospitalInfo = (props) => {
     isolationService
       .getIsolationById(id, localStorage.getItem("user"))
       .then((response) => {
-        console.log(response.data.isolation);
         setHospitalDetail(response.data.isolation);
       })
       .catch((error) => {
-        console.log(error.response.data);
         if (error.response.status === 401) {
           dispatch(AuthAction.userLogedOut());
           return;
@@ -61,9 +61,6 @@ const HospitalInfo = (props) => {
     toggleModal(false);
   };
 
-  const getBack = () => {
-    history.push("/");
-  };
   const goToProfile = () => {
     setTimeout(() => {
       history.push("/kon-la-tieng/my-profile");
@@ -142,23 +139,22 @@ const HospitalInfo = (props) => {
             variants={animationOne}
             transition={transition}
           >
+            <BackButton />
             <HospitalInformationCard
               openModal={openModal}
+              id={hospitalDetail.community_isolation_id}
               community_isolation_name={hospitalDetail.community_isolation_name}
               hospital_name={hospitalDetail.Hospital.hospital_name}
               available_bed={hospitalDetail.available_bed}
               address={hospitalDetail.address}
+              image_index={hospitalDetail.image_index}
+              bed_left={hospitalDetail.bed_left}
             />
           </motion.div>
         ) : (
           <NotFound></NotFound>
         )}
       </ItemCard>
-      <div className="mt-1 text-center mx-auto">
-        <button onClick={getBack} className="btn text-lg btn-ghost">
-          &#8617; กลับสู่หน้าหลัก
-        </button>
-      </div>
     </div>
   );
 };

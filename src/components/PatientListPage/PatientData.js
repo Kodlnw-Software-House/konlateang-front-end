@@ -16,6 +16,7 @@ const status = [
 ];
 
 const PatientData = (props) => {
+
   const data = props.modalData;
   const [isEdit, setIsEdit] = useState(false);
   const [patientStatus, setPatientStatus] = useState({
@@ -64,7 +65,17 @@ const PatientData = (props) => {
     toggleEdit();
   };
   const confirmUpdate = () => {
-    if (parseInt(patientStatus.value) === props.modalData.status.status_id) {
+    if (
+      props.modalData.status.status_id === 1 ||
+      props.modalData.status.status_id === 3
+    ) {
+      props.dispatchUpdateStatusError(
+        "ไม่สามารถแก้ไขสถานะการจองที่ล้มเหลวหรือรักษาสำเร็จแล้วได้"
+      );
+      return;
+    } else if (
+      parseInt(patientStatus.value) === props.modalData.status.status_id
+    ) {
       toggleEdit();
       return;
     } else {

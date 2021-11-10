@@ -32,7 +32,6 @@ const HospitalAdminMainPage = (props) => {
         setIsolationData(response.data.isolation);
       })
       .catch((error) => {
-        console.log(error.response.status);
         dispatch(
           uiActions.setNoti({
             status: "error",
@@ -83,6 +82,7 @@ const HospitalAdminMainPage = (props) => {
                     allBed={item.available_bed}
                     activeBed={item.bed_left}
                     goPath={goPath}
+                    image_index={item.image_index}
                   />
                 );
               })}

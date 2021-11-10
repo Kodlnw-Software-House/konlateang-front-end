@@ -1,23 +1,18 @@
 import { useEffect, useState } from "react";
-import RegisterOne from "../components/login/register-1";
-import RegisterTwo from "../components/login/register-2";
-import RegisterThree from "../components/login/register-3";
-import RegisterFour from "../components/login/register-4-finish";
+import RegisterOne from "../components/login/RegisterOne";
+import RegisterTwo from "../components/login/RegisterTwo";
+import RegisterThree from "../components/login/RegisterThree";
+import RegisterFour from "../components/login/RegisterFour";
 import Card from "../components/ui/Card";
 import { useHistory } from "react-router";
-import RenderButton from "../components/login/RegisterButton";
+import RenderButton from "../components/login/RenderButton";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../redux/ui-slice";
 import { AuthSelecter, AuthAction, userRegister } from "../redux/auth-slice";
 import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { motion } from "framer-motion";
-import {
-  animationOne,
-  animationThree,
-  animationTwo,
-  transition,
-} from "../components/animations/animation";
+import { animationThree } from "../components/animations/animation";
 
 const calculateDate = (date) => {
   let birthDate = new Date(date);
@@ -137,44 +132,44 @@ const PatientRegister = () => {
               </ul>
             </Card>
             <form className="m-1" onSubmit={handleSubmit(collectData)}>
-                {(() => {
-                  switch (step) {
-                    case 1:
-                      return (
-                        <RegisterOne
-                          goToLogin={goToLogin}
-                          emailError={errors.Email}
-                          passwordError={errors.Password}
-                          repeatPassError={errors.Password_Repeat}
-                          register={register}
-                          getValues={getValues}
-                        />
-                      );
-                    case 2:
-                      return (
-                        <RegisterTwo
-                          register={register}
-                          citizenIdError={errors.citizenId}
-                          fNameError={errors.fName}
-                          lNameError={errors.lName}
-                          dobError={errors.dob}
-                          ageError={errors.age}
-                        />
-                      );
-                    case 3:
-                      return (
-                        <RegisterThree
-                          register={register}
-                          addressError={errors.address}
-                          telNoError={errors.telNo}
-                          genderError={errors.gender}
-                        />
-                      );
-                    case 4:
-                      return <RegisterFour formData={formData} />;
-                    default:
-                  }
-                })()}
+              {(() => {
+                switch (step) {
+                  case 1:
+                    return (
+                      <RegisterOne
+                        goToLogin={goToLogin}
+                        emailError={errors.Email}
+                        passwordError={errors.Password}
+                        repeatPassError={errors.Password_Repeat}
+                        register={register}
+                        getValues={getValues}
+                      />
+                    );
+                  case 2:
+                    return (
+                      <RegisterTwo
+                        register={register}
+                        citizenIdError={errors.citizenId}
+                        fNameError={errors.fName}
+                        lNameError={errors.lName}
+                        dobError={errors.dob}
+                        ageError={errors.age}
+                      />
+                    );
+                  case 3:
+                    return (
+                      <RegisterThree
+                        register={register}
+                        addressError={errors.address}
+                        telNoError={errors.telNo}
+                        genderError={errors.gender}
+                      />
+                    );
+                  case 4:
+                    return <RegisterFour formData={formData} />;
+                  default:
+                }
+              })()}
               {isFetching ? (
                 <div className="mx-auto">
                   <LoadingSpinner />

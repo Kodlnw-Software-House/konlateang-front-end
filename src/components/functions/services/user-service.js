@@ -1,19 +1,17 @@
 import http from "./auth-header";
 
-const userToken = localStorage.getItem("user");
-
 class userService {
-  user_logout(token = userToken) {
+  user_logout(token = localStorage.getItem("user")) {
     return http.delete("/patient/logout", {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
-  fetchCurrentPatientProfile(token = userToken) {
+  fetchCurrentPatientProfile(token = localStorage.getItem("user")) {
     return http.get("/patient/me", {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
-  uploadNewPicture(data, token = userToken) {
+  uploadNewPicture(data, token = localStorage.getItem("user")) {
     return http.post("/patient/upload", data, {
       headers: {
         Authorization: `Bearer ${token}`,
@@ -21,12 +19,12 @@ class userService {
       },
     });
   }
-  getBooking(token = userToken) {
+  getBooking(token = localStorage.getItem("user")) {
     return http.get("/patient/getBookings", {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
-  bookingIsolation(id, token = userToken) {
+  bookingIsolation(id, token = localStorage.getItem("user")) {
     return http.post(
       "/patient/booking",
       { community_isolation_id: id },
@@ -35,12 +33,12 @@ class userService {
       }
     );
   }
-  editUserData(newData, token = userToken) {
+  editUserData(newData, token = localStorage.getItem("user")) {
     return http.put("/patient/edit", newData, {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
-  // anything else
+
 }
 
 export default new userService();
