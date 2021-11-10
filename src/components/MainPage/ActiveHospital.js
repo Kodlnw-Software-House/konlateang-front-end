@@ -11,7 +11,7 @@ const ActiveHospital = (props) => {
         <div className="avatar h-64">
           <img
             className="object-cover max-w-full max-h-full block rounded-box"
-            src={`${process.env.REACT_APP_BACKEND_MAIN_URL}hospital/getImage/${props.hospitalId}/0`}
+            src={`${process.env.REACT_APP_BACKEND_MAIN_URL}hospital/getImage/${props.hospitalId}/${props.image_index[0]}`}
             alt="hospital_pic"
             onError={(e) => {
               e.target.onerror = null;

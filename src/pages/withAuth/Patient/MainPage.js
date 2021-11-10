@@ -193,6 +193,7 @@ const MainPage = () => {
                     hospitalName={item.community_isolation_name}
                     totalActiveBed={item.bed_left}
                     hospitalAddress={item.address}
+                    image_index={item.image_index}
                   />
                 );
               })}
