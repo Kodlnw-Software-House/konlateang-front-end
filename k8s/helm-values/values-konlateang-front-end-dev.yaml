@@ -18,7 +18,7 @@ versionLabel: 0.3.0
 
 env:
   - name: PORT
-    value: 5000 
+    value: 3000 
   - name: REACT_APP_BACKEND_MAIN_URL
     value: https://dev.api.kodlnw-product.net/
   # - name: SAMPLE_SHARED_CONFIG
@@ -40,7 +40,7 @@ secrets:
     # SAMPLE_PASSWORD: "sample-secret"
 
 containerPorts:
-  - 5000
+  - 3000
 
 # Enable PodSecurityPolicy
 pspEnable: false
@@ -68,8 +68,8 @@ services:
     ports:
       - name: konlateang-front-end-port
         protocol: TCP
-        port: 5000
-        targetPort: 5000
+        port: 3000
+        targetPort: 3000
   #       nodePort: 32080
   #     - name: sample2-service-port
   #       protocol: TCP
@@ -107,7 +107,7 @@ healthCheck:
   readinessProbe:
     httpGet:
       path: /health
-      port: 5000
+      port: 3000
     initialDelaySeconds: 5
     timeoutSeconds: 120
     periodSeconds: 80
@@ -116,7 +116,7 @@ healthCheck:
   livenessProbe:
     httpGet:
       path: /health
-      port: 5000
+      port: 3000
     initialDelaySeconds: 5
     timeoutSeconds: 120
     periodSeconds: 80
@@ -155,7 +155,7 @@ ingress:
             backend:
               service:
                 port:
-                  number: 5000
+                  number: 3000
     #       - path: /api
     #         backend:
     #           service
