@@ -8,6 +8,7 @@ import PatientTable from "./PatientTable";
 import IsolationTable from "./IsolationTable";
 import NotFound from "../not-found";
 import ItemCard from "../../../components/ui/ItemCard";
+import { LogoutIcon } from "@heroicons/react/outline";
 const AdminMainPage = () => {
   const dispatch = useDispatch();
   let { path } = useRouteMatch();
@@ -41,6 +42,12 @@ const AdminMainPage = () => {
           >
             ศูนย์พักคอยทั้งหมด
           </NavLink>
+          <button
+            onClick={logout}
+            className="btn btn-lg btn-primary btn-block rounded-none border-b-4 border-t-0 border-r-0 border-l-0"
+          >
+            ออกจากระบบ <LogoutIcon className="w-9 px-1" />
+          </button>
         </div>
       </div>
       {/* content */}
