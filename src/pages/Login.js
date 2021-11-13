@@ -11,6 +11,7 @@ import {
   AuthSelecter,
   hospitalLogin,
   userLogin,
+  adminLogin,
 } from "../redux/auth-slice";
 import { useForm } from "react-hook-form";
 const Login = (props) => {
@@ -24,7 +25,7 @@ const Login = (props) => {
   } = useForm({
     mode: "onBlur",
   });
-  const isPatient = props.type === "PATIENT" ? true : false;
+
   const toggleVisible = () => {
     setIsVisible((prev) => !prev);
   };
@@ -39,11 +40,12 @@ const Login = (props) => {
             title: "Login Successful",
           })
         );
-        if (isPatient) {
+        if (props.type === "PATIENT") {
           dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
-        }
-        if (!isPatient) {
+        } else if (props.type === "HOSPITAL") {
           dispatch(uiActions.toggleTheme({ theme: "hospitalTheme" }));
+        } else {
+          dispatch(uiActions.toggleTheme({ theme: "adminTheme" }));
         }
         dispatch(AuthAction.clearStatus());
         dispatch(AuthAction.userLoggedIn());
@@ -67,15 +69,21 @@ const Login = (props) => {
 
   const formSubmitHandler = (data) => {
     if (isValid) {
-      if (isPatient) {
+      if (props.type === "PATIENT") {
         dispatch(userLogin({ email: data.email, password: data.password }));
-      }
-      if (!isPatient) {
+      } else if (props.type === "HOSPITAL") {
         dispatch(hospitalLogin({ email: data.email, password: data.password }));
+      } else {
+        dispatch(adminLogin({ email: data.email, password: data.password }));
       }
     }
   };
-  const theme = isPatient ? "patientTheme" : "hospitalTheme";
+  const theme =
+    props.type === "PATIENT"
+      ? "patientTheme"
+      : props.type === "HOSPITAL"
+      ? "hospitalTheme"
+      : "adminTheme";
   const emailInputClass = errors.email
     ? "input input-sm input-error md:h-12"
     : "input input-sm input-primary md:h-12";
@@ -112,7 +120,11 @@ const Login = (props) => {
               <div className="border-b-4 border-primary leading-10 ">
                 <span className="text-xl font-extrabold text-center w-full">
                   เข้าสู่ระบบ คนละเตียง{" "}
-                  {isPatient ? "(สำหรับผู้ป่วย)" : "(สำหรับแอดมินศูนย์ฯ)"}
+                  {props.type === "PATIENT"
+                    ? "(สำหรับผู้ป่วย)"
+                    : props.type === "HOSPITAL"
+                    ? "(สำหรับแอดมินศูนย์ฯ)"
+                    : "(สำหรับผู้ดูแล)"}
                 </span>
               </div>
               {/* Form */}
@@ -185,7 +197,7 @@ const Login = (props) => {
                     เข้าสู่ระบบ
                   </button>
                 </div>
-                {isPatient ? (
+                {props.type === "PATIENT" ? (
                   <div className="border-2 border-primary-focus rounded-lg mt-3 p-2 lg:text-md">
                     <p className="text-center">
                       ยังไม่มีบัญชี?{" "}

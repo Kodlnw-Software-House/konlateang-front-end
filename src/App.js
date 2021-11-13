@@ -67,7 +67,7 @@ function App() {
             }
           });
       } else if (role === "ADMIN") {
-        console.log("ยินดีต้อนรับ superadmin");
+        console.log("ยินดีต้อนรับ super-admin");
       } else {
         dispatch(AuthAction.userLogedOut());
       }
@@ -95,6 +95,9 @@ function App() {
             </Route>
             <Route path="/hospital-login" exact>
               <Login type="HOSPITAL" />
+            </Route>
+            <Route path="/admin" exact>
+              <Login type="ADMIN" />
             </Route>
             <Route path="/registration" exact>
               <PatientRegister />
