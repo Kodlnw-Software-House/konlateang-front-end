@@ -9,10 +9,11 @@ import IsolationTable from "./IsolationTable";
 import NotFound from "../not-found";
 import ItemCard from "../../../components/ui/ItemCard";
 import { LogoutIcon } from "@heroicons/react/outline";
+
 const AdminMainPage = () => {
   const dispatch = useDispatch();
   let { path } = useRouteMatch();
-  console.log(path);
+
   const logout = () => {
     AdminService.logout(localStorage.getItem("user"))
       .then(() => {
@@ -23,6 +24,24 @@ const AdminMainPage = () => {
         console.log(err);
       });
   };
+
+  const displayStatusError = (err) => {
+    dispatch(
+      uiActions.setNoti({
+        status: "error",
+        title: err,
+      })
+    );
+  };
+  const displayStatusSuccess = (status) => {
+    dispatch(
+      uiActions.setNoti({
+        status: "success",
+        title: status,
+      })
+    );
+  };
+
   return (
     <div className="flex flex-row h-screen w-screen">
       {/* menu */}
@@ -73,7 +92,10 @@ const AdminMainPage = () => {
             <IsolationTable />
           </Route>
           <Route path={path + "/patients"}>
-            <PatientTable />
+            <PatientTable
+              displayStatusError={displayStatusError}
+              displayStatusSuccess={displayStatusSuccess}
+            />
           </Route>
           <Route path="*">
             <NotFound />

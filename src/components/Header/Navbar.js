@@ -57,7 +57,7 @@ const Navbar = (props) => {
         });
     }
 
-    if (props.role === "HOSPITAL") {
+    if (props.role === "ADMIN") {
       adminService.logout(token)
         .then(() => {
           distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));

@@ -42,6 +42,28 @@ function () {
         }
       });
     }
+  }, {
+    key: "getAllPatient",
+    value: function getAllPatient() {
+      var pageSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+      var pageNumber = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      var sortType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "ASC";
+      var sortBy = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "patient_id";
+      return _authHeader["default"].get("/admin/getAllPatient?pageSize=".concat(pageSize, "&pageNumber=").concat(pageNumber, "&sortType=").concat(sortType, "&sortBy=").concat(sortBy), {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("user"))
+        }
+      });
+    }
+  }, {
+    key: "updatePatientData",
+    value: function updatePatientData(pId, data) {
+      return _authHeader["default"].put("/admin/editPatient/" + pId, data, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("user"))
+        }
+      });
+    }
   }]);
 
   return AdminService;
