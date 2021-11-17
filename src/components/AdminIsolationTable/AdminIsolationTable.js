@@ -2,7 +2,7 @@ import { InformationCircleIcon } from "@heroicons/react/outline";
 import { motion } from "framer-motion";
 import { animationOne } from "../animations/animation";
 
-const AdminPatientTable = (props) => {
+const AdminIsolationTable = (props) => {
   return (
     <table className="table w-full table-zebra">
       <thead>
@@ -11,43 +11,28 @@ const AdminPatientTable = (props) => {
           <th
             className="text-center cursor-pointer"
             onClick={() => {
-              props.setSort("patient_id");
+              props.setSort("community_isolation_id");
             }}
           >
-            รหัสผู้ป่วย
+            รหัสศูนย์พักคอย
           </th>
           <th
             className="cursor-pointer"
             onClick={() => {
-              props.setSort("fname");
+              props.setSort("community_isolation_name");
             }}
           >
-            ชื่อ-นามสกุล
+            ชื่อศูนย์พักคอย
           </th>
           <th
             className="cursor-pointer"
             onClick={() => {
-              props.setSort("gender");
+              props.setSort("available_bed");
             }}
           >
-            เพศ
+            จำนวนเตียงทั้งหมด
           </th>
-          <th
-            className="cursor-pointer"
-            onClick={() => {
-              props.setSort("age");
-            }}
-          >
-            อายุ (ปี)
-          </th>
-          <th
-            className="cursor-pointer"
-            onClick={() => {
-              props.setSort("email");
-            }}
-          >
-            อีเมล
-          </th>
+          <th>จำนวนเตียงที่เหลือ</th>
           <th></th>
         </tr>
       </thead>
@@ -61,23 +46,16 @@ const AdminPatientTable = (props) => {
           return (
             <tr className="hover" key={index}>
               <td className="text-center">{(index += 1)}</td>
-              <td className="text-center">{data.patient_id}</td>
-              <td>{`${data.fname} ${data.lname}`}</td>
-              <td>
-                {data.gender === "M"
-                  ? "ชาย"
-                  : data.gender === "F"
-                  ? "หญิง"
-                  : "ไม่ระบุ"}
-              </td>
-              <td>{data.age}</td>
-              <td>{data.email}</td>
+              <td className="text-center">{data.community_isolation_id}</td>
+              <td>{data.community_isolation_name}</td>
+              <td>{data.available_bed}</td>
+              <td>{data.bed_left}</td>
               <td>
                 <InformationCircleIcon
                   className="w-6 cursor-pointer"
-                  onClick={() => {
-                    props.togglePatientModal(data.patient_id);
-                  }}
+                  // onClick={() => {
+                  //   props.togglePatientModal(data.patient_id);
+                  // }}
                 />
               </td>
             </tr>
@@ -88,4 +66,4 @@ const AdminPatientTable = (props) => {
   );
 };
 
-export default AdminPatientTable;
+export default AdminIsolationTable;

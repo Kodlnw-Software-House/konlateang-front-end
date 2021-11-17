@@ -1,5 +1,5 @@
 import { PencilAltIcon, CheckIcon, XIcon } from "@heroicons/react/outline";
-import { Fragment, useState } from "react";
+import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 
 function addZero(i) {
@@ -16,10 +16,21 @@ const status = [
   { label: "In treatment.", value: 4 },
 ];
 
+const calculateDate = (date) => {
+  let birthDate = new Date(date);
+  let difference = Date.now() - birthDate.getTime();
+  let ageDate = new Date(difference);
+  var calculatedAge = Math.abs(ageDate.getUTCFullYear() - 1970);
+  return calculatedAge;
+};
+
 const PatientData = (props) => {
   const {
     register,
     handleSubmit,
+    watch,
+    setValue,
+    getValues,
     formState: { errors, isValid, isDirty, dirtyFields },
   } = useForm({
     mode: "onChange",
@@ -36,9 +47,10 @@ const PatientData = (props) => {
       dob: props.modalData.patient.dob,
       tel: props.modalData.patient.tel,
       address: props.modalData.patient.address,
+      age: props.modalData.patient.age,
     },
   });
-
+  const enteredDOB = watch("dob");
   const data = props.modalData;
   const [isEdit, setIsEdit] = useState(false);
   const [patientStatus, setPatientStatus] = useState({
@@ -114,9 +126,16 @@ const PatientData = (props) => {
           obj[key] = value;
         }
       }
-      props.pushForm(obj)
+      if (dirtyFields["dob"]) {
+        obj.age = data.age;
+      }
+      props.pushForm(obj);
     }
   };
+
+  useEffect(() => {
+    setValue("age", calculateDate(enteredDOB), { shouldValidate: true });
+  }, [enteredDOB, setValue]);
 
   const rowClass =
     "flex flex-col sm:flex-row justify-between items-center sm:items-start py-2 border-t border-gray-300 ";
@@ -243,7 +262,15 @@ const PatientData = (props) => {
         </div>
         <div className={rowClass}>
           <span className={leftClass}>อายุ/วันเดือนปีเกิด</span>
-          <span className={rightClass}>{` ${data.patient.age} ปี`}</span>
+          <input
+            disabled
+            type="number"
+            className={rightClass}
+            {...register("age", {
+              required: true,
+              validate: (value) => value > 0,
+            })}
+          />
           <input
             type="date"
             disabled={!props.admin}

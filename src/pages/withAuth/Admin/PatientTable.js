@@ -173,12 +173,26 @@ const PatientTable = (props) => {
   const dispatchUpdateStatusError = (err) => {
     props.displayStatusError(err);
   };
-  const pushForm = (data) => {
+  const refreshData = () => {
     setIsLoading(true);
+    adminService
+      .getAllPatient(page.pagSize, page.pageNumber, page.sortType, page.sortBy)
+      .then((response) => {
+        setPatientData(response.data);
+      })
+      .catch((err) => {
+        console.log(err);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  };
+  const pushForm = (data) => {
     const state = data;
     if (data.gender && data.gender === "O") {
       state.gender = null;
     }
+    // console.log(state);
     adminService
       .updatePatientData(modalData.patient.patient_id, state)
       .then(() => {
@@ -189,7 +203,7 @@ const PatientTable = (props) => {
         props.displayStatusError(err.message);
       })
       .finally(() => {
-        setIsLoading(false);
+        refreshData();
       });
   };
 

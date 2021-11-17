@@ -23,8 +23,8 @@ function () {
   }
 
   _createClass(AdminService, [{
-    key: "fetchCurrentProfile",
-    value: function fetchCurrentProfile() {
+    key: "getMe",
+    value: function getMe() {
       var token = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : localStorage.getItem("user");
       return _authHeader["default"].get("/admin/me", {
         headers: {
@@ -59,6 +59,19 @@ function () {
     key: "updatePatientData",
     value: function updatePatientData(pId, data) {
       return _authHeader["default"].put("/admin/editPatient/" + pId, data, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("user"))
+        }
+      });
+    }
+  }, {
+    key: "getAllIsolation",
+    value: function getAllIsolation() {
+      var pageSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 10;
+      var pageNumber = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      var sortType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "ASC";
+      var sortBy = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "community_isolation_id";
+      return _authHeader["default"].get("/admin/getAllIsolation?pageSize=".concat(pageSize, "&pageNumber=").concat(pageNumber, "&sortType=").concat(sortType, "&sortBy=").concat(sortBy), {
         headers: {
           Authorization: "Bearer ".concat(localStorage.getItem("user"))
         }

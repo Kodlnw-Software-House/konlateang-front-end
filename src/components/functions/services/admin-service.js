@@ -1,6 +1,6 @@
 import http from "./auth-header";
 class AdminService {
-  fetchCurrentProfile(token = localStorage.getItem("user")) {
+  getMe(token = localStorage.getItem("user")) {
     return http.get("/admin/me", {
       headers: { Authorization: `Bearer ${token}` },
     });
@@ -27,6 +27,19 @@ class AdminService {
     return http.put("/admin/editPatient/" + pId, data, {
       headers: { Authorization: `Bearer ${localStorage.getItem("user")}` },
     });
+  }
+  getAllIsolation(
+    pageSize = 10,
+    pageNumber = 1,
+    sortType = "ASC",
+    sortBy = "community_isolation_id"
+  ) {
+    return http.get(
+      `/admin/getAllIsolation?pageSize=${pageSize}&pageNumber=${pageNumber}&sortType=${sortType}&sortBy=${sortBy}`,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("user")}` },
+      }
+    );
   }
 }
 export default new AdminService();
