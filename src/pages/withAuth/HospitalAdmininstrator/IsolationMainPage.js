@@ -12,61 +12,138 @@ import { Link, useRouteMatch } from "react-router-dom";
 import CreateEditIsolation from "./CreateNewIsolation";
 import PatientOfIsolation from "./PatientOfIsolation";
 import NotFound from "../../../pages/withAuth/not-found";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { uiActions } from "../../../redux/ui-slice";
 import {
   animationOne,
   transition,
 } from "../../../components/animations/animation";
 import { motion } from "framer-motion";
-const IsolationMainPage = () => {
+import adminService from "../../../components/functions/services/admin-service";
+const IsolationMainPage = (props) => {
   const dispatch = useDispatch();
   const [isolationData, setIsolationData] = useState({});
   const [isLoading, setIsloading] = useState(false);
   const { id } = useParams();
   let { path, url } = useRouteMatch();
+  const token = useSelector((state) => state.auth.token);
 
   useEffect(() => {
     setIsloading(true);
-    hospitalService
-      .getIsolationById(id, localStorage.getItem("user"))
-      .then((response) => {
-        setIsolationData(response.data.isolation);
-        setIsloading(false);
-      })
-      .catch((error) => {
-        dispatch(
-          uiActions.setNoti({
-            status: "error",
-            title: error.message,
-          })
-        );
-        setIsloading(false);
-      });
+    if (props.admin) {
+      adminService
+        .getIsolationById(id)
+        .then((response) => {
+          setIsolationData(response.data.isolation);
+          setIsloading(false);
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+          setIsloading(false);
+        });
+    } else {
+      hospitalService
+        .getIsolationById(id, token)
+        .then((response) => {
+          setIsolationData(response.data.isolation);
+          setIsloading(false);
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+          setIsloading(false);
+        });
+    }
   }, []);
   useEffect(() => {
     document.body.scrollTop = 0;
     document.documentElement.scrollTop = 0;
   }, []);
   const updatePatientStatus = (b_id, status_id) => {
-    hospitalService
-      .updatePatientStatus(id, b_id, status_id, localStorage.getItem("user"))
-      .then((response) => {
-        dispatch(
-          uiActions.setNoti({
-            status: "success",
-            title: response.data.status,
-          })
-        );
-      })
-      .catch((error) => {
-        dispatch(
-          uiActions.setNoti({
-            status: "error",
-            title: error.message,
-          })
-        );
-      });
+    if (props.admin) {
+      adminService
+        .updatePatientStatus(b_id, status_id, token)
+        .then((response) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "success",
+              title: response.data.status,
+            })
+          );
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+        });
+    } else {
+      hospitalService
+        .updatePatientStatus(id, b_id, status_id, token)
+        .then((response) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "success",
+              title: response.data.status,
+            })
+          );
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+        });
+    }
+  };
+  const refreshData = () => {
+    setIsloading(true);
+    if (props.admin) {
+      adminService
+        .getIsolationById(id)
+        .then((response) => {
+          setIsolationData(response.data.isolation);
+          setIsloading(false);
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+          setIsloading(false);
+        });
+    } else {
+      hospitalService
+        .getIsolationById(id, token)
+        .then((response) => {
+          setIsolationData(response.data.isolation);
+          setIsloading(false);
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+          setIsloading(false);
+        });
+    }
   };
   const updateStatusError = (error) => {
     dispatch(
@@ -157,6 +234,8 @@ const IsolationMainPage = () => {
                 edit={true}
                 id={id}
                 image_index={isolationData?.image_index}
+                admin={true}
+                refreshData={refreshData}
               />
             ) : (
               <NotFound />
@@ -164,6 +243,7 @@ const IsolationMainPage = () => {
           </Route>
           <Route path={`${url}/patient-list`}>
             <PatientOfIsolation
+              admin={true}
               id={id}
               header={isolationData.community_isolation_name}
               updatePatientStatus={updatePatientStatus}

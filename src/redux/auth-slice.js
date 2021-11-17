@@ -33,6 +33,31 @@ export const hospitalLogin = createAsyncThunk(
   }
 );
 
+export const adminLogin = createAsyncThunk(
+  "auth/adminLogin",
+  async ({ email, password }, thunkAPI) => {
+    try {
+      const response = await http.post("/admin/login", {
+        email,
+        password,
+      });
+      let data = await response.data;
+      if (response.status === 201) {
+        localStorage.setItem("user", data.token);
+        localStorage.setItem("role", "ADMIN");
+        return data;
+      } else {
+        return thunkAPI.rejectWithValue(data.error);
+      }
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      return thunkAPI.rejectWithValue(error.response.data);
+    }
+  }
+);
+
 export const userLogin = createAsyncThunk(
   "auth/userLogin",
   async ({ email, password }, thunkAPI) => {
@@ -187,6 +212,21 @@ const AuthSlice = createSlice({
       state.errorMessage = payload.error;
     },
     [hospitalLogin.pending]: (state) => {
+      state.isFetching = true;
+    },
+    [adminLogin.fulfilled]: (state, { payload }) => {
+      state.token = payload.token;
+      state.user = payload.admin;
+      state.role = "ADMIN";
+      state.isFetching = false;
+      state.isSuccess = true;
+    },
+    [adminLogin.rejected]: (state, { payload }) => {
+      state.isFetching = false;
+      state.isError = true;
+      state.errorMessage = payload.error;
+    },
+    [adminLogin.pending]: (state) => {
       state.isFetching = true;
     },
     [userRegister.fulfilled]: (state, { payload }) => {

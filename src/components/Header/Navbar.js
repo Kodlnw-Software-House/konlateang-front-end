@@ -18,6 +18,7 @@ import Modal from "../ui/Modal";
 import NavBarMenu from "./NavbarMenu";
 import default_profile from "../../assets/default_profile.png";
 import { motion } from "framer-motion";
+import adminService from "../functions/services/admin-service";
 
 const Navbar = (props) => {
   const distpatch = useDispatch();
@@ -28,9 +29,11 @@ const Navbar = (props) => {
   const toggleMenu = () => {
     setMenu((prev) => !prev);
   };
+  
   const logoutHandler = () => {
     setDropbar((prev) => !prev);
     let token = localStorage.getItem("user");
+
     if (props.role === "PATIENT") {
       userService
         .user_logout(token)
@@ -53,6 +56,17 @@ const Navbar = (props) => {
           console.log(e.message);
         });
     }
+
+    if (props.role === "ADMIN") {
+      adminService.logout(token)
+        .then(() => {
+          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          distpatch(AuthAction.userLogedOut());
+        })
+        .catch((e) => {
+          console.log(e.message);
+        });
+    }
   };
   const toggleDropbar = () => {
     setDropbar((prev) => !prev);
@@ -65,7 +79,7 @@ const Navbar = (props) => {
     closed: { opacity: 0, x: "-100%" },
   };
   return (
-    <header className="navbar justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50 py-4 px-4 md:h-10 lg:h-14">
+    <header className="navbar w-screen justify-between shadow-lg bg-primary text-neutral-content sticky top-0 z-50 py-4 px-4 md:h-10 lg:h-14">
       {showMenu && (
         <Modal type="DECISION" closeModal={toggleMenu}>
           <NavBarMenu
@@ -130,24 +144,7 @@ const Navbar = (props) => {
               </NavLink>
             </Fragment>
           ) : (
-            <Fragment>
-              <NavLink
-                exact
-                to={path}
-                className="text-primary-content hover:text-gray-400 "
-                activeClassName="border-b-4 border-primary-content text-primary-content"
-              >
-                <HomeIcon className="w-10 py-1" />
-              </NavLink>
-              <NavLink
-                exact
-                to={path + "/about-us"}
-                className="text-primary-content hover:text-gray-400 "
-                activeClassName="border-b-4 border-primary-content text-primary-content"
-              >
-                <QuestionMarkCircleIcon className="w-10 py-1" />
-              </NavLink>
-            </Fragment>
+            <null></null>
           )}
         </div>
       </div>
@@ -163,7 +160,7 @@ const Navbar = (props) => {
               ? props.userData?.fname
               : props.role === "HOSPITAL"
               ? props.userData?.hospital_name
-              : "ยินดีต้อนรับ"}
+              : "Admin"}
             {dropbar ? (
               <ChevronUpIcon className="w-5" />
             ) : (

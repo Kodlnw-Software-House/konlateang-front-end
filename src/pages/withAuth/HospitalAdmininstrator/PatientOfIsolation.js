@@ -5,13 +5,12 @@ import { useEffect } from "react";
 import hospitalService from "../../../components/functions/services/hospital-service";
 import { useState } from "react";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
-import { InformationCircleIcon } from "@heroicons/react/solid";
 import Modal from "../../../components/ui/Modal";
 import PatientData from "../../../components/PatientListPage/PatientData";
 import BackButton from "../../../components/ui/BackButton";
 import Pagination from "../../../components/ui/Pagination";
-import { motion } from "framer-motion";
-import { animationOne } from "../../../components/animations/animation";
+import PatientTableComponent from "../../../components/PatientListPage/PatientTableComponent";
+import adminService from "../../../components/functions/services/admin-service";
 
 const status = [
   { label: "Booking failed.", value: 1 },
@@ -62,17 +61,31 @@ const PatientOfIsolation = (props) => {
   useEffect(() => {
     const token = localStorage.getItem("user");
     setIsLoading(true);
-    hospitalService
-      .getBookings(props.id, page.pageNo, page.pagSize, token)
-      .then((response) => {
-        setBookings(response.data.booking);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (props.admin) {
+      adminService
+        .getBookings(props.id, page.pageNo, page.pagSize)
+        .then((response) => {
+          setBookings(response.data.booking);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      hospitalService
+        .getBookings(props.id, page.pageNo, page.pagSize, token)
+        .then((response) => {
+          setBookings(response.data.booking);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   }, [page]);
 
   useEffect(() => {
@@ -134,57 +147,10 @@ const PatientOfIsolation = (props) => {
         ) : bookings.rows.length !== 0 ? (
           <div className="overflow-x-auto">
             <BackButton />
-            <table className="table w-full table-zebra">
-              <thead>
-                <tr>
-                  <th></th>
-                  <th>รหัสการจอง</th>
-                  <th>รหัสผู้ป่วย</th>
-                  <th>ชื่อ-นามสกุล</th>
-                  <th>เพศ</th>
-                  <th>จองเมื่อ</th>
-                  <th>สถานะ</th>
-                  <th></th>
-                </tr>
-              </thead>
-              <motion.tbody
-                initial="out"
-                animate="in"
-                variants={animationOne}
-                transition={{ duration: 0.2 }}
-              >
-                {bookings.rows.map((booking, index) => {
-                  const date = new Date(Date.parse(booking.create_at));
-                  return (
-                    <tr key={index}>
-                      <td>{(index += 1)}</td>
-                      <td>{booking.booking_id}</td>
-                      <td>{booking.patient.patient_id}</td>
-                      <td>{`${booking.patient.fname} ${booking.patient.lname}`}</td>
-                      <td>
-                        {booking.patient.gender === "M"
-                          ? "ชาย"
-                          : "F"
-                          ? "หญิง"
-                          : "ไม่ระบุ"}
-                      </td>
-                      <td>{`${date.getUTCDate()}/${
-                        date.getUTCMonth() + 1
-                      }/${date.getUTCFullYear()}`}</td>
-                      <td>{booking.status.status_name}</td>
-                      <td>
-                        <InformationCircleIcon
-                          className="w-6 cursor-pointer"
-                          onClick={() => {
-                            togglePatientEditModal(booking.booking_id);
-                          }}
-                        />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </motion.tbody>
-            </table>
+            <PatientTableComponent
+              bookings={bookings.rows}
+              togglePatientModal={togglePatientEditModal}
+            />
           </div>
         ) : (
           <div>

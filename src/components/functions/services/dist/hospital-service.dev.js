@@ -98,7 +98,7 @@ function () {
     key: "updatePatientStatus",
     value: function updatePatientStatus(h_id, b_id, status) {
       var token = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : localStorage.getItem("user");
-      return _authHeader["default"].put("/hospital/editStatus/".concat(h_id, "/").concat(b_id, "?statusId=").concat(status), {
+      return _authHeader["default"].put("/hospital/editStatus/".concat(h_id, "/").concat(b_id, "?statusId=").concat(status), null, {
         headers: {
           Authorization: "Bearer ".concat(token)
         }

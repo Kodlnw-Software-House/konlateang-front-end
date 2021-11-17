@@ -14,6 +14,7 @@ import "./index.css";
 import { uiActions } from "./redux/ui-slice";
 import Health from "./pages/health";
 import { AnimatePresence } from "framer-motion";
+import adminService from "./components/functions/services/admin-service";
 function App() {
   const location = useLocation();
   const dispatch = useDispatch();
@@ -63,11 +64,32 @@ function App() {
             );
             if (error.response.status === 401) {
               dispatch(AuthAction.userLogedOut());
+              dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
               return;
             }
           });
       } else if (role === "ADMIN") {
-        console.log("ยินดีต้อนรับ superadmin");
+        console.log("ยินดีต้อนรับ super-admin");
+        adminService
+          .getMe(localStorage.getItem("user"))
+          .then((response) => {
+            const user = { ...response.data.admin };
+            dispatch(AuthAction.updateUser({ user }));
+            dispatch(uiActions.toggleTheme({ theme: "adminTheme" }));
+          })
+          .catch((error) => {
+            dispatch(
+              uiActions.setNoti({
+                status: "error",
+                title: error.message,
+              })
+            );
+            if (error.response.status === 401) {
+              dispatch(AuthAction.userLogedOut());
+              dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+              return;
+            }
+          });
       } else {
         dispatch(AuthAction.userLogedOut());
       }
@@ -95,6 +117,9 @@ function App() {
             </Route>
             <Route path="/hospital-login" exact>
               <Login type="HOSPITAL" />
+            </Route>
+            <Route path="/admin" exact>
+              <Login type="ADMIN" />
             </Route>
             <Route path="/registration" exact>
               <PatientRegister />

@@ -11,6 +11,7 @@ import MainPage from "./Patient/MainPage";
 import HospitalAdminMainPage from "./HospitalAdmininstrator/HospitalAdminMainPage";
 import IsolationMainPage from "./HospitalAdmininstrator/IsolationMainPage";
 import CreateEditIsolation from "./HospitalAdmininstrator/CreateNewIsolation";
+import AdminMainPage from "../../pages/withAuth/Admin/MainPage";
 import { Route, Redirect, useRouteMatch } from "react-router";
 
 const AuthRouter = (props) => {
@@ -110,6 +111,11 @@ const AuthRouter = (props) => {
           </Switch>
         ) : (
           <Switch>
+            <ProtectedRoute
+              path={path}
+              component={AdminMainPage}
+              isAuth={props.isAuth}
+            />
             <ProtectedRoute
               path={`${path}/not-found`}
               component={NotFound}

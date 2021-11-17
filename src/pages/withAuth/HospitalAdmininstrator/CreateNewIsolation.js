@@ -1,7 +1,7 @@
 import { useForm } from "react-hook-form";
 import ItemCard from "../../../components/ui/ItemCard";
 import Card from "../../../components/ui/Card";
-import { Fragment, useEffect, useState } from "react";
+import { Fragment, useState } from "react";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../../redux/ui-slice";
 import hospitalService from "../../../components/functions/services/hospital-service";
@@ -10,6 +10,7 @@ import BackButton from "../../../components/ui/BackButton";
 import { motion } from "framer-motion";
 import Modal from "../../../components/ui/Modal";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
+import adminService from "../../../components/functions/services/admin-service";
 const compareObj = (o1, o2) => {
   for (let p in o1) {
     if (o1.hasOwnProperty(p)) {
@@ -34,7 +35,7 @@ const CreateEditIsolation = (props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -67,25 +68,47 @@ const CreateEditIsolation = (props) => {
   }
 
   const updateIsolationData = (data) => {
-    hospitalService
-      .updateIsolationData(props.id, data, localStorage.getItem("user"))
-      .then(() => {
-        dispatch(
-          uiActions.setNoti({
-            status: "success",
-            title: "อัพเดทข้อมูลสำเร็จ",
-          })
-        );
-        history.push("/kon-la-tieng/community-isolation/id/" + props.id);
-      })
-      .catch((error) => {
-        dispatch(
-          uiActions.setNoti({
-            status: "error",
-            title: error.message,
-          })
-        );
-      });
+    if (props.admin) {
+      adminService
+        .updateIsolationData(props.id, data)
+        .then(() => {
+          dispatch(
+            uiActions.setNoti({
+              status: "success",
+              title: "อัพเดทข้อมูลสำเร็จ",
+            })
+          );
+          history.push("/kon-la-tieng/isolations/" + props.id);
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+        });
+    } else {
+      hospitalService
+        .updateIsolationData(props.id, data, localStorage.getItem("user"))
+        .then(() => {
+          dispatch(
+            uiActions.setNoti({
+              status: "success",
+              title: "อัพเดทข้อมูลสำเร็จ",
+            })
+          );
+          history.push("/kon-la-tieng/community-isolation/id/" + props.id);
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+        });
+    }
   };
 
   const uploadNewPhoto = (i) => {
@@ -95,34 +118,67 @@ const CreateEditIsolation = (props) => {
     formData.append("files", imageList[i]);
 
     const id = props.id;
-    hospitalService
-      .uploadIsolationPictures(id, formData)
-      .then(() => {
-        dispatch(
-          uiActions.setNoti({
-            status: "success",
-            title: "อัพโหลดรูปสำเร็จ",
-          })
-        );
-        let imageState = [...imageList];
-        imageState.splice(i, 1);
-        setImageList(imageState);
+    if (props.admin) {
+      adminService
+        .uploadIsolationPictures(id, formData, localStorage.getItem("user"))
+        .then(() => {
+          dispatch(
+            uiActions.setNoti({
+              status: "success",
+              title: "อัพโหลดรูปสำเร็จ",
+            })
+          );
+          let imageState = [...imageList];
+          imageState.splice(i, 1);
+          setImageList(imageState);
 
-        let previewState = [...previewList];
-        previewState.splice(i, 1);
-        setPreviewList(previewState);
-      })
-      .catch((error) => {
-        dispatch(
-          uiActions.setNoti({
-            status: "error",
-            title: error.message,
-          })
-        );
-      })
-      .finally(() => {
-        setLoading(false);
-      });
+          let previewState = [...previewList];
+          previewState.splice(i, 1);
+          setPreviewList(previewState);
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+        })
+        .finally(() => {
+          setLoading(false);
+          props.refreshData();
+        });
+    } else {
+      hospitalService
+        .uploadIsolationPictures(id, formData, localStorage.getItem("user"))
+        .then(() => {
+          dispatch(
+            uiActions.setNoti({
+              status: "success",
+              title: "อัพโหลดรูปสำเร็จ",
+            })
+          );
+          let imageState = [...imageList];
+          imageState.splice(i, 1);
+          setImageList(imageState);
+
+          let previewState = [...previewList];
+          previewState.splice(i, 1);
+          setPreviewList(previewState);
+        })
+        .catch((error) => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.message,
+            })
+          );
+        })
+        .finally(() => {
+          setLoading(false);
+          props.refreshData();
+        });
+    }
   };
   const createIsolationData = (data) => {
     const formData = new FormData();
@@ -246,30 +302,57 @@ const CreateEditIsolation = (props) => {
   };
 
   const deletePicApi = (index) => {
-    hospitalService
-      .deleteIsolationImage(props.id, index, localStorage.getItem("user"))
-      .then((response) => {
-        dispatch(
-          uiActions.setNoti({
-            status: "success",
-            title: "ลบรูปภาพสำเร็จ",
-          })
-        );
-        let img = images;
-        img.splice(selectedImage, 1);
-        setImages(img);
-        setSelectedImage(null);
-        modalHandler();
-      })
-      .catch((error) => {
-        dispatch(
-          uiActions.setNoti({
-            status: "error",
-            title: "ลบรูปภาพไม่สำเร็จ",
-          })
-        );
-        setSelectedImage(null);
-      });
+    if (props.admin) {
+      adminService
+        .deleteIsolationImage(props.id, index)
+        .then(() => {
+          dispatch(
+            uiActions.setNoti({
+              status: "success",
+              title: "ลบรูปภาพสำเร็จ",
+            })
+          );
+          let img = images;
+          img.splice(selectedImage, 1);
+          setImages(img);
+          setSelectedImage(null);
+          modalHandler();
+        })
+        .catch(() => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: "ลบรูปภาพไม่สำเร็จ",
+            })
+          );
+          setSelectedImage(null);
+        });
+    } else {
+      hospitalService
+        .deleteIsolationImage(props.id, index, localStorage.getItem("user"))
+        .then(() => {
+          dispatch(
+            uiActions.setNoti({
+              status: "success",
+              title: "ลบรูปภาพสำเร็จ",
+            })
+          );
+          let img = images;
+          img.splice(selectedImage, 1);
+          setImages(img);
+          setSelectedImage(null);
+          modalHandler();
+        })
+        .catch(() => {
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: "ลบรูปภาพไม่สำเร็จ",
+            })
+          );
+          setSelectedImage(null);
+        });
+    }
   };
 
   const nameInputClasses = errors.name
@@ -285,7 +368,7 @@ const CreateEditIsolation = (props) => {
   if (!props.edit) {
     buttonDisable = !isValid || imageList.length < 1;
   } else {
-    buttonDisable = !isValid;
+    buttonDisable = !isValid || !isDirty;
   }
   return (
     <Fragment>
@@ -403,7 +486,7 @@ const CreateEditIsolation = (props) => {
 
           {/* picture */}
 
-          <div className="my-4">
+          <div className="my-4 h-full">
             {props.edit ? (
               <Fragment>
                 {imageList.length + images.length >= 3 ? null : (

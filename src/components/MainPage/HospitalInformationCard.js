@@ -54,7 +54,7 @@ const HospitalInformationCard = (props) => {
   return (
     <div
       className="mx-auto overflow-hidden bg-white rounded-lg lg:grid-flow-col lg:grid lg:grid-cols-2 lg:gap-x-4
-    lg:justify-items-center xl:h-96 xl:place-content-center"
+    lg:justify-items-center xl:h-auto xl:place-content-center"
     >
       <div className="xl:justify-self-end xl:w-full">
         {/* Picture */}
