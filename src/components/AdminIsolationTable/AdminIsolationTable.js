@@ -53,9 +53,7 @@ const AdminIsolationTable = (props) => {
               <td>
                 <InformationCircleIcon
                   className="w-6 cursor-pointer"
-                  // onClick={() => {
-                  //   props.togglePatientModal(data.patient_id);
-                  // }}
+                  onClick={() => props.goTo(data.community_isolation_id)}
                 />
               </td>
             </tr>

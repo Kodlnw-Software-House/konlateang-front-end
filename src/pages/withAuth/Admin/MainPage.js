@@ -9,6 +9,7 @@ import IsolationTable from "./IsolationTable";
 import NotFound from "../not-found";
 import ItemCard from "../../../components/ui/ItemCard";
 import { LogoutIcon } from "@heroicons/react/outline";
+import IsolationMainPage from "../HospitalAdmininstrator/IsolationMainPage";
 
 const AdminMainPage = () => {
   const dispatch = useDispatch();
@@ -43,7 +44,7 @@ const AdminMainPage = () => {
   };
 
   return (
-    <div className="flex flex-row h-screen w-screen">
+    <div className="flex flex-row min-h-screen h-auto w-screen">
       {/* menu */}
       <div className="w-1/6 bg-primary">
         <div className="btn-group flex-col w-full">
@@ -70,7 +71,7 @@ const AdminMainPage = () => {
         </div>
       </div>
       {/* content */}
-      <div className="w-full bg-gray-300">
+      <div className="w-full bg-gray-300 max-h-full">
         <Switch>
           <Route path={path} exact>
             <div className="flex flex-col justify-center items-center h-full w-full text-center">
@@ -88,10 +89,13 @@ const AdminMainPage = () => {
               </ItemCard>
             </div>
           </Route>
-          <Route path={path + "/isolations"}>
-            <IsolationTable />
+          <Route path={path + "/isolations"} exact>
+            <IsolationTable path={path} />
           </Route>
-          <Route path={path + "/patients"}>
+          <Route path={path + "/isolations/:id"}>
+            <IsolationMainPage admin={true}/>
+          </Route>
+          <Route path={path + "/patients"} exact>
             <PatientTable
               displayStatusError={displayStatusError}
               displayStatusSuccess={displayStatusSuccess}

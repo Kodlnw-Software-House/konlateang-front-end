@@ -10,6 +10,7 @@ import PatientData from "../../../components/PatientListPage/PatientData";
 import BackButton from "../../../components/ui/BackButton";
 import Pagination from "../../../components/ui/Pagination";
 import PatientTableComponent from "../../../components/PatientListPage/PatientTableComponent";
+import adminService from "../../../components/functions/services/admin-service";
 
 const status = [
   { label: "Booking failed.", value: 1 },
@@ -60,17 +61,31 @@ const PatientOfIsolation = (props) => {
   useEffect(() => {
     const token = localStorage.getItem("user");
     setIsLoading(true);
-    hospitalService
-      .getBookings(props.id, page.pageNo, page.pagSize, token)
-      .then((response) => {
-        setBookings(response.data.booking);
-      })
-      .catch((error) => {
-        console.log(error);
-      })
-      .finally(() => {
-        setIsLoading(false);
-      });
+    if (props.admin) {
+      adminService
+        .getBookings(props.id, page.pageNo, page.pagSize)
+        .then((response) => {
+          setBookings(response.data.booking);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    } else {
+      hospitalService
+        .getBookings(props.id, page.pageNo, page.pagSize, token)
+        .then((response) => {
+          setBookings(response.data.booking);
+        })
+        .catch((error) => {
+          console.log(error);
+        })
+        .finally(() => {
+          setIsLoading(false);
+        });
+    }
   }, [page]);
 
   useEffect(() => {

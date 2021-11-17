@@ -50,9 +50,13 @@ class HospitalService {
     status,
     token = localStorage.getItem("user")
   ) {
-    return http.put(`/hospital/editStatus/${h_id}/${b_id}?statusId=${status}`, {
-      headers: { Authorization: `Bearer ${token}` },
-    });
+    return http.put(
+      `/hospital/editStatus/${h_id}/${b_id}?statusId=${status}`,
+      null,
+      {
+        headers: { Authorization: `Bearer ${token}` },
+      }
+    );
   }
   uploadIsolationPictures(id, formdata, token = localStorage.getItem("user")) {
     return http.post("/hospital/uploadImage/" + id, formdata, {

@@ -41,5 +41,44 @@ class AdminService {
       }
     );
   }
+  getIsolationById(id) {
+    return http.get("/admin/getIsolation/" + id, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("user")}` },
+    });
+  }
+  getBookings(id, pageNumber = 1, pageSize = 10) {
+    return http.get(
+      `/admin/getBooking/${id}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+      {
+        headers: { Authorization: `Bearer ${localStorage.getItem("user")}` },
+      }
+    );
+  }
+  updatePatientStatus(b_id, status, token) {
+    return http.put(`/admin/editStatus/${b_id}?statusId=${status}`, null, {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+  }
+  updateIsolationData(id, data) {
+    return http.put(`/admin/editIsolation/${id}`, data, {
+      headers: { Authorization: `Bearer ${localStorage.getItem("user")}` },
+    });
+  }
+  uploadIsolationPictures(id, formdata) {
+    return http.post("/admin/uploadImage/" + id, formdata, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("user")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
+  deleteIsolationImage(id, index) {
+    return http.delete(`/admin/deleteIsolationImage/${id}/${index}`, {
+      headers: {
+        Authorization: `Bearer ${localStorage.getItem("user")}`,
+        "Content-Type": "multipart/form-data",
+      },
+    });
+  }
 }
 export default new AdminService();

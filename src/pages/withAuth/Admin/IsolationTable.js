@@ -1,9 +1,10 @@
 import { Fragment, useEffect, useState } from "react";
+import { useHistory } from "react-router";
 import AdminIsolationTable from "../../../components/AdminIsolationTable/AdminIsolationTable";
 import adminService from "../../../components/functions/services/admin-service";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import Pagination from "../../../components/ui/Pagination";
-const IsolationTable = () => {
+const IsolationTable = (props) => {
   const [isolationData, setIsolationData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [orderAsc, setOrderAsc] = useState(true);
@@ -13,7 +14,7 @@ const IsolationTable = () => {
     sortType: "ASC",
     sortBy: "community_isolation_id",
   });
-
+  const history = useHistory();
   let items = [];
 
   useEffect(() => {
@@ -105,7 +106,9 @@ const IsolationTable = () => {
         break;
     }
   };
-  
+  const goTo = (id) => {
+    history.push(props.path + "/isolations/" + id)
+  }
   return (
     <div className="container mx-auto mt-16">
       {isLoading ? (
@@ -120,6 +123,7 @@ const IsolationTable = () => {
           <AdminIsolationTable
             setSort={setSort}
             rows={isolationData.result.rows}
+            goTo={goTo}
           />
         </Fragment>
       ) : (

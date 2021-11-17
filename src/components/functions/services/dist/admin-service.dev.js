@@ -77,6 +77,64 @@ function () {
         }
       });
     }
+  }, {
+    key: "getIsolationById",
+    value: function getIsolationById(id) {
+      return _authHeader["default"].get("/admin/getIsolation/" + id, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("user"))
+        }
+      });
+    }
+  }, {
+    key: "getBookings",
+    value: function getBookings(id) {
+      var pageNumber = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
+      var pageSize = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : 10;
+      return _authHeader["default"].get("/admin/getBooking/".concat(id, "?pageNumber=").concat(pageNumber, "&pageSize=").concat(pageSize), {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("user"))
+        }
+      });
+    }
+  }, {
+    key: "updatePatientStatus",
+    value: function updatePatientStatus(b_id, status, token) {
+      return _authHeader["default"].put("/admin/editStatus/".concat(b_id, "?statusId=").concat(status), null, {
+        headers: {
+          Authorization: "Bearer ".concat(token)
+        }
+      });
+    }
+  }, {
+    key: "updateIsolationData",
+    value: function updateIsolationData(id, data) {
+      return _authHeader["default"].put("/admin/editIsolation/".concat(id), data, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("user"))
+        }
+      });
+    }
+  }, {
+    key: "uploadIsolationPictures",
+    value: function uploadIsolationPictures(id, formdata) {
+      return _authHeader["default"].post("/admin/uploadImage/" + id, formdata, {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("user")),
+          "Content-Type": "multipart/form-data"
+        }
+      });
+    }
+  }, {
+    key: "deleteIsolationImage",
+    value: function deleteIsolationImage(id, index) {
+      return _authHeader["default"]["delete"]("/admin/deleteIsolationImage/".concat(id, "/").concat(index), {
+        headers: {
+          Authorization: "Bearer ".concat(localStorage.getItem("user")),
+          "Content-Type": "multipart/form-data"
+        }
+      });
+    }
   }]);
 
   return AdminService;
