@@ -15,7 +15,7 @@ const RegisterOne = (props) => {
     <Card>
       <div className="form-control">
         <label htmlFor="email" className="label">
-          <span className="label-text text-xl">อีเมล</span>
+          <span className="label-text text-base md:text-xl">อีเมล</span>
         </label>
         <input
           type="email"
@@ -50,7 +50,7 @@ const RegisterOne = (props) => {
           </label>
         )}
         <label htmlFor="password" className="label">
-          <span className="label-text text-xl">รหัสผ่าน</span>
+          <span className="label-text text-base md:text-xl">รหัสผ่าน</span>
         </label>
         <input
           type="text"
@@ -74,7 +74,7 @@ const RegisterOne = (props) => {
           </label>
         )}
         <label htmlFor="password" className="label">
-          <span className="label-text text-xl">รหัสผ่าน (อีกครั้ง)</span>
+          <span className="label-text text-base md:text-xl">รหัสผ่าน (อีกครั้ง)</span>
         </label>
         <input
           type="text"

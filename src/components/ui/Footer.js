@@ -9,7 +9,7 @@ const Footer = () => {
         คนละเตียง
       </Link>
 
-      <p className="py-2 text-gray-800 sm:py-0 lg:text-xl">
+      <p className="py-2 text-center text-gray-800 sm:py-0 lg:text-xl">
         © คนละเตียง 2021 - INT222 Intregated Project II
       </p>
 

@@ -36,7 +36,7 @@ const MainPage = () => {
   const [isFetchIsolation, setisFetchIsolation] = useState(false);
   const [isolationData, setIsolationData] = useState([]);
   const [enteredSearch, setEnteredSearch] = useState("");
-  const [isOpenFilter, setIsOpenFilter] = useState(true);
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
   const [page, setPage] = useState({
     pagSize: 6,
     pageNo: 1,
@@ -187,15 +187,29 @@ const MainPage = () => {
             <span className="text-xl">ตัวกรอง</span>
           </div>
           {isOpenFilter && (
-            <div className="my-1">
+            <motion.div
+              initial="out"
+              animate="in"
+              variants={animationOne}
+              transition={transition}
+              className="my-1 bg-primary-content p-2 py-4"
+            >
               <div className="flex flex-col justify-center space-y-2 lg:flex-row lg:space-y-0">
                 <div className="w-full">
-                  <label className="label">
+                  <label className="label pl-0 pt-0">
                     <span>เรียงลำดับตาม</span>
                   </label>
-                  <div className="flex flex-row space-x-8 flex-wrap justify-start">
-                    <div className="flex flex-row justify-start space-x-1">
-                      <p>ศูนย์พักคอยล่าสุด</p>
+                  <div className="flex flex-col justify-start lg:flex-row lg:space-x-4">
+                    <div className="flex flex-row justify-between lg:space-x-2">
+                      <p
+                        className={
+                          page.sortBy === "community_isolation_id"
+                            ? "font-semibold"
+                            : ""
+                        }
+                      >
+                        ศูนย์พักคอยล่าสุด
+                      </p>
                       <input
                         type="radio"
                         name="opt"
@@ -210,8 +224,16 @@ const MainPage = () => {
                         checked={page.sortBy === "community_isolation_id"}
                       />
                     </div>
-                    <div className="flex flex-row justify-start space-x-1">
-                      <p>ชื่อศูนย์พักคอย</p>
+                    <div className="flex flex-row justify-between lg:space-x-2">
+                      <p
+                        className={
+                          page.sortBy === "community_isolation_name"
+                            ? "font-semibold"
+                            : ""
+                        }
+                      >
+                        ชื่อศูนย์พักคอย
+                      </p>
                       <input
                         type="radio"
                         name="opt"
@@ -226,8 +248,14 @@ const MainPage = () => {
                         }}
                       />
                     </div>
-                    <div className="flex flex-row justify-start space-x-1">
-                      <p>จำนวนเตียงทั้งหมด</p>
+                    <div className="flex flex-row justify-between lg:space-x-2">
+                      <p
+                        className={
+                          page.sortBy === "available_bed" ? "font-semibold" : ""
+                        }
+                      >
+                        จำนวนเตียงทั้งหมด
+                      </p>
                       <input
                         type="radio"
                         name="opt"
@@ -242,8 +270,14 @@ const MainPage = () => {
                         }}
                       />
                     </div>
-                    <div className="flex flex-row justify-start space-x-1">
-                      <p>ที่อยู่</p>
+                    <div className="flex flex-row justify-between lg:space-x-2">
+                      <p
+                        className={
+                          page.sortBy === "address" ? "font-semibold" : ""
+                        }
+                      >
+                        ที่อยู่
+                      </p>
                       <input
                         type="radio"
                         name="opt"
@@ -262,7 +296,7 @@ const MainPage = () => {
                 </div>
 
                 <div className="w-full">
-                  <label className="label">
+                  <label className="label pl-0">
                     <span>เรียงลำดับจาก</span>
                   </label>
                   <select
@@ -278,7 +312,7 @@ const MainPage = () => {
                   </select>
                 </div>
               </div>
-            </div>
+            </motion.div>
           )}
         </div>
         <div

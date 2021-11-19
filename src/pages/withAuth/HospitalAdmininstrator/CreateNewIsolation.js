@@ -37,7 +37,7 @@ const CreateEditIsolation = (props) => {
     handleSubmit,
     formState: { errors, isValid, isDirty },
   } = useForm({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       name: props.isolationData?.community_isolation_name,
       address: props.isolationData?.address,

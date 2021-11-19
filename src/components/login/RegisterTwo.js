@@ -20,7 +20,7 @@ const registerTwo = (props) => {
     <Card>
       <div className="form-control">
         <label htmlFor="citizen_id" className="label">
-          <span className="label-text">รหัสประจำตัวประชาชน (13 หลัก)</span>
+          <span className="label-text text-base md:text-xl">รหัสประจำตัวประชาชน</span>
         </label>
         <input
           type="number"
@@ -46,14 +46,14 @@ const registerTwo = (props) => {
         {props.citizenIdError && (
           <label className="label">
             <span className="label-text text-error">
-              {props.citizenIdError.type === "require"
-                ? "โปรดระบุเลขประจำตัวประชาชนทั้ง 13 หลัก"
-                : "บัตรประชาชนนี้มีในระบบอยู่แล้ว"}
+              {props.citizenIdError.type === "required"
+                ? "โปรดระบุรหัสประจำตัวประชาชนทั้ง 13 หลัก"
+                : "รหัสประชาชนนี้มีในระบบอยู่แล้ว"}
             </span>
           </label>
         )}
         <label htmlFor="fName" className="label">
-          <span className="label-text">ชื่อจริง</span>
+          <span className="label-text text-base md:text-xl">ชื่อจริง</span>
         </label>
         <input
           type="text"
@@ -71,7 +71,7 @@ const registerTwo = (props) => {
           </label>
         )}
         <label htmlFor="lName" className="label">
-          <span className="label-text">นามสกุล</span>
+          <span className="label-text text-base md:text-xl">นามสกุล</span>
         </label>
         <input
           type="text"
@@ -89,7 +89,7 @@ const registerTwo = (props) => {
           </label>
         )}
         <label htmlFor="dob" className="label">
-          <span className="label-text">วันเดือนปีเกิด</span>
+          <span className="label-text text-base md:text-xl">วันเดือนปีเกิด</span>
         </label>
         <input
           type="date"
@@ -104,7 +104,7 @@ const registerTwo = (props) => {
           </label>
         )}
         <label htmlFor="age" className="label">
-          <span className="label-text">อายุ (ปี)</span>
+          <span className="label-text text-base md:text-xl">อายุ (ปี)</span>
         </label>
         <input
           disabled
@@ -117,7 +117,7 @@ const registerTwo = (props) => {
         />
         {props.ageError && (
           <label className="label">
-            <span className="label-text">คุณต้องมีอายุอย่างน้อย 1 ปี</span>
+            <span className="label-text text-error">คุณต้องมีอายุอย่างน้อย 1 ปี</span>
           </label>
         )}
       </div>

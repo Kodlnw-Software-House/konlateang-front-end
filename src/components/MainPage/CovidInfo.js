@@ -14,7 +14,7 @@ const CovidInfo = (props) => {
               {props.newCase.toLocaleString() + " "}
               <span className="font-light text-xl">ราย</span>
             </div>
-            <span className="font-normal text-base stat-desc">
+            <span className="font-normal text-sm sm:text-base stat-desc">
               *ข้อมูล ณ วันที่ {props.updateDate} น.
             </span>
           </motion.div>
@@ -33,7 +33,7 @@ const CovidInfo = (props) => {
             <div className="stat-title md:text-xl">กลับบ้านวันนี้</div>
             <div className="stat-value text-success text-2xl md:text-5xl">
               {props.newRecovered.toLocaleString() + " "}
-              <span className="font-light text-xl">ราย</span>
+              <span className="font-light text-base md:text-xl">ราย</span>
             </div>
           </motion.div>
         </div>
@@ -49,9 +49,9 @@ const CovidInfo = (props) => {
             transition={{ duration: 0.7 }}
           >
             <div className="stat-title md:text-xl">กลับบ้านสะสม</div>
-            <div className="stat-value text-2xl  text-success md:text-5xl">
+            <div className="stat-value text-lg  text-success md:text-5xl">
               {props.totalRecovered.toLocaleString() + " "}
-              <span className="font-light text-xl">ราย</span>
+              <span className="font-light text-base md:text-xl">ราย</span>
             </div>
           </motion.div>
         </div>
@@ -67,9 +67,9 @@ const CovidInfo = (props) => {
             transition={{ duration: 0.8 }}
           >
             <div className="stat-title md:text-xl">เสียชีวิตวันนี้</div>
-            <div className="stat-value text-error lg:text-5xl">
+            <div className="stat-value text-2xl  text-error md:text-5xl">
               {props.newDeath.toLocaleString() + " "}
-              <span className="font-light text-xl">ราย</span>
+              <span className="font-light text-base md:text-xl">ราย</span>
             </div>
           </motion.div>
         </div>
@@ -85,9 +85,9 @@ const CovidInfo = (props) => {
             transition={{ duration: 1 }}
           >
             <div className="stat-title md:text-xl">เสียชีวิตสะสม</div>
-            <div className="stat-value text-2xl md:text-4xl lg:text-5xl">
+            <div className="stat-value text-lg md:text-5xl">
               {props.totalDeath.toLocaleString() + " "}
-              <span className="font-light text-xl">ราย</span>
+              <span className="font-light text-base md:text-xl">ราย</span>
             </div>
           </motion.div>
         </div>

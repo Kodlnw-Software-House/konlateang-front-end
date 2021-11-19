@@ -140,7 +140,7 @@ const WelcomePage = () => {
             <p className="hidden text-2xl lg:my-10 text-center lg:block">⚬</p>
             <button
               onClick={scrollToPart1}
-              className="btn btn-outline text-primary-content btn-lg lg:btn-block lg:text-2xl lg:h-20"
+              className="btn btn-outline text-primary-content btn-lg text-base lg:btn-block lg:text-2xl lg:h-20"
             >
               ลงทะเบียนตอนนี้เพื่อหาเตียงกับเรา
             </button>

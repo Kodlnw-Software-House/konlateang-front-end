@@ -30,7 +30,6 @@ const PatientData = (props) => {
     handleSubmit,
     watch,
     setValue,
-    getValues,
     formState: { errors, isValid, isDirty, dirtyFields },
   } = useForm({
     mode: "onChange",

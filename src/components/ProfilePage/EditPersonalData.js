@@ -22,7 +22,7 @@ const EditPersonalData = (props) => {
   const {
     register,
     handleSubmit,
-    formState: { errors, isValid },
+    formState: { errors, isValid, isDirty },
   } = useForm({
     mode: "onBlur",
     defaultValues: {
@@ -88,26 +88,19 @@ const EditPersonalData = (props) => {
             placeholder="username"
             className={telInputClasses}
           />
-          {/* <label className="label">
-            <span className="label-text">รหัสผ่านใหม่</span>
-          </label>
-          <input
-            {...register("password", {
-              maxLength: 14,
-            })}
-            type="password"
-            placeholder="ระบุรหัสผ่านใหม่ หากต้องการเปลี่ยนแปลง"
-            className="input mx-1 input-sm"
-          /> */}
         </div>
         <div className="flex flex-row justify-end space-x-3 pt-4">
           <button
-            className="btn btn-outline btn-accent"
+            className="btn btn-outline btn-accent md:btn-lg"
             onClick={props.modalHandler}
           >
             ยกเลิก
           </button>
-          <button className="btn btn-accent" type="submit" disabled={!isValid}>
+          <button
+            className="btn btn-accent md:btn-lg"
+            type="submit"
+            disabled={!isValid || !isDirty}
+          >
             บันทึก
           </button>
         </div>

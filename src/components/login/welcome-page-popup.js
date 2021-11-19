@@ -14,7 +14,7 @@ const WelcomePagePopup = (props) => {
         </button>
         <button
           data-theme="hospitalTheme"
-          className="btn btn-block btn-outline rounded-lg btn-primary h-auto p-2 text-xl md:h-16 md:text-2xl"
+          className="btn btn-block btn-outline rounded-lg btn-primary h-auto p-2 text-lg md:h-16 md:text-2xl"
           onClick={props.goHospitalLogin}
         >
           <UserGroupIcon className="btn-icon" />
