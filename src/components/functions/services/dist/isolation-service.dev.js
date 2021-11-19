@@ -27,9 +27,11 @@ function () {
     value: function getAllIsolation() {
       var pageSize = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : 4;
       var pageNumber = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : 1;
-      var search = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "";
-      var token = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : localStorage.getItem("user");
-      return _authHeader["default"].get("/isolation/getAll?pageSize=".concat(pageSize, "&pageNumber=").concat(pageNumber, "&search=").concat(search), {
+      var sortType = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : "ASC";
+      var sortBy = arguments.length > 3 && arguments[3] !== undefined ? arguments[3] : "community_isolation_id";
+      var search = arguments.length > 4 && arguments[4] !== undefined ? arguments[4] : "";
+      var token = arguments.length > 5 && arguments[5] !== undefined ? arguments[5] : localStorage.getItem("user");
+      return _authHeader["default"].get("/isolation/getAll?pageSize=".concat(pageSize, "&pageNumber=").concat(pageNumber, "&sortType=").concat(sortType, "&sortBy=").concat(sortBy, "&search=").concat(search), {
         headers: {
           Authorization: "Bearer ".concat(token)
         }

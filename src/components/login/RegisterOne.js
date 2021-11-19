@@ -1,3 +1,4 @@
+import userService from "../functions/services/user-service";
 import Card from "../ui/Card";
 
 const RegisterOne = (props) => {
@@ -24,6 +25,17 @@ const RegisterOne = (props) => {
             required: true,
             pattern: /^\S+@\S+$/i,
             maxLength: 45,
+            validate: {
+              duplicateEmail: async (value) =>
+                await userService
+                  .checkDuplicateEmail(value)
+                  .then(() => {
+                    return true;
+                  })
+                  .catch(() => {
+                    return false;
+                  }),
+            },
           })}
         />
         {props.emailError && (
@@ -31,6 +43,8 @@ const RegisterOne = (props) => {
             <span className="label-text text-error">
               {props.emailError.type === "required"
                 ? "โปรดระบุอีเมล"
+                : props.emailError.type === "duplicateEmail"
+                ? "อีเมลล์นี้มีในระบบแล้ว"
                 : "อีเมลล์ต้องมีขนาดไม่เกิน 45 ตัวอักษร"}
             </span>
           </label>

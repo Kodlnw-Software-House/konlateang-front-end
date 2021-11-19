@@ -234,7 +234,7 @@ const IsolationMainPage = (props) => {
                 edit={true}
                 id={id}
                 image_index={isolationData?.image_index}
-                admin={true}
+                admin={props.admin ? true : false}
                 refreshData={refreshData}
               />
             ) : (
@@ -243,7 +243,7 @@ const IsolationMainPage = (props) => {
           </Route>
           <Route path={`${url}/patient-list`}>
             <PatientOfIsolation
-              admin={true}
+              admin={props.admin ? true : false}
               id={id}
               header={isolationData.community_isolation_name}
               updatePatientStatus={updatePatientStatus}

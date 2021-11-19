@@ -1,3 +1,4 @@
+import userService from "../functions/services/user-service";
 import Card from "../ui/Card";
 const registerTwo = (props) => {
   const cIdInputClasses = props.citizenIdError
@@ -28,13 +29,26 @@ const registerTwo = (props) => {
           {...props.register("citizenId", {
             required: true,
             valueAsNumber: true,
-            validate: (value) => value.toString().length === 13,
+            validate: {
+              checkLength: (value) => value.toString().length === 13,
+              duplicateId: async (value) =>
+                await userService
+                  .checkDuplicateId(value)
+                  .then(() => {
+                    return true;
+                  })
+                  .catch(() => {
+                    return false;
+                  }),
+            },
           })}
         />
         {props.citizenIdError && (
           <label className="label">
             <span className="label-text text-error">
-              โปรดระบุเลขประจำตัวประชาชนทั้ง 13 หลัก
+              {props.citizenIdError.type === "require"
+                ? "โปรดระบุเลขประจำตัวประชาชนทั้ง 13 หลัก"
+                : "บัตรประชาชนนี้มีในระบบอยู่แล้ว"}
             </span>
           </label>
         )}

@@ -36,7 +36,14 @@ const MainPage = () => {
   const [isFetchIsolation, setisFetchIsolation] = useState(false);
   const [isolationData, setIsolationData] = useState([]);
   const [enteredSearch, setEnteredSearch] = useState("");
-  const [page, setPage] = useState({ pagSize: 6, pageNo: 1, search: "" });
+  const [isOpenFilter, setIsOpenFilter] = useState(true);
+  const [page, setPage] = useState({
+    pagSize: 6,
+    pageNo: 1,
+    sortType: "ASC",
+    sortBy: "community_isolation_id",
+    search: "",
+  });
   let items = [];
 
   for (
@@ -73,10 +80,14 @@ const MainPage = () => {
   }
 
   useEffect(() => {
-    // const pageNo = query.get("pageNo") ? query.get("pageNo") : page.pageNo;
-    // const searchText = query.get("search") ? query.get("search") : page.search;
     setisFetchIsolation(true);
-    IsolationService.getAllIsolation(page.pagSize, page.pageNo, page.search)
+    IsolationService.getAllIsolation(
+      page.pagSize,
+      page.pageNo,
+      page.sortType,
+      page.sortBy,
+      page.search
+    )
       .then((response) => {
         setIsolationData(response.data.result);
       })
@@ -86,7 +97,12 @@ const MainPage = () => {
       .finally(() => {
         setisFetchIsolation(false);
       });
-  }, [page.pagSize, page.pageNo, page.search]);
+  }, [page]);
+
+  const toggleFilter = () => {
+    setIsOpenFilter((prev) => !prev);
+  };
+
   const nextPage = () => {
     if (page.pageNo < isolationData.totalPage) {
       setPage((prev) => ({
@@ -113,6 +129,10 @@ const MainPage = () => {
       search: enteredSearch,
     }));
     scrollTop();
+  };
+  const SortTypeOnchange = (e) => {
+    e.preventDefault();
+    setPage({ ...page, pageNo: 1, sortType: e.target.value });
   };
   return (
     // Covid19 Todays
@@ -161,9 +181,105 @@ const MainPage = () => {
             </button>
           </form>
         </div>
-        <div className="border-b-2 border-primary flex items-center py-2">
-          <AdjustmentsIcon className="w-7 h-auto" />
-          <span className="text-xl">ตัวกรอง</span>
+        <div className="border-b-2 border-primary py-2">
+          <div className="flex flex-row cursor-pointer" onClick={toggleFilter}>
+            <AdjustmentsIcon className="w-7 h-auto" />
+            <span className="text-xl">ตัวกรอง</span>
+          </div>
+          {isOpenFilter && (
+            <div className="my-1">
+              <div className="flex flex-col justify-center space-y-2 lg:flex-row lg:space-y-0">
+                <div className="w-full">
+                  <label className="label">
+                    <span>เรียงลำดับตาม</span>
+                  </label>
+                  <div className="flex flex-row space-x-8 flex-wrap justify-start">
+                    <div className="flex flex-row justify-start space-x-1">
+                      <p>ศูนย์พักคอยล่าสุด</p>
+                      <input
+                        type="radio"
+                        name="opt"
+                        value="community_isolation_id"
+                        className="radio radio-primary radio-sm"
+                        onChange={() => {
+                          setPage({
+                            ...page,
+                            sortBy: "community_isolation_id",
+                          });
+                        }}
+                        checked={page.sortBy === "community_isolation_id"}
+                      />
+                    </div>
+                    <div className="flex flex-row justify-start space-x-1">
+                      <p>ชื่อศูนย์พักคอย</p>
+                      <input
+                        type="radio"
+                        name="opt"
+                        value="community_isolation_name"
+                        className="radio radio-primary radio-sm"
+                        checked={page.sortBy === "community_isolation_name"}
+                        onChange={() => {
+                          setPage({
+                            ...page,
+                            sortBy: "community_isolation_name",
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="flex flex-row justify-start space-x-1">
+                      <p>จำนวนเตียงทั้งหมด</p>
+                      <input
+                        type="radio"
+                        name="opt"
+                        value="available_bed"
+                        className="radio radio-primary radio-sm"
+                        checked={page.sortBy === "available_bed"}
+                        onChange={() => {
+                          setPage({
+                            ...page,
+                            sortBy: "available_bed",
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="flex flex-row justify-start space-x-1">
+                      <p>ที่อยู่</p>
+                      <input
+                        type="radio"
+                        name="opt"
+                        value="address"
+                        className="radio radio-primary radio-sm"
+                        checked={page.sortBy === "address"}
+                        onChange={() => {
+                          setPage({
+                            ...page,
+                            sortBy: "address",
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-full">
+                  <label className="label">
+                    <span>เรียงลำดับจาก</span>
+                  </label>
+                  <select
+                    className="select select-bordered select-sm w-full max-w-xs"
+                    onChange={SortTypeOnchange}
+                  >
+                    <option selected={page.sortType == "ASC"} value="ASC">
+                      น้อยไปหามาก, A-Z
+                    </option>
+                    <option selected={page.sortType == "DESC"} value="DESC">
+                      มากไปหาน้อย, Z-A
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          )}
         </div>
         <div
           id="isolation_list_title"

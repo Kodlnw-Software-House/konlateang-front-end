@@ -38,7 +38,12 @@ class userService {
       headers: { Authorization: `Bearer ${token}` },
     });
   }
-
+  checkDuplicateEmail(data) {
+    return http.get(`/patient/checkEmailInUse?email=${data}`);
+  }
+  checkDuplicateId(data) {
+    return http.get(`/patient/checkCitizenIdInUse?citizen_id=${data}`);
+  }
 }
 
 export default new userService();
