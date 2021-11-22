@@ -16,6 +16,8 @@ import {
   transition,
 } from "../../../components/animations/animation";
 import Pagination from "../../../components/ui/Pagination";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../../redux/ui-slice";
 const scrollTop = () => {
   return document.getElementById("isolation_list_title").scrollIntoView({
     behavior: "smooth",
@@ -24,6 +26,7 @@ const scrollTop = () => {
   });
 };
 const MainPage = () => {
+  const dispatch = useDispatch();
   const {
     data: covidData,
     loading,
@@ -36,7 +39,14 @@ const MainPage = () => {
   const [isFetchIsolation, setisFetchIsolation] = useState(false);
   const [isolationData, setIsolationData] = useState([]);
   const [enteredSearch, setEnteredSearch] = useState("");
-  const [page, setPage] = useState({ pagSize: 6, pageNo: 1, search: "" });
+  const [isOpenFilter, setIsOpenFilter] = useState(false);
+  const [page, setPage] = useState({
+    pagSize: 6,
+    pageNo: 1,
+    sortType: "ASC",
+    sortBy: "community_isolation_id",
+    search: "",
+  });
   let items = [];
 
   for (
@@ -73,20 +83,34 @@ const MainPage = () => {
   }
 
   useEffect(() => {
-    // const pageNo = query.get("pageNo") ? query.get("pageNo") : page.pageNo;
-    // const searchText = query.get("search") ? query.get("search") : page.search;
     setisFetchIsolation(true);
-    IsolationService.getAllIsolation(page.pagSize, page.pageNo, page.search)
+    IsolationService.getAllIsolation(
+      page.pagSize,
+      page.pageNo,
+      page.sortType,
+      page.sortBy,
+      page.search
+    )
       .then((response) => {
         setIsolationData(response.data.result);
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: error.response.data.error,
+          })
+        );
       })
       .finally(() => {
         setisFetchIsolation(false);
       });
-  }, [page.pagSize, page.pageNo, page.search]);
+  }, [page]);
+
+  const toggleFilter = () => {
+    setIsOpenFilter((prev) => !prev);
+  };
+
   const nextPage = () => {
     if (page.pageNo < isolationData.totalPage) {
       setPage((prev) => ({
@@ -113,6 +137,10 @@ const MainPage = () => {
       search: enteredSearch,
     }));
     scrollTop();
+  };
+  const SortTypeOnchange = (e) => {
+    e.preventDefault();
+    setPage({ ...page, pageNo: 1, sortType: e.target.value });
   };
   return (
     // Covid19 Todays
@@ -161,9 +189,139 @@ const MainPage = () => {
             </button>
           </form>
         </div>
-        <div className="border-b-2 border-primary flex items-center py-2">
-          <AdjustmentsIcon className="w-7 h-auto" />
-          <span className="text-xl">ตัวกรอง</span>
+        <div className="border-b-2 border-primary py-2">
+          <div className="flex flex-row cursor-pointer" onClick={toggleFilter}>
+            <AdjustmentsIcon className="w-7 h-auto" />
+            <span className="text-xl">ตัวกรอง</span>
+          </div>
+          {isOpenFilter && (
+            <motion.div
+              initial="out"
+              animate="in"
+              variants={animationOne}
+              transition={transition}
+              className="my-1 bg-primary-content p-2 py-4"
+            >
+              <div className="flex flex-col justify-center space-y-2 lg:flex-row lg:space-y-0">
+                <div className="w-full">
+                  <label className="label pl-0 pt-0">
+                    <span>เรียงลำดับตาม</span>
+                  </label>
+                  <div className="flex flex-col justify-start lg:flex-row lg:space-x-4">
+                    <div className="flex flex-row justify-between lg:space-x-2">
+                      <p
+                        className={
+                          page.sortBy === "community_isolation_id"
+                            ? "font-semibold"
+                            : ""
+                        }
+                      >
+                        ศูนย์พักคอยล่าสุด
+                      </p>
+                      <input
+                        type="radio"
+                        name="opt"
+                        value="community_isolation_id"
+                        className="radio radio-primary radio-sm"
+                        onChange={() => {
+                          setPage({
+                            ...page,
+                            sortBy: "community_isolation_id",
+                          });
+                        }}
+                        checked={page.sortBy === "community_isolation_id"}
+                      />
+                    </div>
+                    <div className="flex flex-row justify-between lg:space-x-2">
+                      <p
+                        className={
+                          page.sortBy === "community_isolation_name"
+                            ? "font-semibold"
+                            : ""
+                        }
+                      >
+                        ชื่อศูนย์พักคอย
+                      </p>
+                      <input
+                        type="radio"
+                        name="opt"
+                        value="community_isolation_name"
+                        className="radio radio-primary radio-sm"
+                        checked={page.sortBy === "community_isolation_name"}
+                        onChange={() => {
+                          setPage({
+                            ...page,
+                            sortBy: "community_isolation_name",
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="flex flex-row justify-between lg:space-x-2">
+                      <p
+                        className={
+                          page.sortBy === "available_bed" ? "font-semibold" : ""
+                        }
+                      >
+                        จำนวนเตียงทั้งหมด
+                      </p>
+                      <input
+                        type="radio"
+                        name="opt"
+                        value="available_bed"
+                        className="radio radio-primary radio-sm"
+                        checked={page.sortBy === "available_bed"}
+                        onChange={() => {
+                          setPage({
+                            ...page,
+                            sortBy: "available_bed",
+                          });
+                        }}
+                      />
+                    </div>
+                    <div className="flex flex-row justify-between lg:space-x-2">
+                      <p
+                        className={
+                          page.sortBy === "address" ? "font-semibold" : ""
+                        }
+                      >
+                        ที่อยู่
+                      </p>
+                      <input
+                        type="radio"
+                        name="opt"
+                        value="address"
+                        className="radio radio-primary radio-sm"
+                        checked={page.sortBy === "address"}
+                        onChange={() => {
+                          setPage({
+                            ...page,
+                            sortBy: "address",
+                          });
+                        }}
+                      />
+                    </div>
+                  </div>
+                </div>
+
+                <div className="w-full">
+                  <label className="label pl-0">
+                    <span>เรียงลำดับจาก</span>
+                  </label>
+                  <select
+                    className="select select-bordered select-sm w-full max-w-xs"
+                    onChange={SortTypeOnchange}
+                  >
+                    <option selected={page.sortType === "ASC"} value="ASC">
+                      น้อยไปหามาก, A-Z
+                    </option>
+                    <option selected={page.sortType === "DESC"} value="DESC">
+                      มากไปหาน้อย, Z-A
+                    </option>
+                  </select>
+                </div>
+              </div>
+            </motion.div>
+          )}
         </div>
         <div
           id="isolation_list_title"

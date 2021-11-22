@@ -17,7 +17,7 @@ const registerFour = (props) => {
       <div className="overflow-y-scroll max-h-96">
         <div className="whitespace-normal">
           <div className="divider md:text-2xl">บัญชี</div>
-          <div className="md:text-lg">
+          <div className="text-sm md:text-lg">
             <p>
               อีเมล: <span className="text-primary-focus">{Email}</span>
             </p>
@@ -26,7 +26,7 @@ const registerFour = (props) => {
             </p>
           </div>
           <div className="divider md:text-2xl">ข้อมูลส่วนตัว</div>
-          <div className="md:text-lg">
+          <div className="text-sm md:text-lg">
             <p>
               เลขประจำตัวประชาชน:{" "}
               <span className="text-primary-focus">{citizenId}</span>
@@ -50,7 +50,7 @@ const registerFour = (props) => {
             </p>
           </div>
           <div className="divider md:text-2xl">การติดต่อ</div>
-          <div className="md:text-lg">
+          <div className="text-sm md:text-lg">
             <p>
               ที่อยู่ปัจจุบัน:{" "}
               <span className="text-primary-focus break-words">{address}</span>

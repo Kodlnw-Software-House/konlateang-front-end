@@ -8,14 +8,14 @@ const RenderButton = (props) => {
       <Card>
         <div className="flex flex-col space-y-2">
           <button
-            className="btn btn-primary btn-md"
+            className="btn text-lg btn-primary btn-md"
             onClick={props.submitForm}
             disabled={isDisable}
           >
             ลงทะเบียน
           </button>
           <button
-            className="btn btn-ghost btn-md text-secondary-focus"
+            className="btn btn-ghost text-lg btn-md text-secondary-focus"
             onClick={props.prevStep}
           >
             ย้อนกลับ
@@ -28,14 +28,14 @@ const RenderButton = (props) => {
       <Card>
         <div className="flex flex-col justify-start">
           <button
-            className="btn btn-primary btn-md btn-block"
+            className="btn text-lg btn-primary btn-md btn-block"
             onClick={props.nextStep}
             disabled={isDisable}
           >
             ถัดไป
           </button>
           <button
-            className="btn btn-link btn-md text-secondary-focus text-base"
+            className="btn btn-link btn-md my-2 text-secondary-focus text-base"
             onClick={props.goToLogin}
           >
             มีบัญชีอยู่แล้ว ?{" "}
@@ -49,14 +49,14 @@ const RenderButton = (props) => {
       <Card>
         <div className="flex flex-col space-y-2">
           <button
-            className="btn btn-primary btn-md"
+            className="btn text-lg btn-primary btn-md"
             onClick={props.nextStep}
             disabled={isDisable}
           >
             ถัดไป
           </button>
           <button
-            className="btn btn-ghost btn-md text-secondary-focus"
+            className="btn btn-ghost text-lg btn-md text-secondary-focus"
             onClick={props.prevStep}
           >
             ย้อนกลับ

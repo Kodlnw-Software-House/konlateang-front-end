@@ -155,53 +155,64 @@ module.exports = {
 
       },
       adminTheme: {
-        /* your theme name */
-        primary: "#212121",
-        "primary-focus": "#9c9c9c",
-        "primary-content": "#ffffff",
-        secondary: "#ff9ead",
-        "secondary-focus": "#ff7a8e",
-        "secondary-content": "#ffffff",
-        accent: "#37cdbe",
-
+        primary: "#3d4451"
+        /* Primary color */
+        ,
+        "primary-focus": "#2a2e37"
+        /* Primary color - focused */
+        ,
+        "primary-content": "#ffffff"
+        /* Foreground content color to use on primary color */
+        ,
+        secondary: "#f6d860"
+        /* Secondary color */
+        ,
+        "secondary-focus": "#f3cc30"
+        /* Secondary color - focused */
+        ,
+        "secondary-content": "#ffffff"
+        /* Foreground content color to use on secondary color */
+        ,
+        accent: "#37cdbe"
         /* Accent color */
-        "accent-focus": "#2aa79b",
-
+        ,
+        "accent-focus": "#2aa79b"
         /* Accent color - focused */
-        "accent-content": "#ffffff",
-
+        ,
+        "accent-content": "#ffffff"
         /* Foreground content color to use on accent color */
-        neutral: "#3d4451",
-
+        ,
+        neutral: "#3d4451"
         /* Neutral color */
-        "neutral-focus": "#2a2e37",
-
+        ,
+        "neutral-focus": "#2a2e37"
         /* Neutral color - focused */
-        "neutral-content": "#ffffff",
-
+        ,
+        "neutral-content": "#ffffff"
         /* Foreground content color to use on neutral color */
-        "base-100": "#ffffff",
-
+        ,
+        "base-100": "#ffffff"
         /* Base color of page, used for blank backgrounds */
-        "base-200": "#f9fafb",
-
+        ,
+        "base-200": "#f9fafb"
         /* Base color, a little darker */
-        "base-300": "#d1d5db",
-
+        ,
+        "base-300": "#d1d5db"
         /* Base color, even more darker */
-        "base-content": "#1f2937",
-
+        ,
+        "base-content": "#1f2937"
         /* Foreground content color to use on base color */
-        info: "#2094f3",
-
+        ,
+        info: "#2094f3"
         /* Info */
-        success: "#009485",
-
+        ,
+        success: "#009485"
         /* Success */
-        warning: "#ff9900",
-
+        ,
+        warning: "#ff9900"
         /* Warning */
-        error: "#ff0000"
+        ,
+        error: "#ff5724"
         /* Error */
 
       }

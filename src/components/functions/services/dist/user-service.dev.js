@@ -85,6 +85,16 @@ function () {
         }
       });
     }
+  }, {
+    key: "checkDuplicateEmail",
+    value: function checkDuplicateEmail(data) {
+      return _authHeader["default"].get("/patient/checkEmailInUse?email=".concat(data));
+    }
+  }, {
+    key: "checkDuplicateId",
+    value: function checkDuplicateId(data) {
+      return _authHeader["default"].get("/patient/checkCitizenIdInUse?citizen_id=".concat(data));
+    }
   }]);
 
   return userService;

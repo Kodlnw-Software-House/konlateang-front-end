@@ -1,3 +1,4 @@
+import userService from "../functions/services/user-service";
 import Card from "../ui/Card";
 
 const RegisterOne = (props) => {
@@ -14,7 +15,7 @@ const RegisterOne = (props) => {
     <Card>
       <div className="form-control">
         <label htmlFor="email" className="label">
-          <span className="label-text text-xl">อีเมล</span>
+          <span className="label-text text-base md:text-xl">อีเมล</span>
         </label>
         <input
           type="email"
@@ -24,6 +25,17 @@ const RegisterOne = (props) => {
             required: true,
             pattern: /^\S+@\S+$/i,
             maxLength: 45,
+            validate: {
+              duplicateEmail: async (value) =>
+                await userService
+                  .checkDuplicateEmail(value)
+                  .then(() => {
+                    return true;
+                  })
+                  .catch(() => {
+                    return false;
+                  }),
+            },
           })}
         />
         {props.emailError && (
@@ -31,12 +43,14 @@ const RegisterOne = (props) => {
             <span className="label-text text-error">
               {props.emailError.type === "required"
                 ? "โปรดระบุอีเมล"
+                : props.emailError.type === "duplicateEmail"
+                ? "อีเมลล์นี้มีในระบบแล้ว"
                 : "อีเมลล์ต้องมีขนาดไม่เกิน 45 ตัวอักษร"}
             </span>
           </label>
         )}
         <label htmlFor="password" className="label">
-          <span className="label-text text-xl">รหัสผ่าน</span>
+          <span className="label-text text-base md:text-xl">รหัสผ่าน</span>
         </label>
         <input
           type="text"
@@ -60,7 +74,7 @@ const RegisterOne = (props) => {
           </label>
         )}
         <label htmlFor="password" className="label">
-          <span className="label-text text-xl">รหัสผ่าน (อีกครั้ง)</span>
+          <span className="label-text text-base md:text-xl">รหัสผ่าน (อีกครั้ง)</span>
         </label>
         <input
           type="text"

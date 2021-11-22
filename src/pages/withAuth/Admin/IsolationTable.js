@@ -1,10 +1,13 @@
 import { Fragment, useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
 import { useHistory } from "react-router";
 import AdminIsolationTable from "../../../components/AdminIsolationTable/AdminIsolationTable";
 import adminService from "../../../components/functions/services/admin-service";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import Pagination from "../../../components/ui/Pagination";
+import { uiActions } from "../../../redux/ui-slice";
 const IsolationTable = (props) => {
+  const dispatch = useDispatch();
   const [isolationData, setIsolationData] = useState({});
   const [isLoading, setIsLoading] = useState(true);
   const [orderAsc, setOrderAsc] = useState(true);
@@ -30,7 +33,12 @@ const IsolationTable = (props) => {
         setIsolationData(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: err.response.data.error,
+          })
+        );
       })
       .finally(() => {
         setIsLoading(false);
@@ -104,11 +112,13 @@ const IsolationTable = (props) => {
       case "available_bed":
         setPage({ ...page, sortBy: "available_bed" });
         break;
+      default:
+        setPage({ ...page, sortBy: "community_isolation_id" });
     }
   };
   const goTo = (id) => {
-    history.push(props.path + "/isolations/" + id)
-  }
+    history.push(props.path + "/isolations/" + id);
+  };
   return (
     <div className="container mx-auto mt-16">
       {isLoading ? (

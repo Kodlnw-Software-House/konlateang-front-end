@@ -37,7 +37,7 @@ const CreateEditIsolation = (props) => {
     handleSubmit,
     formState: { errors, isValid, isDirty },
   } = useForm({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       name: props.isolationData?.community_isolation_name,
       address: props.isolationData?.address,
@@ -84,7 +84,7 @@ const CreateEditIsolation = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
         });
@@ -104,7 +104,7 @@ const CreateEditIsolation = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
         });
@@ -140,7 +140,7 @@ const CreateEditIsolation = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
         })
@@ -170,7 +170,7 @@ const CreateEditIsolation = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
         })
@@ -209,7 +209,7 @@ const CreateEditIsolation = (props) => {
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.message,
+            title: error.response.data.error,
           })
         );
       });
@@ -318,11 +318,11 @@ const CreateEditIsolation = (props) => {
           setSelectedImage(null);
           modalHandler();
         })
-        .catch(() => {
+        .catch((error) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: "ลบรูปภาพไม่สำเร็จ",
+              title: error.response.data.error,
             })
           );
           setSelectedImage(null);
@@ -343,11 +343,11 @@ const CreateEditIsolation = (props) => {
           setSelectedImage(null);
           modalHandler();
         })
-        .catch(() => {
+        .catch((error) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: "ลบรูปภาพไม่สำเร็จ",
+              title: error.response.data.error,
             })
           );
           setSelectedImage(null);

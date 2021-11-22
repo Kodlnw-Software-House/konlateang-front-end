@@ -39,7 +39,7 @@ function App() {
             dispatch(
               uiActions.setNoti({
                 status: "error",
-                title: error.message,
+                title: error.response.data.error,
               })
             );
             if (error.response.status === 401) {
@@ -59,7 +59,7 @@ function App() {
             dispatch(
               uiActions.setNoti({
                 status: "error",
-                title: error.message,
+                title: error.response.data.error,
               })
             );
             if (error.response.status === 401) {
@@ -81,7 +81,7 @@ function App() {
             dispatch(
               uiActions.setNoti({
                 status: "error",
-                title: error.message,
+                title: error.response.data.error,
               })
             );
             if (error.response.status === 401) {

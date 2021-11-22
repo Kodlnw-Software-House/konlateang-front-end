@@ -46,7 +46,7 @@ const Profile = (props) => {
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.message,
+            title: error.response.data.error,
           })
         );
         if (error.response.status === 401) {
@@ -93,8 +93,7 @@ const Profile = (props) => {
     data.append("avatar", newImg.raw);
     userService
       .uploadNewPicture(data, localStorage.getItem("user"))
-      .then((res) => {
-      })
+      .then((res) => {})
       .then(() => {
         dispatch(
           uiActions.setNoti({
@@ -112,7 +111,7 @@ const Profile = (props) => {
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.response.data,
+            title: error.response.data.error,
           })
         );
         cancelUploadFile();
@@ -126,7 +125,6 @@ const Profile = (props) => {
     userService
       .editUserData(data, localStorage.getItem("user"))
       .then((response) => {
-
         dispatch(
           AuthAction.editUserData({ user: response.data.editedPatient })
         );
@@ -143,7 +141,7 @@ const Profile = (props) => {
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.message,
+            title: error.resposne.data.error,
           })
         );
         if (error.response.status === 401) {
@@ -203,7 +201,7 @@ const Profile = (props) => {
             <div className="max-w-4xl overflow-hidden">
               <div className="flex items-center px-6 py-3 bg-primary">
                 <IdentificationIcon className="w-10 text-primary-content" />
-                <h1 className="mx-2 text-primary-content font-semibold text-lg md:text-2xl">
+                <h1 className="mx-2 text-primary-content font-semibold text-sm md:text-2xl">
                   {`${
                     userData?.gender === "M"
                       ? "นาย"
@@ -214,21 +212,21 @@ const Profile = (props) => {
                 </h1>
               </div>
               <div className="py-4 px-6">
-                <h1 className="text-xl font-semibold text-gray-800">
+                <h1 className="text-base md:text-xl font-semibold text-gray-800">
                   {`เลขประจำตัวประชาชน ${userData?.citizen_id}`}
                 </h1>
-                <p className="py-2 text-lg text-gray-700">{`${userData?.address}`}</p>
+                <p className="py-2 text-base md:text-xl text-gray-700">{`${userData?.address}`}</p>
                 <div className="flex items-center mt-4 text-gray-700">
                   <CalendarIcon className="w-7" />
-                  <h1 className="px-2 md:text-lg">{`${userData?.dob} (${userData?.age} ปี)`}</h1>
+                  <h1 className="px-2 text-base md:text-xl">{`${userData?.dob} (${userData?.age} ปี)`}</h1>
                 </div>
                 <div className="flex items-center mt-4 text-gray-700">
                   <PhoneIcon className="w-7" />
-                  <h1 className="px-2 md:text-lg">{`${userData?.tel}`}</h1>
+                  <h1 className="px-2 text-base md:text-xl">{`${userData?.tel}`}</h1>
                 </div>
                 <div className="flex items-center mt-4 text-gray-700">
                   <MailIcon className="w-7" />
-                  <h1 className="px-2 md:text-lg">{`${userData?.email}`}</h1>
+                  <h1 className="px-2 text-base md:text-xl">{`${userData?.email}`}</h1>
                 </div>
                 <div className="flex justify-end items-center mt-2">
                   <button
@@ -243,9 +241,9 @@ const Profile = (props) => {
           </div>
         </ItemCard>
       </motion.div>
-      <ItemCard>
-        <p className="text-xl text-center">ประวัติการจองเตียง</p>
-      </ItemCard>
+      <div>
+        <p className="text-base md:text-xl text-center">ประวัติการจองเตียง</p>
+      </div>
       <motion.div
         initial="out"
         animate="in"
@@ -256,8 +254,10 @@ const Profile = (props) => {
           <LoadingSpinner />
         ) : bookings.length === 0 ? (
           <ItemCard>
-            <div className="text-center space-y-4">
-              <div className="text-xl">- ไม่พบประวัติการจองเตียง -</div>
+            <div className="text-center space-y-2">
+              <div className="text-base md:text-xl">
+                - ไม่พบประวัติการจองเตียง -
+              </div>
               <div>
                 <button
                   className="btn btn-md btn-success text-base"
@@ -278,7 +278,6 @@ const Profile = (props) => {
                 hospitalName={item.community_isolation.community_isolation_name}
                 bookingDate={item.create_at}
                 bookingStatus={item.status_id}
-                pic={default_profile}
               />
             );
           })

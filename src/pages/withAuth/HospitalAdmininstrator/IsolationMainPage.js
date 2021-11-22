@@ -41,7 +41,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
           setIsloading(false);
@@ -57,7 +57,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
           setIsloading(false);
@@ -84,7 +84,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
         });
@@ -103,7 +103,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
         });
@@ -122,7 +122,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
           setIsloading(false);
@@ -138,7 +138,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
           setIsloading(false);
@@ -197,7 +197,7 @@ const IsolationMainPage = (props) => {
                           className="bg-primary hover:bg-green-700 w-1/2 p-2 card shadow-lg compact lg:p-0 lg:w-full"
                         >
                           <div className="card-body text-primary-content text-center items-center">
-                            <UserGroupIcon className="w-36 h-auto" />
+                            <UserGroupIcon className="w-20 md:w-36 h-auto" />
                             <p className="text-xl">
                               ตรวจสอบ
                               <br />
@@ -210,7 +210,7 @@ const IsolationMainPage = (props) => {
                           className="bg-primary hover:bg-green-700 w-1/2 p-2 card shadow-lg compact lg:p-0 lg:w-full"
                         >
                           <div className="card-body text-primary-content text-center items-center">
-                            <PencilAltIcon className="w-36 h-auto" />
+                            <PencilAltIcon className="w-20 md:w-36 h-auto" />
                             <p className="text-xl">
                               อัพเดตข้อมูล
                               <br />
@@ -228,22 +228,20 @@ const IsolationMainPage = (props) => {
             )}
           </Route>
           <Route path={`${url}/update`}>
-            {Object.keys(isolationData).length !== 0 ? (
+            {Object.keys(isolationData).length !== 0 && (
               <CreateEditIsolation
                 isolationData={isolationData}
                 edit={true}
                 id={id}
                 image_index={isolationData?.image_index}
-                admin={true}
+                admin={props.admin ? true : false}
                 refreshData={refreshData}
               />
-            ) : (
-              <NotFound />
             )}
           </Route>
           <Route path={`${url}/patient-list`}>
             <PatientOfIsolation
-              admin={true}
+              admin={props.admin ? true : false}
               id={id}
               header={isolationData.community_isolation_name}
               updatePatientStatus={updatePatientStatus}

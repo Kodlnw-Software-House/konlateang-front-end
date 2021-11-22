@@ -11,6 +11,8 @@ import BackButton from "../../../components/ui/BackButton";
 import Pagination from "../../../components/ui/Pagination";
 import PatientTableComponent from "../../../components/PatientListPage/PatientTableComponent";
 import adminService from "../../../components/functions/services/admin-service";
+import { uiActions } from "../../../redux/ui-slice";
+import { useDispatch } from "react-redux";
 
 const status = [
   { label: "Booking failed.", value: 1 },
@@ -20,6 +22,7 @@ const status = [
 ];
 
 const PatientOfIsolation = (props) => {
+  const dispatch = useDispatch();
   const [bookings, setBookings] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [isModal, setIsModal] = useState(false);
@@ -68,7 +71,12 @@ const PatientOfIsolation = (props) => {
           setBookings(response.data.booking);
         })
         .catch((error) => {
-          console.log(error);
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.response.data.error,
+            })
+          );
         })
         .finally(() => {
           setIsLoading(false);
@@ -80,7 +88,12 @@ const PatientOfIsolation = (props) => {
           setBookings(response.data.booking);
         })
         .catch((error) => {
-          console.log(error);
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: error.response.data.error,
+            })
+          );
         })
         .finally(() => {
           setIsLoading(false);

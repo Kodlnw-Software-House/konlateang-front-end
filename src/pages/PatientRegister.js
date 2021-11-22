@@ -35,7 +35,7 @@ const PatientRegister = () => {
     getValues,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onBlur",
+    mode: "onChange",
   });
   const [formData, setFormData] = useState({});
   const enteredDOB = watch("dob");
@@ -109,9 +109,18 @@ const PatientRegister = () => {
     }
   };
 
-  let secondStepClass = step >= 2 ? "step step-accent" : "step";
-  let thirdStepClass = step >= 3 ? "step step-accent" : "step";
-  let finalStepClass = step >= 4 ? "step step-accent" : "step";
+  let secondStepClass =
+    step >= 2
+      ? "step step-accent text-sm md:text-lg"
+      : "step text-sm md:text-lg";
+  let thirdStepClass =
+    step >= 3
+      ? "step step-accent text-sm md:text-lg"
+      : "step text-sm md:text-lg";
+  let finalStepClass =
+    step >= 4
+      ? "step step-accent text-sm md:text-lg"
+      : "step text-sm md:text-lg";
 
   return (
     <motion.div initial="out" animate="end" variants={animationThree}>
@@ -125,7 +134,7 @@ const PatientRegister = () => {
           <div className="flex-shrink-0 w-full max-w-xl shadow-2xl bg-base-100">
             <Card>
               <ul className="w-full steps">
-                <li className="step step-accent">บัญชี</li>
+                <li className="step step-accent text-sm md:text-lg">บัญชี</li>
                 <li className={secondStepClass}>ข้อมูลส่วนตัว</li>
                 <li className={thirdStepClass}>ที่อยู่</li>
                 <li className={finalStepClass}>ตรวจสอบ</li>

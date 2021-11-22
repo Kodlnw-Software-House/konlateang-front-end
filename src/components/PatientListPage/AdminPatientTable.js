@@ -9,7 +9,7 @@ const AdminPatientTable = (props) => {
         <tr>
           <th></th>
           <th
-            className="text-center cursor-pointer"
+            className="text-center cursor-pointer hover:bg-gray-200"
             onClick={() => {
               props.setSort("patient_id");
             }}
@@ -17,7 +17,7 @@ const AdminPatientTable = (props) => {
             รหัสผู้ป่วย
           </th>
           <th
-            className="cursor-pointer"
+            className="cursor-pointer hover:bg-gray-200"
             onClick={() => {
               props.setSort("fname");
             }}
@@ -25,7 +25,7 @@ const AdminPatientTable = (props) => {
             ชื่อ-นามสกุล
           </th>
           <th
-            className="cursor-pointer"
+            className="cursor-pointer hover:bg-gray-200"
             onClick={() => {
               props.setSort("gender");
             }}
@@ -33,7 +33,7 @@ const AdminPatientTable = (props) => {
             เพศ
           </th>
           <th
-            className="cursor-pointer"
+            className="cursor-pointer hover:bg-gray-200"
             onClick={() => {
               props.setSort("age");
             }}
@@ -41,7 +41,7 @@ const AdminPatientTable = (props) => {
             อายุ (ปี)
           </th>
           <th
-            className="cursor-pointer"
+            className="cursor-pointer hover:bg-gray-200"
             onClick={() => {
               props.setSort("email");
             }}

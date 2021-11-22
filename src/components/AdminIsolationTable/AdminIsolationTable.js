@@ -9,7 +9,7 @@ const AdminIsolationTable = (props) => {
         <tr>
           <th></th>
           <th
-            className="text-center cursor-pointer"
+            className="text-center cursor-pointer hover:bg-gray-200"
             onClick={() => {
               props.setSort("community_isolation_id");
             }}
@@ -17,7 +17,7 @@ const AdminIsolationTable = (props) => {
             รหัสศูนย์พักคอย
           </th>
           <th
-            className="cursor-pointer"
+            className="cursor-pointer hover:bg-gray-200"
             onClick={() => {
               props.setSort("community_isolation_name");
             }}
@@ -25,7 +25,7 @@ const AdminIsolationTable = (props) => {
             ชื่อศูนย์พักคอย
           </th>
           <th
-            className="cursor-pointer"
+            className="cursor-pointer hover:bg-gray-200"
             onClick={() => {
               props.setSort("available_bed");
             }}

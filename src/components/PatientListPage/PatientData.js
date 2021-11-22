@@ -1,6 +1,7 @@
 import { PencilAltIcon, CheckIcon, XIcon } from "@heroicons/react/outline";
 import { Fragment, useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
+import userService from "../functions/services/user-service";
 
 function addZero(i) {
   if (i < 10) {
@@ -30,7 +31,6 @@ const PatientData = (props) => {
     handleSubmit,
     watch,
     setValue,
-    getValues,
     formState: { errors, isValid, isDirty, dirtyFields },
   } = useForm({
     mode: "onChange",
@@ -248,14 +248,28 @@ const PatientData = (props) => {
             className={rightClass + cIdInputClasses}
             {...register("citizen_id", {
               required: true,
-              valueAsNumber: true,
-              validate: (value) => value.toString().length === 13,
+              validate: {
+                checkLength: (value) => value.toString().length === 13,
+                duplicateId: async (value) =>
+                  await userService
+                    .checkDuplicateId(value)
+                    .then(() => {
+                      return true;
+                    })
+                    .catch(() => {
+                      return false;
+                    }),
+              },
             })}
           />
           {errors.citizen_id && (
             <label className="label">
               <span className="label-text text-error">
-                โปรดระบุเลขประจำตัวประชาชน 13 หลัก
+                {errors.citizen_id.type === "required"
+                  ? "โปรดระบุเลขประจำตัวประชาชน 13 หลัก"
+                  : errors.citizen_id.type === "duplicateId"
+                  ? "บัตรประชาชนนี้มีในระบบแล้ว"
+                  : "ต้องระบุให้ครบ 13 หลัก"}
               </span>
             </label>
           )}

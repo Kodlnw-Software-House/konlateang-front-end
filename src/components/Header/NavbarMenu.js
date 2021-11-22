@@ -10,24 +10,30 @@ const NavBarMenu = (props) => {
           className="border-b-2 border-base-300"
           onClick={props.toggleMenu}
         >
-          <span className="text-2xl leading-relaxed">หน้าแรก</span>
+          <span className="text-lg md:text-2xl leading-relaxed">หน้าแรก</span>
         </Link>
         <Link
           to={`${url}/my-profile`}
           className="border-b-2 border-base-300"
           onClick={props.toggleMenu}
         >
-          <span className="text-2xl leading-relaxed">ข้อมูลส่วนตัว</span>
+          <span className="text-lg md:text-2xl leading-relaxed">
+            ข้อมูลส่วนตัว
+          </span>
         </Link>
         <Link
           to={`${url}/about-us`}
           className="border-b-2 border-base-300"
           onClick={props.toggleMenu}
         >
-          <span className="text-2xl leading-relaxed">เกี่ยวกับเรา</span>
+          <span className="text-lg md:text-2xl leading-relaxed">
+            เกี่ยวกับเรา
+          </span>
         </Link>
         <div className="cursor-pointer" onClick={props.logoutHandler}>
-          <span className="text-2xl leading-relaxed">ออกจากระบบ</span>
+          <span className="text-lg md:text-2xl leading-relaxed">
+            ออกจากระบบ
+          </span>
         </div>
       </div>
     );
@@ -41,17 +47,21 @@ const NavBarMenu = (props) => {
           className="border-b-2 border-base-300"
           onClick={props.toggleMenu}
         >
-          <span className="text-2xl leading-relaxed">หน้าแรก</span>
+          <span className="text-lg md:text-2xl leading-relaxed">หน้าแรก</span>
         </Link>
         <Link
           to={`${url}/about-us`}
           className="border-b-2 border-base-300"
           onClick={props.toggleMenu}
         >
-          <span className="text-2xl leading-relaxed">เกี่ยวกับเรา</span>
+          <span className="text-lg md:text-2xl leading-relaxed">
+            เกี่ยวกับเรา
+          </span>
         </Link>
         <div className="cursor-pointer" onClick={props.logoutHandler}>
-          <span className="text-2xl leading-relaxed">ออกจากระบบ</span>
+          <span className="text-lg md:text-2xl leading-relaxed">
+            ออกจากระบบ
+          </span>
         </div>
       </div>
     );
@@ -65,10 +75,12 @@ const NavBarMenu = (props) => {
           className="border-b-2 border-base-300"
           onClick={props.toggleMenu}
         >
-          <span className="text-2xl leading-relaxed">หน้าแรก</span>
+          <span className="text-lg md:text-2xl leading-relaxed">หน้าแรก</span>
         </Link>
         <div className="cursor-pointer" onClick={props.logoutHandler}>
-          <span className="text-2xl leading-relaxed">ออกจากระบบ</span>
+          <span className="text-lg md:text-2xl leading-relaxed">
+            ออกจากระบบ
+          </span>
         </div>
       </div>
     );

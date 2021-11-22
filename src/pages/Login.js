@@ -23,7 +23,7 @@ const Login = (props) => {
     handleSubmit,
     formState: { errors, isValid },
   } = useForm({
-    mode: "onBlur",
+    mode: "onChange",
   });
 
   const toggleVisible = () => {

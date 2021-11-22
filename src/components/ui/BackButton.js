@@ -1,8 +1,12 @@
 import { useHistory } from "react-router";
-const BackButton = () => {
+const BackButton = (props) => {
   const history = useHistory();
   const goBack = () => {
-    history.goBack();
+    if (props.main) {
+      history.push("/");
+    } else {
+      history.goBack();
+    }
   };
   return (
     <div className="my-2 text-left h-full">

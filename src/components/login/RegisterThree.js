@@ -13,7 +13,7 @@ const registerThree = (props) => {
     <Card>
       <div className="form-control">
         <label className="cursor-pointer label">
-          <span className="label-text">เพศ</span>
+          <span className="label-text text-base md:text-xl">เพศ</span>
         </label>
         <select
           {...props.register("gender", { required: true })}
@@ -27,7 +27,9 @@ const registerThree = (props) => {
           <option value="O">อื่นๆ</option>
         </select>
         <label className="label">
-          <span className="label-text">Address</span>
+          <span className="label-text text-base md:text-xl">
+            ที่อยู่ปัจจุบัน
+          </span>
         </label>
         <textarea
           className={addressInputClasses}
@@ -44,7 +46,7 @@ const registerThree = (props) => {
           </label>
         )}
         <label htmlFor="telNo" className="label">
-          <span className="label-text">เบอร์โทรศัพท์</span>
+          <span className="label-text text-base md:text-xl">เบอร์โทรศัพท์</span>
         </label>
         <input
           type="number"

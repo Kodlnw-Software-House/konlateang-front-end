@@ -22,7 +22,12 @@ const AdminMainPage = () => {
         dispatch(AuthAction.userLogedOut());
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: err.response.data.error,
+          })
+        );
       });
   };
 
@@ -93,7 +98,7 @@ const AdminMainPage = () => {
             <IsolationTable path={path} />
           </Route>
           <Route path={path + "/isolations/:id"}>
-            <IsolationMainPage admin={true}/>
+            <IsolationMainPage admin={true} />
           </Route>
           <Route path={path + "/patients"} exact>
             <PatientTable

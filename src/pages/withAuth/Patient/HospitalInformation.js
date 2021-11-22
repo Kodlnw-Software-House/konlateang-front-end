@@ -85,7 +85,7 @@ const HospitalInfo = (props) => {
         dispatch(
           uiActions.actions.setNoti({
             status: "error",
-            title: error.message,
+            title: error.response.data.error,
           })
         );
         if (error.response.status === 401) {
@@ -105,7 +105,7 @@ const HospitalInfo = (props) => {
           ) : (
             <div className="h-40 flex flex-col justify-center space-y-2">
               <div>
-                <p className="text-center text-2xl">
+                <p className="text-center text-lg md:text-2xl">
                   ยืนยันการจองเตียงที่
                   <br />
                   {hospitalDetail?.community_isolation_name} ?
@@ -139,7 +139,7 @@ const HospitalInfo = (props) => {
             variants={animationOne}
             transition={transition}
           >
-            <BackButton />
+            <BackButton main={true} />
             <HospitalInformationCard
               openModal={openModal}
               id={hospitalDetail.community_isolation_id}
@@ -152,7 +152,7 @@ const HospitalInfo = (props) => {
             />
           </motion.div>
         ) : (
-          <NotFound></NotFound>
+          <NotFound />
         )}
       </ItemCard>
     </div>
