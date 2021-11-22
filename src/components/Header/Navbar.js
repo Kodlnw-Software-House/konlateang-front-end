@@ -21,7 +21,7 @@ import { motion } from "framer-motion";
 import adminService from "../functions/services/admin-service";
 
 const Navbar = (props) => {
-  const distpatch = useDispatch();
+  const dispatch = useDispatch();
   const [showMenu, setMenu] = useState(false);
   const [dropbar, setDropbar] = useState(false);
   const { path } = useRouteMatch();
@@ -29,7 +29,7 @@ const Navbar = (props) => {
   const toggleMenu = () => {
     setMenu((prev) => !prev);
   };
-  
+
   const logoutHandler = () => {
     setDropbar((prev) => !prev);
     let token = localStorage.getItem("user");
@@ -38,33 +38,49 @@ const Navbar = (props) => {
       userService
         .user_logout(token)
         .then(() => {
-          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
-          distpatch(AuthAction.userLogedOut());
+          dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          dispatch(AuthAction.userLogedOut());
         })
         .catch((e) => {
-          console.log(e.message);
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: e.response.data.error,
+            })
+          );
         });
     }
 
     if (props.role === "HOSPITAL") {
       HospitalService.logout(token)
         .then(() => {
-          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
-          distpatch(AuthAction.userLogedOut());
+          dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          dispatch(AuthAction.userLogedOut());
         })
         .catch((e) => {
-          console.log(e.message);
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: e.response.data.error,
+            })
+          );
         });
     }
 
     if (props.role === "ADMIN") {
-      adminService.logout(token)
+      adminService
+        .logout(token)
         .then(() => {
-          distpatch(uiActions.toggleTheme({ theme: "patientTheme" }));
-          distpatch(AuthAction.userLogedOut());
+          dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
+          dispatch(AuthAction.userLogedOut());
         })
         .catch((e) => {
-          console.log(e.message);
+          dispatch(
+            uiActions.setNoti({
+              status: "error",
+              title: e.response.data.error,
+            })
+          );
         });
     }
   };

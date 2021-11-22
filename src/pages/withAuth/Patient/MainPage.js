@@ -16,6 +16,8 @@ import {
   transition,
 } from "../../../components/animations/animation";
 import Pagination from "../../../components/ui/Pagination";
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../../redux/ui-slice";
 const scrollTop = () => {
   return document.getElementById("isolation_list_title").scrollIntoView({
     behavior: "smooth",
@@ -24,6 +26,7 @@ const scrollTop = () => {
   });
 };
 const MainPage = () => {
+  const dispatch = useDispatch();
   const {
     data: covidData,
     loading,
@@ -92,7 +95,12 @@ const MainPage = () => {
         setIsolationData(response.data.result);
       })
       .catch((error) => {
-        console.log(error);
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: error.response.data.error,
+          })
+        );
       })
       .finally(() => {
         setisFetchIsolation(false);
@@ -303,10 +311,10 @@ const MainPage = () => {
                     className="select select-bordered select-sm w-full max-w-xs"
                     onChange={SortTypeOnchange}
                   >
-                    <option selected={page.sortType == "ASC"} value="ASC">
+                    <option selected={page.sortType === "ASC"} value="ASC">
                       น้อยไปหามาก, A-Z
                     </option>
-                    <option selected={page.sortType == "DESC"} value="DESC">
+                    <option selected={page.sortType === "DESC"} value="DESC">
                       มากไปหาน้อย, Z-A
                     </option>
                   </select>

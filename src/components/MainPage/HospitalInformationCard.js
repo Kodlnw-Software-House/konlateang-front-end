@@ -1,5 +1,4 @@
 import { HomeIcon } from "@heroicons/react/solid";
-import { useLocation } from "react-router";
 import ImageSlider from "../ui/ImageSlider";
 
 const HospitalInformationCard = (props) => {

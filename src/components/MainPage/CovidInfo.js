@@ -21,10 +21,7 @@ const CovidInfo = (props) => {
         </div>
       </div>
       <div className="shadow overflow-hidden stats ">
-        <div
-          className="stat bg-secondary bg-opacity-50"
-          className="stat bg-green-200"
-        >
+        <div className="stat bg-green-200">
           <motion.div
             initial={{ opacity: 0, x: +800 }}
             animate={{ opacity: 1, x: 0 }}
@@ -39,10 +36,7 @@ const CovidInfo = (props) => {
         </div>
       </div>
       <div className="shadow overflow-hidden stats">
-        <div
-          className="stat bg-secondary bg-opacity-50"
-          className="stat bg-green-200"
-        >
+        <div className="stat bg-green-200">
           <motion.div
             initial={{ opacity: 0, x: +800 }}
             animate={{ opacity: 1, x: 0 }}
@@ -57,10 +51,7 @@ const CovidInfo = (props) => {
         </div>
       </div>
       <div className="shadow overflow-hidden stats lg:h-44">
-        <div
-          className="stat bg-secondary bg-opacity-50"
-          className="stat bg-red-300"
-        >
+        <div className="stat bg-red-300">
           <motion.div
             initial={{ opacity: 0, x: +800 }}
             animate={{ opacity: 1, x: 0 }}
@@ -75,10 +66,7 @@ const CovidInfo = (props) => {
         </div>
       </div>
       <div className="shadow overflow-hidden stats">
-        <div
-          className="stat bg-secondary bg-opacity-50"
-          className="stat bg-gray-200"
-        >
+        <div className="stat bg-gray-200">
           <motion.div
             initial={{ opacity: 0, x: +800 }}
             animate={{ opacity: 1, x: 0 }}

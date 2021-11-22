@@ -41,7 +41,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
           setIsloading(false);
@@ -57,7 +57,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
           setIsloading(false);
@@ -84,7 +84,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
         });
@@ -103,7 +103,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
         });
@@ -122,7 +122,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
           setIsloading(false);
@@ -138,7 +138,7 @@ const IsolationMainPage = (props) => {
           dispatch(
             uiActions.setNoti({
               status: "error",
-              title: error.message,
+              title: error.response.data.error,
             })
           );
           setIsloading(false);
@@ -228,7 +228,7 @@ const IsolationMainPage = (props) => {
             )}
           </Route>
           <Route path={`${url}/update`}>
-            {Object.keys(isolationData).length !== 0 ? (
+            {Object.keys(isolationData).length !== 0 && (
               <CreateEditIsolation
                 isolationData={isolationData}
                 edit={true}
@@ -237,8 +237,6 @@ const IsolationMainPage = (props) => {
                 admin={props.admin ? true : false}
                 refreshData={refreshData}
               />
-            ) : (
-              <NotFound />
             )}
           </Route>
           <Route path={`${url}/patient-list`}>

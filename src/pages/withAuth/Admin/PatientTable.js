@@ -5,59 +5,10 @@ import Pagination from "../../../components/ui/Pagination";
 import adminService from "../../../components/functions/services/admin-service";
 import LoadingSpinner from "../../../components/ui/LoadingSpinner";
 import AdminPatientTable from "../../../components/PatientListPage/AdminPatientTable";
-
-const bookings = [
-  {
-    booking_id: 9,
-    create_at: "2021-11-03T16:10:32.000Z",
-    patient: {
-      patient_id: 1,
-      email: "test1@example.com",
-      citizen_id: 1234567890123,
-      fname: "Saifon",
-      lname: "Kullyakool",
-      age: 19,
-      dob: "2000-10-30",
-      address:
-        "106/29 หมู่ 1 ถนนวุฒากาศ แขวงจอมทอง เขตจอมทอง กรุงเทพมหานคร 10150",
-      tel: "0806849632",
-      gender: "F",
-    },
-    status: {
-      status_id: 1,
-      status_name: "Booking failed.",
-    },
-  },
-  {
-    booking_id: 10,
-    create_at: "2021-11-03T16:10:32.000Z",
-    patient: {
-      patient_id: 1,
-      email: "test1@example.com",
-      citizen_id: 1102170018970,
-      fname: "Nachanon",
-      lname: "Montikanon",
-      age: 19,
-      dob: "2008-04-20",
-      address:
-        "106/29 หมู่ 1 ถนนวุฒากาศ แขวงจอมทอง เขตจอมทอง กรุงเทพมหานคร 10150",
-      tel: "0806849632",
-      gender: "M",
-    },
-    status: {
-      status_id: 2,
-      status_name: "Booking successful! In progress.",
-    },
-  },
-];
-const status = [
-  { label: "Booking failed.", value: 1 },
-  { label: "Booking successful! In progress.", value: 2 },
-  { label: "Done!", value: 3 },
-  { label: "In treatment.", value: 4 },
-];
-
+import { useDispatch } from "react-redux";
+import { uiActions } from "../../../redux/ui-slice";
 const PatientTable = (props) => {
+  const dispatch = useDispatch();
   const [isModal, setModal] = useState(false);
   const [modalData, setModalData] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
@@ -80,7 +31,12 @@ const PatientTable = (props) => {
         setPatientData(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: err.response.data.error,
+          })
+        );
       })
       .finally(() => {
         setIsLoading(false);
@@ -158,6 +114,8 @@ const PatientTable = (props) => {
       case "email":
         setPage({ ...page, sortBy: "email" });
         break;
+      default:
+        setPage({ ...page, sortBy: "patient_id" });
     }
   };
   const modalHandler = () => {
@@ -181,7 +139,12 @@ const PatientTable = (props) => {
         setPatientData(response.data);
       })
       .catch((err) => {
-        console.log(err);
+        dispatch(
+          uiActions.setNoti({
+            status: "error",
+            title: err.response.data.error,
+          })
+        );
       })
       .finally(() => {
         setIsLoading(false);
@@ -200,7 +163,7 @@ const PatientTable = (props) => {
         modalHandler();
       })
       .catch((err) => {
-        props.displayStatusError(err.message);
+        props.displayStatusError(err.response.data.error);
       })
       .finally(() => {
         refreshData();

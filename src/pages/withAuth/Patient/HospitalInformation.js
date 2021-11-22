@@ -85,7 +85,7 @@ const HospitalInfo = (props) => {
         dispatch(
           uiActions.actions.setNoti({
             status: "error",
-            title: error.message,
+            title: error.response.data.error,
           })
         );
         if (error.response.status === 401) {
@@ -152,7 +152,7 @@ const HospitalInfo = (props) => {
             />
           </motion.div>
         ) : (
-          <NotFound></NotFound>
+          <NotFound />
         )}
       </ItemCard>
     </div>

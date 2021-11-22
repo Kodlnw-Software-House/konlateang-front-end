@@ -46,7 +46,7 @@ const Profile = (props) => {
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.message,
+            title: error.response.data.error,
           })
         );
         if (error.response.status === 401) {
@@ -111,7 +111,7 @@ const Profile = (props) => {
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.response.data,
+            title: error.response.data.error,
           })
         );
         cancelUploadFile();
@@ -141,7 +141,7 @@ const Profile = (props) => {
         dispatch(
           uiActions.setNoti({
             status: "error",
-            title: error.message,
+            title: error.resposne.data.error,
           })
         );
         if (error.response.status === 401) {
