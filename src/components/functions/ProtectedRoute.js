@@ -1,6 +1,7 @@
 import { Route, Redirect } from "react-router";
 import { useDispatch } from "react-redux";
 import { uiActions } from "../../redux/ui-slice";
+import { AuthAction } from "../../redux/auth-slice";
 const ProtectedRoute = ({
   isAuth,
   component: Component,
@@ -18,6 +19,8 @@ const ProtectedRoute = ({
         title: "กรุณาเข้าสู่ระบบ",
       })
     );
+    dispatch(AuthAction.userLogedOut());
+    dispatch(uiActions.toggleTheme({ theme: "patientTheme" }));
   }
   return (
     <Route
