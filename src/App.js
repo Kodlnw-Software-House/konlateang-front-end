@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import WelcomePage from "./pages/welcome-page";
+import WelcomePage from "./pages/WelcomePage";
 import Login from "./pages/Login";
 import PatientRegister from "./pages/PatientRegister";
 import Notification from "./components/ui/notification-modal";
@@ -12,7 +12,7 @@ import userService from "./components/functions/services/user-service";
 import hospitalService from "./components/functions/services/hospital-service";
 import "./index.css";
 import { uiActions } from "./redux/ui-slice";
-import Health from "./pages/health";
+import Health from "./pages/Health";
 import { AnimatePresence } from "framer-motion";
 import adminService from "./components/functions/services/admin-service";
 function App() {
