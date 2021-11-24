@@ -137,7 +137,6 @@ const Profile = (props) => {
         toggleModal();
       })
       .catch((error) => {
-        console.log(error);
         dispatch(
           uiActions.setNoti({
             status: "error",
@@ -275,6 +274,7 @@ const Profile = (props) => {
             return (
               <BookingHistory
                 key={item.community_isolation_id}
+                id={item.community_isolation_id}
                 hospitalName={item.community_isolation.community_isolation_name}
                 bookingDate={item.create_at}
                 bookingStatus={item.status_id}

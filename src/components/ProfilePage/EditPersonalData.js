@@ -24,7 +24,7 @@ const EditPersonalData = (props) => {
     handleSubmit,
     formState: { errors, isValid, isDirty },
   } = useForm({
-    mode: "onBlur",
+    mode: "onChange",
     defaultValues: {
       address: props.userData.address,
       telNo: props.userData.tel ? props.userData.tel : "0",
@@ -76,6 +76,15 @@ const EditPersonalData = (props) => {
             className={addressInputClasses}
             placeholder="ระบุที่อยู่ ณ ปัจจุบัน"
           />
+          {errors.address && (
+            <label className="label">
+              <span className="label-text text-error">
+                {errors.address.type === "required"
+                  ? "โปรดระบุที่อยู่ที่ต้องการแก้ไข"
+                  : "ที่อยู่ต้องมีขนาดไม่เกิน 500 ตัวอักษร"}
+              </span>
+            </label>
+          )}
           <label className="label">
             <span className="label-text md:text-xl">เบอร์โทรศัพท์</span>
           </label>
@@ -85,9 +94,18 @@ const EditPersonalData = (props) => {
               validate: (value) => value.toString().length === 10,
             })}
             type="number"
-            placeholder="username"
+            placeholder="ex. 080XXXXXXX"
             className={telInputClasses}
           />
+          {errors.telNo && (
+            <label className="label">
+              <span className="label-text text-error">
+                {errors.telNo.type === "required"
+                  ? "โปรดระบุเบอร์ที่ต้องการแก้ไข"
+                  : "เบอร์ต้องอยู่ในรูปแบบที่ถูกต้อง"}
+              </span>
+            </label>
+          )}
         </div>
         <div className="flex flex-row justify-end space-x-3 pt-4">
           <button

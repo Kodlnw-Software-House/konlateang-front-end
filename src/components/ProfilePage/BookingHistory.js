@@ -62,10 +62,10 @@ const BookingHistory = (props) => {
   return (
     <ItemCard>
       <div className="flex flex-row md:space-x-1 items-center md:justify-center">
-        <div className="hidden md:block md:w-1/3 md:max-h-60 lg:max-h-80  mx-auto md:mr-4 ">
+        <div className="hidden md:flex md:flex-col md:justify-center md:w-1/3 md:h-52 lg:h-80 md:mr-4 overflow-hidden">
           <img
-            className="h-auto w-auto"
-            src={`${process.env.REACT_APP_BACKEND_MAIN_URL}hospital/getImage/${props.key}/0`}
+            className="w-full h-auto"
+            src={`${process.env.REACT_APP_BACKEND_MAIN_URL}hospital/getImage/${props.id}/0`}
             alt="profile_pic"
             onError={(e) => {
               e.target.onerror = null;
