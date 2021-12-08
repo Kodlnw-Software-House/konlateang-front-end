@@ -21,7 +21,7 @@ const onTop = () => {
   window.scrollTo(0, 0);
 };
 
-const HospitalInfo = (props) => {
+const HospitalInfo = () => {
   const dispatch = useDispatch();
   const [isModal, toggleModal] = useState(false);
   const [isFetchData, setIsFetchData] = useState(true);

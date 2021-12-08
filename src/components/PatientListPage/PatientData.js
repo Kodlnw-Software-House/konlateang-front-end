@@ -50,6 +50,7 @@ const PatientData = (props) => {
       age: props.modalData.patient.age,
     },
   });
+
   const enteredDOB = watch("dob");
   const data = props.modalData;
   const [isEdit, setIsEdit] = useState(false);
@@ -250,15 +251,6 @@ const PatientData = (props) => {
               required: true,
               validate: {
                 checkLength: (value) => value.toString().length === 13,
-                duplicateId: async (value) =>
-                  await userService
-                    .checkDuplicateId(value)
-                    .then(() => {
-                      return true;
-                    })
-                    .catch(() => {
-                      return false;
-                    }),
               },
             })}
           />
@@ -267,8 +259,6 @@ const PatientData = (props) => {
               <span className="label-text text-error">
                 {errors.citizen_id.type === "required"
                   ? "โปรดระบุเลขประจำตัวประชาชน 13 หลัก"
-                  : errors.citizen_id.type === "duplicateId"
-                  ? "บัตรประชาชนนี้มีในระบบแล้ว"
                   : "ต้องระบุให้ครบ 13 หลัก"}
               </span>
             </label>

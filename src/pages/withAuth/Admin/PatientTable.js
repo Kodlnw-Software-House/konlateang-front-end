@@ -163,7 +163,11 @@ const PatientTable = (props) => {
         modalHandler();
       })
       .catch((err) => {
-        props.displayStatusError(err.response.data.error);
+        if (err.response.status === 500) {
+          props.displayStatusError("ข้อมูล Citizen_ID ซำ้กับในระบบ");
+        } else {
+          props.displayStatusError(err.response.data.error);
+        }
       })
       .finally(() => {
         refreshData();
